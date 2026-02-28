@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6a25f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#161022",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #6a25f444;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6a25f466;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col font-display">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full border-b border-primary/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+<!-- Quiz Info -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">science</span>
+</div>
+<div class="hidden sm:block">
+<h1 class="text-sm font-bold tracking-tight">Biology Mastery Quiz</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-semibold">Module 4: Ecosystems</p>
+</div>
+</div>
+<!-- Progress & Timer -->
+<div class="flex-1 max-w-md px-4">
+<div class="flex items-center justify-between mb-1.5 px-1">
+<span class="text-xs font-medium text-slate-500">Question 2 of 10</span>
+<div class="flex items-center gap-1.5 text-primary font-bold text-sm">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>14:42</span>
+</div>
+</div>
+<div class="w-full h-2 bg-primary/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[20%] rounded-full"></div>
+</div>
+</div>
+<!-- Profile/Settings -->
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-primary/10 transition-colors text-slate-500">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="size-9 rounded-full bg-gradient-to-tr from-primary to-purple-400 p-0.5">
+<img class="w-full h-full rounded-full object-cover bg-background-dark" data-alt="User profile avatar with colorful gradient background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw9CnJjuu3cvfbFdriBpChmCosIuOLkw1vFx23aoxrBhotqqvVdJnTg7287XvKqZCZf1zQV1qDiL0ElONyV3QtF4nZTX2mVIkaRlzW5IkwJJ1U66tRcjG-g4FHCSR9Ww_DiIKxl_nM03jbBOzbPad3QTZqVlcmnGYLGnDlL4SxtTm38I8cEsImiYz9PLe12L4LUO8ObeDErxcZzhhsvHRjDLUCVJCoyihAb2PlNPXivGxFHxeaNV_EwADppFJTK5W1V1XIbP-nL3Y"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto w-full">
+<!-- Question Card -->
+<div class="w-full mb-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold mb-4">
+<span class="material-symbols-outlined text-sm">edit_note</span>
+                ESSAY QUESTION
+            </div>
+<h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-50">
+                Explain the process of photosynthesis and its importance to the food chain.
+            </h2>
+</div>
+<!-- Input Section -->
+<div class="w-full flex-1 flex flex-col">
+<div class="relative flex-1 group">
+<textarea class="w-full h-full min-h-[300px] p-6 sm:p-8 text-lg bg-white dark:bg-primary/5 border-2 border-slate-200 dark:border-primary/20 rounded-xl focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none custom-scrollbar placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="Type your detailed explanation here..."></textarea>
+<!-- Character Counter Overlay -->
+<div class="absolute bottom-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-background-dark/80 text-xs font-medium text-slate-500 dark:text-slate-400 backdrop-blur-sm border border-slate-200 dark:border-primary/20">
+<span class="text-primary font-bold">142</span>
+<span class="opacity-50">/ 2000 characters</span>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">info</span>
+                Your response will be automatically saved as you type.
+            </p>
+</div>
+</main>
+<!-- Bottom Actions Bar -->
+<footer class="w-full border-t border-primary/10 bg-background-light dark:bg-background-dark py-6 px-4">
+<div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-4 order-2 sm:order-1">
+<button class="px-6 py-3 rounded-xl font-bold text-slate-500 hover:text-primary hover:bg-primary/10 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">fast_forward</span>
+                    Skip Question
+                </button>
+</div>
+<div class="flex items-center gap-3 w-full sm:w-auto order-1 sm:order-2">
+<button class="flex-1 sm:flex-none px-10 py-4 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold text-lg shadow-xl shadow-primary/20 transition-all flex items-center justify-center gap-3">
+                    Submit Answer
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Keyboard Shortcuts (Desktop only) -->
+<div class="hidden lg:flex justify-center mt-4 gap-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">TAB</span>
+<span>Next field</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">CTRL</span>
+<span>+</span>
+<span class="px-1.5 py-0.5 rounded border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">ENTER</span>
+<span>Submit</span>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6a25f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#161022",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .grid-pattern {
+            background-image: radial-gradient(circle at 2px 2px, rgba(106, 37, 244, 0.05) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen grid-pattern">
+<div class="relative flex h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-primary/10 px-6 py-4 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">eco</span>
+</div>
+<div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Ecology Quiz</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Unit 4: Ecosystem Dynamics</p>
+</div>
+</div>
+<!-- Progress & Timer -->
+<div class="flex items-center gap-8">
+<div class="hidden md:flex flex-col items-center gap-1 min-w-[120px]">
+<div class="flex justify-between w-full text-[10px] uppercase tracking-widest font-bold text-primary">
+<span>Progress</span>
+<span>1/10</span>
+</div>
+<div class="w-full h-2 bg-primary/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 10%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-3 bg-primary/10 px-4 py-2 rounded-xl border border-primary/20">
+<span class="material-symbols-outlined text-primary text-xl">timer</span>
+<div class="flex gap-1 font-mono text-xl font-bold text-slate-900 dark:text-slate-100">
+<span>00</span><span class="animate-pulse">:</span><span>24</span>
+</div>
+</div>
+<button class="flex items-center justify-center rounded-xl h-10 w-10 bg-slate-200 dark:bg-primary/20 text-slate-700 dark:text-slate-200 hover:bg-primary/30 transition-colors">
+<span class="material-symbols-outlined">pause</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col items-center justify-center px-4 py-8 max-w-5xl mx-auto w-full">
+<!-- Question Container -->
+<div class="w-full text-center mb-12">
+<span class="inline-block px-4 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold mb-6 border border-primary/20">
+                        MULTIPLE CHOICE
+                    </span>
+<h1 class="text-3xl md:text-5xl font-bold leading-tight text-slate-900 dark:text-white max-w-3xl mx-auto">
+                        Which of the following is a primary producer in an ecosystem?
+                    </h1>
+</div>
+<!-- Options Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full h-full max-h-[500px]">
+<!-- Option A: Purple -->
+<button class="group relative flex flex-col items-start justify-between p-6 rounded-xl border-2 border-transparent bg-indigo-600/10 hover:bg-indigo-600/20 hover:border-indigo-500 transition-all duration-200 text-left overflow-hidden">
+<div class="flex items-start justify-between w-full mb-4">
+<span class="flex items-center justify-center w-10 h-10 rounded-lg bg-indigo-600 text-white font-bold text-xl shadow-lg shadow-indigo-600/20">A</span>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity text-indigo-500">check_circle</span>
+</div>
+<div class="z-10">
+<p class="text-2xl font-bold text-slate-900 dark:text-white">Oak Tree</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px]">forest</span>
+</div>
+</button>
+<!-- Option B: Blue -->
+<button class="group relative flex flex-col items-start justify-between p-6 rounded-xl border-2 border-transparent bg-blue-600/10 hover:bg-blue-600/20 hover:border-blue-500 transition-all duration-200 text-left overflow-hidden">
+<div class="flex items-start justify-between w-full mb-4">
+<span class="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-600 text-white font-bold text-xl shadow-lg shadow-blue-600/20">B</span>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity text-blue-500">check_circle</span>
+</div>
+<div class="z-10">
+<p class="text-2xl font-bold text-slate-900 dark:text-white">Lion</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px]">pets</span>
+</div>
+</button>
+<!-- Option C: Orange -->
+<button class="group relative flex flex-col items-start justify-between p-6 rounded-xl border-2 border-transparent bg-orange-600/10 hover:bg-orange-600/20 hover:border-orange-500 transition-all duration-200 text-left overflow-hidden">
+<div class="flex items-start justify-between w-full mb-4">
+<span class="flex items-center justify-center w-10 h-10 rounded-lg bg-orange-600 text-white font-bold text-xl shadow-lg shadow-orange-600/20">C</span>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity text-orange-500">check_circle</span>
+</div>
+<div class="z-10">
+<p class="text-2xl font-bold text-slate-900 dark:text-white">Fungi</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px]">biotech</span>
+</div>
+</button>
+<!-- Option D: Pink -->
+<button class="group relative flex flex-col items-start justify-between p-6 rounded-xl border-2 border-transparent bg-pink-600/10 hover:bg-pink-600/20 hover:border-pink-500 transition-all duration-200 text-left overflow-hidden">
+<div class="flex items-start justify-between w-full mb-4">
+<span class="flex items-center justify-center w-10 h-10 rounded-lg bg-pink-600 text-white font-bold text-xl shadow-lg shadow-pink-600/20">D</span>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity text-pink-500">check_circle</span>
+</div>
+<div class="z-10">
+<p class="text-2xl font-bold text-slate-900 dark:text-white">Grasshopper</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px]">bug_report</span>
+</div>
+</button>
+</div>
+</main>
+<!-- Bottom Action Bar -->
+<footer class="p-6 bg-background-light dark:bg-background-dark/80 backdrop-blur-sm border-t border-primary/10">
+<div class="max-w-5xl mx-auto flex items-center justify-between">
+<div class="flex gap-2">
+<button class="px-6 py-3 rounded-xl border border-slate-300 dark:border-primary/20 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-100 dark:hover:bg-primary/10 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-xl">arrow_back</span>
+                            Previous
+                        </button>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden sm:flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined">lightbulb</span>
+<span class="text-sm font-medium">1 Hint Available</span>
+</div>
+<button class="px-10 py-3 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all active:scale-95 flex items-center gap-2">
+                            Skip
+                            <span class="material-symbols-outlined text-xl">keyboard_double_arrow_right</span>
+</button>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>
