@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnWeb LMS - Teacher Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6a25f4",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#161022",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="w-72 flex-shrink-0 border-r border-slate-200 dark:border-primary/20 bg-white dark:bg-background-dark flex flex-col">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary p-2 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white">school</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">LearnWeb LMS</h1>
+<p class="text-xs text-slate-500 dark:text-primary/60 font-medium uppercase tracking-wider">Teacher Portal</p>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary text-white font-medium" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-primary/10 transition-colors font-medium" href="#">
+<span class="material-symbols-outlined">quiz</span>
+<span>My Quizzes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-primary/10 transition-colors font-medium" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-primary/10 transition-colors font-medium" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-primary/20">
+<div class="flex items-center gap-3 p-2">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold truncate">Dr. Sarah Smith</p>
+<p class="text-xs text-slate-500 truncate">Premium Educator</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto bg-slate-50/50 dark:bg-background-dark/50">
+<!-- Header -->
+<header class="sticky top-0 z-10 flex items-center justify-between px-8 py-4 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-primary/20">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-primary/5 border-none rounded-xl focus:ring-2 focus:ring-primary text-sm" placeholder="Search quizzes, reports, or students..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-xl bg-slate-100 dark:bg-primary/10 text-slate-600 dark:text-primary relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full"></span>
+</button>
+<button class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">add_circle</span>
+<span>Create New Quiz</span>
+</button>
+</div>
+</header>
+<div class="p-8 max-w-7xl mx-auto space-y-8">
+<!-- Welcome Banner -->
+<section class="relative overflow-hidden rounded-3xl bg-primary p-8 md:p-12 text-white">
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="space-y-4 max-w-xl">
+<h2 class="text-3xl md:text-5xl font-black tracking-tight">Welcome back, Instructor!</h2>
+<p class="text-primary-foreground/80 text-lg opacity-90 leading-relaxed">
+                                Ready to create engaging quizzes for your students today? Check your latest reports and performance metrics below.
+                            </p>
+<div class="flex gap-4 pt-2">
+<button class="bg-white text-primary px-6 py-3 rounded-xl font-bold hover:bg-slate-100 transition-colors">Get Started</button>
+<button class="bg-primary/20 border border-white/30 text-white px-6 py-3 rounded-xl font-bold backdrop-blur-sm">View Tutorials</button>
+</div>
+</div>
+<div class="hidden lg:block">
+<div class="size-48 bg-white/10 rounded-3xl backdrop-blur-md border border-white/20 flex items-center justify-center transform rotate-6">
+<span class="material-symbols-outlined text-7xl text-white">auto_awesome</span>
+</div>
+</div>
+</div>
+<!-- Background shapes -->
+<div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 size-96 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 size-64 bg-black/10 rounded-full blur-2xl"></div>
+</section>
+<!-- Stats Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/20 p-6 rounded-2xl flex items-center justify-between">
+<div class="space-y-1">
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Total Quizzes</p>
+<p class="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">42</p>
+<div class="flex items-center gap-1 text-emerald-500 text-xs font-bold">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+<span>+5% this month</span>
+</div>
+</div>
+<div class="size-14 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">history_edu</span>
+</div>
+</div>
+<div class="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/20 p-6 rounded-2xl flex items-center justify-between">
+<div class="space-y-1">
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Total Students</p>
+<p class="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">1,280</p>
+<div class="flex items-center gap-1 text-emerald-500 text-xs font-bold">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+<span>+12% this month</span>
+</div>
+</div>
+<div class="size-14 bg-purple-100 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">group</span>
+</div>
+</div>
+<div class="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/20 p-6 rounded-2xl flex items-center justify-between">
+<div class="space-y-1">
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Average Score</p>
+<p class="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">84%</p>
+<div class="flex items-center gap-1 text-rose-500 text-xs font-bold">
+<span class="material-symbols-outlined text-xs">trending_down</span>
+<span>-2% this week</span>
+</div>
+</div>
+<div class="size-14 bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">star</span>
+</div>
+</div>
+</section>
+<!-- Recent Quizzes -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold tracking-tight">Recent Quizzes</h3>
+<a class="text-primary text-sm font-bold hover:underline" href="#">View All</a>
+</div>
+<div class="bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-2xl overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="border-b border-slate-200 dark:border-primary/20 bg-slate-50 dark:bg-primary/10">
+<tr>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Quiz Title</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Date Created</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Plays</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Status</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-primary/20">
+<tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center overflow-hidden">
+<div class="w-full h-full bg-gradient-to-br from-primary to-purple-400" data-alt="Abstract purple geometric pattern quiz cover"></div>
+</div>
+<span class="font-bold text-slate-900 dark:text-slate-100">Introduction to Biology</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Oct 24, 2023</td>
+<td class="px-6 py-4 text-sm font-medium">156</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400">
+                                                Published
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-primary/20 rounded-lg text-slate-500">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center overflow-hidden">
+<div class="w-full h-full bg-gradient-to-br from-blue-400 to-cyan-400" data-alt="Abstract blue gradient pattern quiz cover"></div>
+</div>
+<span class="font-bold text-slate-900 dark:text-slate-100">World History: The Renaissance</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Oct 22, 2023</td>
+<td class="px-6 py-4 text-sm font-medium">89</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-primary/10 text-slate-600 dark:text-slate-300">
+                                                Draft
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-primary/20 rounded-lg text-slate-500">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center overflow-hidden">
+<div class="w-full h-full bg-gradient-to-br from-amber-400 to-rose-400" data-alt="Warm abstract orange gradient pattern quiz cover"></div>
+</div>
+<span class="font-bold text-slate-900 dark:text-slate-100">Calculus II Practice</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Oct 18, 2023</td>
+<td class="px-6 py-4 text-sm font-medium">312</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400">
+                                                Published
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-primary/20 rounded-lg text-slate-500">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>
