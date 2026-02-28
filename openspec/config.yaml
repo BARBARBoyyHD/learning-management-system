@@ -107,8 +107,8 @@ rules:
     - Follow Prisma schema conventions from ERD Guideline
     - Leverage Next.js 16 features (Turbopack, improved Server Components)
     - Use React 19 patterns and conventions
-    - **UI/Design:** Reference `/docs/stitch-asset/` for visual design patterns
-    - **Colors:** Apply color system from `/docs/project/05-color-guideline.md`
+    - UI/Design: Reference `/docs/stitch-asset/` for visual design patterns
+    - Colors: Apply color system from `/docs/project/05-color-guideline.md`
     - Implement dual-theme support (Light: indigo #6467f2, Dark: purple #6a25f4)
     - Use Lexend font family and Material Symbols Outlined icons
 
@@ -131,6 +131,6 @@ rules:
     - Follow indexing strategy from ERD Guideline Section 7
     - Include TypeScript type definitions for all new entities
     - Specify Server Component vs Client Component boundaries
-    - **UI Components:** Reference stitch assets for component structure and layout
-    - **Styling:** Use color tokens from Color Guideline (CSS variables)
-    - **Accessibility:** Ensure WCAG 2.1 AA contrast ratios per Color Guideline Section 8
+    - UI Components: Reference stitch assets for component structure and layout
+    - Styling: Use color tokens from Color Guideline (CSS variables)
+    - Accessibility: Ensure WCAG 2.1 AA contrast ratios per Color Guideline Section 8

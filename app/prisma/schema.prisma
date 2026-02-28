@@ -1,0 +1,139 @@
+// Quizizz Clone (Lite Version) - Prisma Schema
+// Based on ERD Guideline (DOC-QCL-ERD-001) Section 3
+// 6 core tables with UUID primary keys
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// USER MODEL
+// Stores all user accounts (teachers and guest students)
+// ============================================================================
+model User {
+  id        String   @id @default(uuid())
+  username  String
+  email     String   @unique
+  password  String
+  role      String   // 'teacher' or 'student'
+  createdAt DateTime @default(now())
+
+  // Relations
+  quizzes   Quiz[]
+  responses StudentResponse[]
+
+  // Indexes for performance
+  @@index([email])
+  @@index([role])
+}
+
+// ============================================================================
+// QUIZ MODEL
+// Stores quiz/assessment definitions within courses
+// ============================================================================
+model Quiz {
+  id          String   @id @default(uuid())
+  teacherId   String
+  title       String
+  description String?
+  isPublic    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  // Relations
+  teacher   User              @relation(fields: [teacherId], references: [id])
+  questions Question[]
+  responses StudentResponse[]
+
+  // Indexes for performance
+  @@index([teacherId])
+  @@index([isPublic])
+}
+
+// ============================================================================
+// QUESTION MODEL
+// Stores individual questions within quizzes
+// Supports 5 question types with JSON-based settings
+// ============================================================================
+model Question {
+  id           String     @id @default(uuid())
+  quizId       String
+  questionType String     // 'multiple_choice', 'essay', 'fill_blank', 'match', 'reorder'
+  questionText String
+  mediaUrl     String?
+  settings     Json?      // Question-type-specific configuration
+  points       Int        @default(10)
+  orderIndex   Int
+
+  // Relations
+  quiz    Quiz             @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options QuestionOption[]
+  details ResponseDetail[]
+
+  // Indexes for performance
+  @@index([quizId])
+  @@index([questionType])
+}
+
+// ============================================================================
+// QUESTION OPTION MODEL
+// Stores answer options for questions (Multiple Choice, Match, Reorder)
+// ============================================================================
+model QuestionOption {
+  id         String  @id @default(uuid())
+  questionId String
+  option     String  // Universal column for option text or answer key
+  sortOrder  Int?    // For 'Reorder' or option ordering
+  isCorrect  Boolean @default(false)
+
+  // Relations
+  question Question       @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  // Index for performance
+  @@index([questionId])
+}
+
+// ============================================================================
+// STUDENT RESPONSE MODEL
+// Stores student quiz submissions
+// ============================================================================
+model StudentResponse {
+  id          String   @id @default(uuid())
+  userId      String
+  quizId      String
+  score       Int?
+  completedAt DateTime @default(now())
+
+  // Relations
+  user     User           @relation(fields: [userId], references: [id])
+  quiz     Quiz           @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  details  ResponseDetail[]
+
+  // Indexes for performance
+  @@index([userId])
+  @@index([quizId])
+}
+
+// ============================================================================
+// RESPONSE DETAIL MODEL
+// Stores individual question responses within a submission
+// ============================================================================
+model ResponseDetail {
+  id          String   @id @default(uuid())
+  responseId  String
+  questionId  String
+  answerGiven String?  // Stores what student answered (text or option ID)
+  isCorrect   Boolean?
+
+  // Relations
+  response StudentResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  question Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  // Indexes for performance
+  @@index([responseId])
+  @@index([questionId])
+}
