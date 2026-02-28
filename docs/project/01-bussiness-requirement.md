@@ -12,8 +12,8 @@
 | Author | Product Team |
 | Created | February 2026 |
 | Last Updated | 28 February 2026 |
-| Reviewed By | - |
-| Approved By | - |
+| Reviewed By | Muhammad Nahrul Hayat |
+| Approved By | Fadel Najmi Adliansyah|
 
 ---
 
