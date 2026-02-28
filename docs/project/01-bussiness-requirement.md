@@ -7,11 +7,11 @@
 | Attribute | Value |
 |-----------|-------|
 | Document ID | DOC-QCL-BRD-001 |
-| Version | 1.0 |
+| Version | 1.1 |
 | Status | Draft |
 | Author | Product Team |
-| Created | Februari 2026 |
-| Last Updated | 25 Februari 2026 |
+| Created | February 2026 |
+| Last Updated | 28 February 2026 |
 | Reviewed By | - |
 | Approved By | - |
 
@@ -21,11 +21,12 @@
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 25 Februari 2026 | Product Team | Initial version based on template |
+| 1.0 | 25 February 2026 | Product Team | Initial version based on template |
+| 1.1 | 28 February 2026 | Product Team | Translated to English, added technology stack from ITA |
 
 ---
 
-## DAFTAR ISI
+## TABLE OF CONTENTS
 
 1. [Executive Summary](#1-executive-summary)
 2. [Business Objectives](#2-business-objectives)
@@ -38,42 +39,43 @@
 9. [Data Requirements](#9-data-requirements)
 10. [Assumptions & Dependencies](#10-assumptions--dependencies)
 11. [Success Metrics & KPIs](#11-success-metrics--kpis)
-12. [Glossary](#12-glossary)
-13. [Approval Sign-off](#13-approval-sign-off)
+12. [Technology Stack](#12-technology-stack)
+13. [Glossary](#13-glossary)
+14. [Approval Sign-off](#14-approval-sign-off)
 
 ---
 
 ## 1. EXECUTIVE SUMMARY
 
-### 1.1 Latar Belakang
+### 1.1 Background
 
-Dalam ekosistem pendidikan modern, kebutuhan akan platform evaluasi pembelajaran yang interaktif dan mudah diakses semakin meningkat. Guru membutuhkan alat yang memungkinkan mereka membuat kuis menarik dengan berbagai jenis soal, sementara siswa menginginkan pengalaman pengerjaan kuis yang sederhana tanpa hambatan teknis seperti registrasi yang rumit.
+In the modern education ecosystem, the need for interactive and easily accessible learning evaluation platforms continues to grow. Teachers need tools that allow them to create engaging quizzes with various question types, while students desire a simple quiz-taking experience without technical barriers such as complex registration processes.
 
-Kondisi saat ini menunjukkan bahwa banyak platform kuis existing mengharuskan semua pengguna (termasuk siswa) untuk melakukan registrasi lengkap sebelum dapat berpartisipasi. Hal ini menciptakan friksi dalam proses pembelajaran, terutama untuk sesi kuis spontan atau kuis dengan durasi pendek. Selain itu, fleksibilitas dalam jenis soal seringkali terbatas, sehingga guru tidak dapat melakukan variasi evaluasi secara optimal.
+Current conditions show that many existing quiz platforms require all users (including students) to complete full registration before participating. This creates friction in the learning process, especially for spontaneous quiz sessions or short-duration quizzes. Additionally, question type flexibility is often limited, preventing teachers from varying their assessments optimally.
 
-Quizizz Clone (Lite Version) hadir sebagai solusi yang menjembatani kebutuhan tersebut dengan mengadopsi pendekatan hybrid: Teacher sebagai registered user dengan otoritas penuh, dan Student sebagai guest user yang dapat bergabung hanya dengan access code dan nama.
+Quizizz Clone (Lite Version) emerges as a solution bridging these needs by adopting a hybrid approach: Teachers as registered users with full authority, and Students as guest users who can join with just an access code and name.
 
-### 1.2 Solusi yang Diusulkan
+### 1.2 Proposed Solution
 
-Quizizz Clone (Lite Version) adalah aplikasi berbasis web untuk kuis interaktif yang mendukung berbagai jenis soal (Multiple Choice, Essay, Fill in the Blank, Match, dan Reorder) dalam sistem Course yang terstruktur. Aplikasi ini memungkinkan Teacher untuk membuat dan mengelola Course serta Assessment secara fleksibel, sementara Student dapat bergabung sebagai guest hanya dengan memasukkan access code dan nama, tanpa perlu registrasi formal.
+Quizizz Clone (Lite Version) is a web-based application for interactive quizzes supporting multiple question types (Multiple Choice, Essay, Fill in the Blank, Match, and Reorder) within a structured Course system. The application allows Teachers to create and manage Courses and Assessments flexibly, while Students can join as guests by simply entering an access code and name without formal registration.
 
-Sistem menggunakan arsitektur database yang scalable dengan UUID sebagai primary key dan JSON-based configuration untuk mendukung penambahan jenis soal baru tanpa perubahan schema database.
+The system uses a scalable database architecture with UUIDs as primary keys and JSON-based configurations to support adding new question types without database schema changes.
 
-### 1.3 Manfaat Utama
+### 1.3 Key Benefits
 
-| Manfaat | Deskripsi |
-|---------|-----------|
-| Efisiensi Waktu | Siswa dapat bergabung kuis dalam < 2 menit tanpa registrasi rumit |
-| Fleksibilitas Soal | 5 jenis soal yang dapat diperluas tanpa perubahan database |
-| Manajemen Terpusat | Guru dapat mengelola multiple course dan assessment dalam satu platform |
-| Reporting Real-time | Guru dapat melihat hasil skor siswa segera setelah pengerjaan |
+| Benefit | Description |
+|---------|-------------|
+| Time Efficiency | Students can join quizzes in < 2 minutes without complex registration |
+| Question Flexibility | 5 question types expandable without database changes |
+| Centralized Management | Teachers can manage multiple courses and assessments in one platform |
+| Real-time Reporting | Teachers can view student scores immediately after submission |
 
 ### 1.4 Scope Summary
 
-- **5 modul utama:** Authentication & User Management, Course Management, Assessment Management, Question Management, Reporting & Analytics
-- **Integrasi dengan:** Email service (untuk verifikasi teacher), Session management system
-- **Platform:** Web-based (responsive untuk desktop, tablet, mobile)
-- **Estimasi pengguna:** Support hingga 1000+ concurrent quiz takers per instance
+- **5 main modules:** Authentication & User Management, Course Management, Assessment Management, Question Management, Reporting & Analytics
+- **Integrations with:** Email service (for teacher verification), Session management system
+- **Platform:** Web-based (responsive for desktop, tablet, mobile)
+- **Estimated users:** Support for 1000+ concurrent quiz takers per instance
 
 ---
 
@@ -81,25 +83,25 @@ Sistem menggunakan arsitektur database yang scalable dengan UUID sebagai primary
 
 ### 2.1 Strategic Alignment
 
-Project ini mendukung strategi digitalisasi pembelajaran LearnWeb LMS dengan menyediakan alat evaluasi yang modern, mudah digunakan, dan scalable. Quizizz Clone menjadi komponen kunci dalam ekosistem LMS yang memungkinkan interaksi langsung antara guru dan siswa dalam konteks penilaian formatif.
+This project supports LearnWeb LMS's digitalization strategy by providing a modern, easy-to-use, and scalable assessment tool. Quizizz Clone becomes a key component in the LMS ecosystem, enabling direct interaction between teachers and students in the context of formative assessment.
 
 ### 2.2 Business Objectives (SMART)
 
 | ID | Objective | Specific | Measurable | Target |
 |----|-----------|----------|------------|--------|
-| BO-01 | Simplifikasi Student Onboarding | Menghilangkan barrier registrasi untuk student guest | Waktu join kuis | < 2 menit dari enter code sampai mulai kuis |
-| BO-02 | Fleksibilitas Assessment | Menyediakan variasi jenis soal untuk evaluasi komprehensif | Jumlah jenis soal | 5 jenis soal pada release pertama |
-| BO-03 | Skalabilitas Sistem | Mendukung pertumbuhan pengguna dan soal | Concurrent users & question types | 1000+ concurrent users, arsitektur可扩展 untuk 10+ jenis soal |
-| BO-04 | Visibility Hasil Belajar | Memberikan insight real-time kepada guru | Reporting availability | Skor tersedia < 5 detik setelah submit |
+| BO-01 | Simplify Student Onboarding | Eliminate registration barriers for guest students | Time to join quiz | < 2 minutes from entering code to starting quiz |
+| BO-02 | Assessment Flexibility | Provide varied question types for comprehensive evaluation | Number of question types | 5 question types in first release |
+| BO-03 | System Scalability | Support user and question type growth | Concurrent users & question types | 1000+ concurrent users, architecture extensible for 10+ question types |
+| BO-04 | Learning Outcome Visibility | Provide real-time insights to teachers | Reporting availability | Scores available < 5 seconds after submission |
 
 ### 2.3 Success Criteria
 
-Proyek dianggap berhasil dalam 3 bulan pasca go-live:
-1. ✅ 90% guru dapat membuat course dan assessment pertama mereka dalam < 15 menit
-2. ✅ 95% student guest dapat bergabung dan mulai kuis tanpa bantuan teknis
-3. ✅ System uptime > 99.5% selama periode kuis aktif
-4. ✅ Average page load time < 3 detik untuk semua halaman utama
-5. ✅ Zero data loss pada student responses saat submit
+The project is considered successful within 3 months post go-live:
+1. ✅ 90% of teachers can create their first course and assessment in < 15 minutes
+2. ✅ 95% of guest students can join and start quizzes without technical assistance
+3. ✅ System uptime > 99.5% during active quiz periods
+4. ✅ Average page load time < 3 seconds for all main pages
+5. ✅ Zero data loss on student responses during submission
 
 ---
 
@@ -109,15 +111,15 @@ Proyek dianggap berhasil dalam 3 bulan pasca go-live:
 
 | Stakeholder | Role | Interest | Influence | Engagement Strategy |
 |-------------|------|----------|-----------|---------------------|
-| Product Owner | Executive Sponsor | Tinggi | Tinggi | Weekly sync, approval untuk scope changes |
-| Lead Developer | Technical Owner | Tinggi | Tinggi | Daily standup, technical decision maker |
+| Product Owner | Executive Sponsor | High | High | Weekly sync, approval for scope changes |
+| Lead Developer | Technical Owner | High | High | Daily standup, technical decision maker |
 | UI/UX Designer | Design Lead | Medium | Medium | Design review sessions, user testing |
 | QA Engineer | Quality Owner | Medium | Medium | Test planning, UAT coordination |
-| Teacher (End User) | Primary User | Tinggi | Medium | User interviews, beta testing |
-| Student (End User) | Primary User | Tinggi | Low | Usability testing, feedback surveys |
-| School Administrator | Business Stakeholder | Medium | Tinggi | Progress reporting, go-live approval |
+| Teacher (End User) | Primary User | High | Medium | User interviews, beta testing |
+| Student (End User) | Primary User | High | Low | Usability testing, feedback surveys |
+| School Administrator | Business Stakeholder | Medium | High | Progress reporting, go-live approval |
 
-### 3.2 RACI untuk Key Deliverables
+### 3.2 RACI for Key Deliverables
 
 | Deliverable | Product Owner | Lead Developer | UI/UX Designer | QA Engineer | End Users |
 |-------------|---------------|----------------|----------------|-------------|-----------|
@@ -135,7 +137,7 @@ Proyek dianggap berhasil dalam 3 bulan pasca go-live:
 
 ## 4. CURRENT STATE ANALYSIS (AS-IS)
 
-### 4.1 Sistem yang Digunakan Saat Ini
+### 4.1 Current Systems
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -149,19 +151,19 @@ Proyek dianggap berhasil dalam 3 bulan pasca go-live:
 │           │                            │                    │
 │           ▼                            ▼                    │
 │  ┌─────────────────────────────────────────────────┐       │
-│  │           MASALAH UMUM:                          │       │
-│  │  • Semua user wajib registrasi lengkap          │       │
-│  │  • Jenis soal terbatas (hanya multiple choice)  │       │
-│  │  • Tidak ada guest access                       │       │
-│  │  • Setup waktu lama (> 10 menit per kuis)       │       │
-│  │  • Reporting terbatas                           │       │
+│  │           COMMON ISSUES:                         │       │
+│  │  • All users required full registration         │       │
+│  │  • Limited question types (only multiple choice)│       │
+│  │  • No guest access                              │       │
+│  │  • Long setup time (> 10 minutes per quiz)      │       │
+│  │  • Limited reporting                            │       │
 │  └─────────────────────────────────────────────────┘       │
 │                                                              │
 │  ┌─────────────────────────────────────────────────────────┐│
-│  │              PROSES MANUAL (Jika tanpa platform):       ││
-│  │  • Cetak soal kertas → Distribusi → Koreksi manual     ││
-│  │  • Input nilai manual ke spreadsheet                   ││
-│  │  • Total waktu: 3-5 hari untuk feedback                ││
+│  │              MANUAL PROCESS (Without platform):         ││
+│  │  • Print questions → Distribute → Manual grading       ││
+│  │  • Manual grade entry to spreadsheet                   ││
+│  │  • Total time: 3-5 days for feedback                   ││
 │  └─────────────────────────────────────────────────────────┘│
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
@@ -169,30 +171,30 @@ Proyek dianggap berhasil dalam 3 bulan pasca go-live:
 
 ### 4.2 Pain Points Detail
 
-| ID | Pain Point | Dampak Bisnis | Frekuensi |
-|----|------------|---------------|-----------|
-| PP-01 | Registrasi wajib untuk semua user | 30-40% siswa abandon sebelum mulai kuis | Setiap sesi kuis baru |
-| PP-02 | Jenis soal monoton (hanya pilihan ganda) | Tidak dapat mengukur higher-order thinking skills | Setiap assessment |
-| PP-03 | Setup kuis memakan waktu lama (> 15 menit) | Mengurangi waktu efektif pembelajaran | Setiap pembuatan kuis |
-| PP-04 | Tidak ada guest access | Siswa tidak bisa ikut kuis mendadak | Setiap kuis spontan |
-| PP-05 | Reporting tidak real-time | Guru tidak bisa langsung tindak lanjuti hasil | Setiap selesai kuis |
-| PP-06 | Tidak scalable untuk jenis soal baru | Terbatas pada fitur yang disediakan vendor | Saat perlu variasi |
+| ID | Pain Point | Business Impact | Frequency |
+|----|------------|-----------------|-----------|
+| PP-01 | Mandatory registration for all users | 30-40% of students abandon before starting quiz | Every new quiz session |
+| PP-02 | Monotonous question types (only multiple choice) | Cannot measure higher-order thinking skills | Every assessment |
+| PP-03 | Quiz setup takes too long (> 15 minutes) | Reduces effective learning time | Every quiz creation |
+| PP-04 | No guest access | Students cannot join spontaneous quizzes | Every spontaneous quiz |
+| PP-05 | Non-real-time reporting | Teachers cannot immediately act on results | Every quiz completion |
+| PP-06 | Not scalable for new question types | Limited to vendor-provided features | When variety is needed |
 
 ### 4.3 Current Process Flow
 
 ```
-PROSES TRADISIONAL (Tanpa Platform Digital):
+TRADITIONAL PROCESS (Without Digital Platform):
 
-1. Guru membuat soal di dokumen (30-60 menit)
-2. Guru mencetak soal untuk setiap siswa (15 menit)
-3. Distribusi kertas ke siswa (5 menit)
-4. Siswa mengerjakan (30-60 menit)
-5. Guru mengumpulkan dan mengoreksi (60-120 menit)
-6. Input nilai ke spreadsheet (15 menit)
-7. Feedback ke siswa (1-2 hari kemudian)
+1. Teacher creates questions in document (30-60 minutes)
+2. Teacher prints questions for each student (15 minutes)
+3. Distribute papers to students (5 minutes)
+4. Students complete quiz (30-60 minutes)
+5. Teacher collects and grades (60-120 minutes)
+6. Enter grades manually to spreadsheet (15 minutes)
+7. Feedback to students (1-2 days later)
 
-Total waktu: 3-5 HARI untuk feedback
-Total effort guru: 4-6 JAM per kuis
+Total time: 3-5 DAYS for feedback
+Total teacher effort: 4-6 HOURS per quiz
 ```
 
 ---
@@ -243,29 +245,29 @@ Total effort guru: 4-6 JAM per kuis
 ### 5.2 Future Process Flow
 
 ```
-PROSES BARU (Dengan Quizizz Clone):
+NEW PROCESS (With Quizizz Clone):
 
-1. Guru login dan buat course (5 menit)
-2. Guru buat assessment dengan soal (10-20 menit)
-3. Guru share access code ke siswa (< 1 menit)
-4. Siswa enter code + input nama (2 menit)
-5. Siswa kerjakan kuis (30-60 menit)
-6. Auto-grading langsung untuk objective questions (< 5 detik)
-7. Guru lihat report real-time
+1. Teacher logs in and creates course (5 minutes)
+2. Teacher creates assessment with questions (10-20 minutes)
+3. Teacher shares access code with students (< 1 minute)
+4. Students enter code + input name (2 minutes)
+5. Students complete quiz (30-60 minutes)
+6. Auto-grading immediately for objective questions (< 5 seconds)
+7. Teacher views report in real-time
 
-Total waktu: < 5 DETIK untuk feedback (objective questions)
-Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
+Total time: < 5 SECONDS for feedback (objective questions)
+Total teacher effort: 15-25 MINUTES per quiz (improvement: 85-90%)
 ```
 
 ### 5.3 Gap Analysis
 
-| Aspek | Current State | Future State | Gap |
-|-------|---------------|--------------|-----|
-| Student Onboarding | Registrasi lengkap (5-10 menit) | Guest access (2 menit) | Perlu sistem auto-register guest dengan UUID |
-| Question Types | 1-2 jenis (fixed schema) | 5+ jenis (JSON-based) | Perlu desain schema flexible dengan settings JSON |
-| Grading Speed | Manual (1-2 hari) | Auto (< 5 detik) | Perlu algoritma auto-grading per tipe soal |
-| Reporting | Batch/Manual | Real-time | Perlu database indexing dan caching strategy |
-| Scalability | Limited by vendor | Extensible via JSON | Perlu arsitektur modular dengan clear interfaces |
+| Aspect | Current State | Future State | Gap |
+|--------|---------------|--------------|-----|
+| Student Onboarding | Full registration (5-10 minutes) | Guest access (2 minutes) | Need auto-register guest system with UUID |
+| Question Types | 1-2 types (fixed schema) | 5+ types (JSON-based) | Need flexible schema design with JSON settings |
+| Grading Speed | Manual (1-2 days) | Auto (< 5 seconds) | Need auto-grading algorithm per question type |
+| Reporting | Batch/Manual | Real-time | Need database indexing and caching strategy |
+| Scalability | Limited by vendor | Extensible via JSON | Need modular architecture with clear interfaces |
 
 ---
 
@@ -285,103 +287,103 @@ Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
 
 ---
 
-### 6.2 MODUL 1: AUTHENTICATION & USER MANAGEMENT
+### 6.2 MODULE 1: AUTHENTICATION & USER MANAGEMENT
 
-**Deskripsi:** Modul untuk mengelola registrasi, login, dan profil pengguna (Teacher registered user).
+**Description:** Module for managing registration, login, and user profiles (Teacher registered users).
 
 #### User Stories
 
 | ID | User Story | Acceptance Criteria | Priority |
 |----|------------|---------------------|----------|
-| US-M1-01 | Sebagai Teacher, saya ingin registrasi dengan email, sehingga saya dapat membuat akun | **Given** saya di halaman registrasi<br>**When** saya isi form dengan email valid dan password<br>**Then** akun dibuat dan email verifikasi terkirim | Must Have |
-| US-M1-02 | Sebagai Teacher, saya ingin login dengan email dan password, sehingga saya dapat akses dashboard | **Given** saya punya akun terverifikasi<br>**When** saya input kredensial yang benar<br>**Then** saya diarahkan ke dashboard | Must Have |
-| US-M1-03 | Sebagai Teacher, saya ingin verifikasi email, sehingga akun saya aktif | **Given** saya baru registrasi<br>**When** saya klik link verifikasi di email<br>**Then** status akun berubah menjadi active | Must Have |
-| US-M1-04 | Sebagai Teacher, saya ingin logout, sehingga sesi saya aman | **Given** saya sedang login<br>**When** saya klik logout<br>**Then** sesi dihapus dan diarahkan ke login page | Must Have |
+| US-M1-01 | As a Teacher, I want to register with email so that I can create an account | **Given** I am on the registration page<br>**When** I fill the form with valid email and password<br>**Then** account is created and verification email is sent | Must Have |
+| US-M1-02 | As a Teacher, I want to login with email and password so that I can access the dashboard | **Given** I have a verified account<br>**When** I enter correct credentials<br>**Then** I am redirected to the dashboard | Must Have |
+| US-M1-03 | As a Teacher, I want to verify my email so that my account becomes active | **Given** I just registered<br>**When** I click the verification link in the email<br>**Then** account status changes to active | Must Have |
+| US-M1-04 | As a Teacher, I want to logout so that my session is secure | **Given** I am logged in<br>**When** I click logout<br>**Then** session is cleared and I am redirected to login page | Must Have |
 
 #### Functional Requirements Detail
 
 | ID | Requirement | Description | Priority |
 |----|-------------|-------------|----------|
-| FR-M1-01 | Teacher Registration | Form registrasi: nama, email, password. Email harus unik. Password minimal 8 karakter. | Must Have |
-| FR-M1-02 | Password Hashing | Password di-hash menggunakan bcrypt/argon2 sebelum disimpan | Must Have |
-| FR-M1-03 | Email Verification | Token verifikasi dikirim via email, expired dalam 24 jam | Must Have |
-| FR-M1-04 | Login Authentication | Validasi email/password, create session token dengan expiry | Must Have |
-| FR-M1-05 | Session Management | Session token stored in HTTP-only cookie, expiry 24 jam | Must Have |
-| FR-M1-06 | Guest Auto-Registration | Sistem auto-create user guest dengan UUID saat student join quiz | Must Have |
-| FR-M1-07 | User Role Management | Role: 'teacher' dan 'student_guest' dengan permission berbeda | Must Have |
-| FR-M1-08 | Profile Management | Teacher dapat edit nama, avatar, dan informasi profil | Should Have |
+| FR-M1-01 | Teacher Registration | Registration form: name, email, password. Email must be unique. Password minimum 8 characters. | Must Have |
+| FR-M1-02 | Password Hashing | Password hashed using bcrypt/argon2 before storage | Must Have |
+| FR-M1-03 | Email Verification | Verification token sent via email, expires in 24 hours | Must Have |
+| FR-M1-04 | Login Authentication | Validate email/password, create session token with expiry | Must Have |
+| FR-M1-05 | Session Management | Session token stored in HTTP-only cookie, 24-hour expiry | Must Have |
+| FR-M1-06 | Guest Auto-Registration | System auto-creates guest user with UUID when student joins quiz | Must Have |
+| FR-M1-07 | User Role Management | Roles: 'teacher' and 'student_guest' with different permissions | Must Have |
+| FR-M1-08 | Profile Management | Teacher can edit name, avatar, and profile information | Should Have |
 
 ---
 
-### 6.3 MODUL 2: COURSE MANAGEMENT
+### 6.3 MODULE 2: COURSE MANAGEMENT
 
-**Deskripsi:** Modul untuk membuat, mengelola, dan mengorganisir Course (Kelas) yang akan berisi Assessment.
+**Description:** Module for creating, managing, and organizing Courses that will contain Assessments.
 
 #### User Stories
 
 | ID | User Story | Acceptance Criteria | Priority |
 |----|------------|---------------------|----------|
-| US-M2-01 | Sebagai Teacher, saya ingin membuat course baru, sehingga saya dapat mengorganisir kelas saya | **Given** saya login di dashboard<br>**When** saya klik "Create Course" dan isi form<br>**Then** course dibuat dengan UUID unik | Must Have |
-| US-M2-02 | Sebagai Teacher, saya ingin set course sebagai Private, sehingga hanya siswa dengan access code yang bisa join | **Given** saya membuat course<br>**When** saya pilih tipe Private<br>**Then** sistem generate access code 6 karakter | Must Have |
-| US-M2-03 | Sebagai Student Guest, saya ingin join course dengan access code, sehingga saya bisa ikut kuis | **Given** saya punya access code<br>**When** saya input code yang valid<br>**Then** saya dapat lihat info course dan join | Must Have |
+| US-M2-01 | As a Teacher, I want to create a new course so that I can organize my classes | **Given** I am logged into the dashboard<br>**When** I click "Create Course" and fill the form<br>**Then** course is created with unique UUID | Must Have |
+| US-M2-02 | As a Teacher, I want to set course as Private so that only students with access code can join | **Given** I am creating a course<br>**When** I select Private type<br>**Then** system generates 6-character access code | Must Have |
+| US-M2-03 | As a Student Guest, I want to join a course with access code so that I can take the quiz | **Given** I have an access code<br>**When** I enter a valid code<br>**Then** I can see course info and join | Must Have |
 
 #### Functional Requirements Detail
 
 | ID | Requirement | Description | Priority |
 |----|-------------|-------------|----------|
-| FR-M2-01 | Create Course | Form: nama, deskripsi, tipe (Public/Private), access_code (jika Private) | Must Have |
-| FR-M2-02 | Auto-Generate Access Code | Sistem generate 6 karakter alphanumeric unik untuk Private course | Must Have |
-| FR-M2-03 | Custom Access Code | Teacher dapat custom access code (min 6 karakter, unik) | Should Have |
-| FR-M2-04 | Course Visibility | Public course dapat dicari, Private course hanya via access code | Must Have |
-| FR-M2-05 | Course Listing | Teacher dapat lihat semua course yang dibuat dengan statistik | Must Have |
-| FR-M2-06 | Edit Course | Teacher dapat edit detail course (nama, deskripsi, tipe) | Must Have |
-| FR-M2-07 | Delete Course | Hapus course dengan cascade ke assessments (soft delete) | Must Have |
-| FR-M2-08 | View Enrolled Students | Teacher dapat lihat daftar siswa yang enroll dengan status | Must Have |
-| FR-M2-09 | Student Enrollment | Auto-enrollment saat guest student join dengan access code | Must Have |
-| FR-M2-10 | Course Activation | Toggle active/inactive untuk course, inactive course tidak bisa dijoin | Should Have |
+| FR-M2-01 | Create Course | Form: name, description, type (Public/Private), access_code (if Private) | Must Have |
+| FR-M2-02 | Auto-Generate Access Code | System generates unique 6-character alphanumeric code for Private courses | Must Have |
+| FR-M2-03 | Custom Access Code | Teacher can customize access code (min 6 characters, unique) | Should Have |
+| FR-M2-04 | Course Visibility | Public courses are searchable, Private courses only via access code | Must Have |
+| FR-M2-05 | Course Listing | Teacher can view all created courses with statistics | Must Have |
+| FR-M2-06 | Edit Course | Teacher can edit course details (name, description, type) | Must Have |
+| FR-M2-07 | Delete Course | Delete course with cascade to assessments (soft delete) | Must Have |
+| FR-M2-08 | View Enrolled Students | Teacher can view list of enrolled students with status | Must Have |
+| FR-M2-09 | Student Enrollment | Auto-enrollment when guest student joins with access code | Must Have |
+| FR-M2-10 | Course Activation | Toggle active/inactive for course, inactive courses cannot be joined | Should Have |
 
 ---
 
-### 6.4 MODUL 3: ASSESSMENT MANAGEMENT
+### 6.4 MODULE 3: ASSESSMENT MANAGEMENT
 
-**Deskripsi:** Modul untuk membuat dan mengelola Assessment (Kuis) di dalam Course.
+**Description:** Module for creating and managing Assessments (Quizzes) within a Course.
 
 #### User Stories
 
 | ID | User Story | Acceptance Criteria | Priority |
 |----|------------|---------------------|----------|
-| US-M3-01 | Sebagai Teacher, saya ingin membuat assessment dalam course, sehingga saya dapat evaluasi siswa | **Given** saya punya course<br>**When** saya klik "Create Assessment" dan isi form<br>**Then** assessment dibuat sebagai draft | Must Have |
-| US-M3-02 | Sebagai Teacher, saya ingin set time limit untuk kuis, sehingga siswa punya batas waktu | **Given** saya membuat assessment<br>**When** saya set time_limit = 30 menit<br>**Then** timer countdown tampil saat siswa kerjakan | Must Have |
-| US-M3-03 | Sebagai Teacher, saya ingin publish assessment, sehingga siswa dapat mengerjakan | **Given** assessment dalam status draft<br>**When** saya klik "Publish"<br>**Then** status berubah dan siswa dapat akses | Must Have |
+| US-M3-01 | As a Teacher, I want to create an assessment in a course so that I can evaluate students | **Given** I have a course<br>**When** I click "Create Assessment" and fill the form<br>**Then** assessment is created as draft | Must Have |
+| US-M3-02 | As a Teacher, I want to set time limit for quiz so that students have time constraints | **Given** I am creating an assessment<br>**When** I set time_limit = 30 minutes<br>**Then** countdown timer displays when students take quiz | Must Have |
+| US-M3-03 | As a Teacher, I want to publish assessment so that students can complete it | **Given** assessment is in draft status<br>**When** I click "Publish"<br>**Then** status changes and students can access | Must Have |
 
 #### Functional Requirements Detail
 
 | ID | Requirement | Description | Priority |
 |----|-------------|-------------|----------|
-| FR-M3-01 | Create Assessment | Form: judul, deskripsi, time_limit, open_date, close_date | Must Have |
+| FR-M3-01 | Create Assessment | Form: title, description, time_limit, open_date, close_date | Must Have |
 | FR-M3-02 | Assessment Status | Status: draft, published, archived. Default: draft | Must Have |
-| FR-M3-03 | Time Limit Configuration | Time limit dalam menit, optional (null = unlimited) | Must Have |
-| FR-M3-04 | Schedule Management | open_date dan close_date untuk kontrol akses temporal | Must Have |
-| FR-M3-05 | Assessment Listing | List assessments dalam course dengan statistik (jumlah soal, siswa yang sudah kerjakan) | Must Have |
-| FR-M3-06 | Edit Assessment | Edit detail assessment, hanya jika belum ada yang mengerjakan | Must Have |
-| FR-M3-07 | Delete Assessment | Soft delete assessment dengan cascade ke questions | Should Have |
-| FR-M3-08 | Publish/Unpublish | Toggle status published untuk enable/disable student access | Must Have |
-| FR-M3-09 | Assessment Preview | Preview assessment seperti yang akan dilihat siswa | Should Have |
+| FR-M3-03 | Time Limit Configuration | Time limit in minutes, optional (null = unlimited) | Must Have |
+| FR-M3-04 | Schedule Management | open_date and close_date for temporal access control | Must Have |
+| FR-M3-05 | Assessment Listing | List assessments in course with statistics (number of questions, students who completed) | Must Have |
+| FR-M3-06 | Edit Assessment | Edit assessment details, only if no one has completed it yet | Must Have |
+| FR-M3-07 | Delete Assessment | Soft delete assessment with cascade to questions | Should Have |
+| FR-M3-08 | Publish/Unpublish | Toggle published status to enable/disable student access | Must Have |
+| FR-M3-09 | Assessment Preview | Preview assessment as students will see it | Should Have |
 
 ---
 
-### 6.5 MODUL 4: QUESTION MANAGEMENT
+### 6.5 MODULE 4: QUESTION MANAGEMENT
 
-**Deskripsi:** Modul untuk membuat dan mengelola soal dengan berbagai jenis menggunakan arsitektur JSON-based yang scalable.
+**Description:** Module for creating and managing questions with various types using JSON-based scalable architecture.
 
 #### User Stories
 
 | ID | User Story | Acceptance Criteria | Priority |
 |----|------------|---------------------|----------|
-| US-M4-01 | Sebagai Teacher, saya ingin membuat soal Multiple Choice, sehingga saya dapat evaluasi pengetahuan faktual | **Given** saya di editor soal<br>**When** saya pilih tipe Multiple Choice dan input opsi<br>**Then** soal tersimpan dengan konfigurasi shuffle | Must Have |
-| US-M4-02 | Sebagai Teacher, saya ingin membuat soal Essay, sehingga saya dapat evaluasi pemahaman mendalam | **Given** saya di editor soal<br>**When** saya pilih tipe Essay<br>**Then** soal ditandai butuh manual grading | Must Have |
-| US-M4-03 | Sebagai Teacher, saya ingin membuat soal Match (Menjodohkan), sehingga saya dapat evaluasi kemampuan asosiasi | **Given** saya di editor soal<br>**When** saya pilih tipe Match dan input pasangan<br>**Then** soal tersimpan dengan pair_id | Should Have |
-| US-M4-04 | Sebagai Teacher, saya ingin membuat soal Reorder, sehingga saya dapat evaluasi kemampuan sequencing | **Given** saya di editor soal<br>**When** saya pilih tipe Reorder dan set urutan benar<br>**Then** soal tersimpan dengan correct_order | Should Have |
+| US-M4-01 | As a Teacher, I want to create Multiple Choice questions so that I can evaluate factual knowledge | **Given** I am in the question editor<br>**When** I select Multiple Choice type and input options<br>**Then** question is saved with shuffle configuration | Must Have |
+| US-M4-02 | As a Teacher, I want to create Essay questions so that I can evaluate deep understanding | **Given** I am in the question editor<br>**When** I select Essay type<br>**Then** question is marked as requiring manual grading | Must Have |
+| US-M4-03 | As a Teacher, I want to create Match questions so that I can evaluate association skills | **Given** I am in the question editor<br>**When** I select Match type and input pairs<br>**Then** question is saved with pair_id | Should Have |
+| US-M4-04 | As a Teacher, I want to create Reorder questions so that I can evaluate sequencing skills | **Given** I am in the question editor<br>**When** I select Reorder type and set correct order<br>**Then** question is saved with correct_order | Should Have |
 
 #### Functional Requirements Detail
 
@@ -389,110 +391,110 @@ Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
 
 | ID | Requirement | Description | Priority |
 |----|-------------|-------------|----------|
-| FR-M4-01 | Create Multiple Choice | Soal dengan 2-10 opsi, 1 atau lebih jawaban benar | Must Have |
-| FR-M4-02 | Shuffle Options | Opsi dapat di-shuffle saat presentasi ke siswa | Must Have |
-| FR-M4-03 | Single/Multiple Answer | Konfigurasi apakah ada 1 atau lebih jawaban benar | Must Have |
+| FR-M4-01 | Create Multiple Choice | Question with 2-10 options, 1 or more correct answers | Must Have |
+| FR-M4-02 | Shuffle Options | Options can be shuffled when presented to students | Must Have |
+| FR-M4-03 | Single/Multiple Answer | Configuration whether there is 1 or more correct answers | Must Have |
 
 ##### Essay
 
 | ID | Requirement | Description | Priority |
 |----|-------------|-------------|----------|
-| FR-M4-04 | Create Essay | Soal dengan text area untuk jawaban panjang | Must Have |
-| FR-M4-05 | Manual Grading Flag | Essay ditandai requires_manual_grading = true | Must Have |
-| FR-M4-06 | Grading Rubric | Teacher dapat input rubric penilaian di extra_data | Should Have |
+| FR-M4-04 | Create Essay | Question with text area for long answers | Must Have |
+| FR-M4-05 | Manual Grading Flag | Essay marked as requires_manual_grading = true | Must Have |
+| FR-M4-06 | Grading Rubric | Teacher can input grading rubric in extra_data | Should Have |
 
 ##### Fill in the Blank
 
 | ID | Requirement | Description | Priority |
 |----|-------------|-------------|----------|
-| FR-M4-07 | Create Fill Blank | Soal isian singkat dengan accepted_answers multiple | Must Have |
-| FR-M4-08 | Case Sensitivity | Konfigurasi apakah jawaban case-sensitive | Must Have |
-| FR-M4-09 | Multiple Accepted Answers | Support multiple variasi jawaban yang benar | Must Have |
+| FR-M4-07 | Create Fill Blank | Short answer question with multiple accepted_answers | Must Have |
+| FR-M4-08 | Case Sensitivity | Configuration whether answers are case-sensitive | Must Have |
+| FR-M4-09 | Multiple Accepted Answers | Support multiple answer variations that are correct | Must Have |
 
-##### Match (Menjodohkan)
+##### Match
 
 | ID | Requirement | Description | Priority |
 |----|-------------|-------------|----------|
-| FR-M4-10 | Create Match | Soal dengan pasangan left-right items | Should Have |
-| FR-M4-11 | Shuffle Match Items | Left items dapat di-shuffle, right items tetap | Should Have |
-| FR-M4-12 | Pair Identification | Setiap pasangan diidentifikasi dengan pair_id di extra_data | Should Have |
+| FR-M4-10 | Create Match | Question with left-right item pairs | Should Have |
+| FR-M4-11 | Shuffle Match Items | Left items can be shuffled, right items remain fixed | Should Have |
+| FR-M4-12 | Pair Identification | Each pair identified with pair_id in extra_data | Should Have |
 
 ##### Reorder
 
 | ID | Requirement | Description | Priority |
 |----|-------------|-------------|----------|
-| FR-M4-13 | Create Reorder | Soal mengurutkan items dengan correct_order | Should Have |
-| FR-M4-14 | Partial Credit | Skor parsial berdasarkan jumlah posisi benar | Should Have |
+| FR-M4-13 | Create Reorder | Question ordering items with correct_order | Should Have |
+| FR-M4-14 | Partial Credit | Partial score based on number of correct positions | Should Have |
 
 ##### General Question Features
 
 | ID | Requirement | Description | Priority |
 |----|-------------|-------------|----------|
-| FR-M4-15 | Question Editor | WYSIWYG editor untuk question_text (support rich text) | Must Have |
-| FR-M4-16 | Points Configuration | Set points per soal (default 10) | Must Have |
-| FR-M4-17 | Sort Order | Atur urutan soal dalam assessment | Must Have |
-| FR-M4-18 | Question Preview | Preview soal sebelum publish | Must Have |
-| FR-M4-19 | Edit/Delete Question | Edit atau hapus soal yang sudah dibuat | Must Have |
-| FR-M4-20 | JSON Schema Validation | Validasi settings dan extra_data sesuai question_type | Must Have |
+| FR-M4-15 | Question Editor | WYSIWYG editor for question_text (supports rich text) | Must Have |
+| FR-M4-16 | Points Configuration | Set points per question (default 10) | Must Have |
+| FR-M4-17 | Sort Order | Arrange question order in assessment | Must Have |
+| FR-M4-18 | Question Preview | Preview question before publishing | Must Have |
+| FR-M4-19 | Edit/Delete Question | Edit or delete created questions | Must Have |
+| FR-M4-20 | JSON Schema Validation | Validate settings and extra_data according to question_type | Must Have |
 
 ---
 
-### 6.6 MODUL 5: REPORTING & ANALYTICS
+### 6.6 MODULE 5: REPORTING & ANALYTICS
 
-**Deskripsi:** Modul untuk menampilkan hasil dan analisis performa siswa dalam assessment.
+**Description:** Module for displaying results and analysis of student performance in assessments.
 
 #### User Stories
 
 | ID | User Story | Acceptance Criteria | Priority |
 |----|------------|---------------------|----------|
-| US-M5-01 | Sebagai Teacher, saya ingin lihat skor semua siswa, sehingga saya dapat monitor progress kelas | **Given** assessment sudah ada yang mengerjakan<br>**When** saya buka halaman report<br>**Then** tampil tabel skor semua siswa | Must Have |
-| US-M5-02 | Sebagai Teacher, saya ingin lihat detail jawaban per siswa, sehingga saya dapat analisis kesalahan | **Given** saya di halaman report<br>**When** saya klik nama siswa<br>**Then** tampil detail jawaban per soal | Must Have |
-| US-M5-03 | Sebagai Student Guest, saya ingin lihat skor saya setelah submit, sehingga saya tahu hasil | **Given** saya selesai kerjakan kuis<br>**When** saya submit jawaban<br>**Then** tampil skor dan review jawaban | Must Have |
+| US-M5-01 | As a Teacher, I want to see all student scores so that I can monitor class progress | **Given** assessment has completions<br>**When** I open the report page<br>**Then** score table of all students is displayed | Must Have |
+| US-M5-02 | As a Teacher, I want to see detailed answers per student so that I can understand weaknesses | **Given** I am viewing a student's result<br>**When** I click on student name<br>**Then** detailed answers with correct/wrong indicators are shown | Must Have |
+| US-M5-03 | As a Student Guest, I want to see my score after submission so that I know my result | **Given** I finished the quiz<br>**When** I submit answers<br>**Then** score and answer review are displayed | Must Have |
 
 #### Functional Requirements Detail
 
 | ID | Requirement | Description | Priority |
 |----|-------------|-------------|----------|
-| FR-M5-01 | Score Table View | Tabel: nama siswa, skor, persentase, waktu pengerjaan, status | Must Have |
-| FR-M5-02 | Sort & Filter | Sort berdasarkan skor/nama, filter berdasarkan tanggal | Must Have |
-| FR-M5-03 | Individual Report | Detail jawaban per siswa dengan correct/wrong indicator | Must Have |
-| FR-M5-04 | Question Analysis | Statistik per soal: % benar, % salah, % blank | Should Have |
-| FR-M5-05 | Export Scores | Export tabel skor ke CSV/Excel | Should Have |
-| FR-M5-06 | Student Result View | Halaman hasil untuk student dengan score dan review | Must Have |
-| FR-M5-07 | Pending Grading Indicator | Tandai soal essay yang butuh manual grading | Must Have |
-| FR-M5-08 | Manual Grading Interface | Interface untuk guru grade essay dengan rubric | Must Have |
+| FR-M5-01 | Score Table View | Table: student name, score, percentage, time spent, status | Must Have |
+| FR-M5-02 | Sort & Filter | Sort by score/name, filter by date | Must Have |
+| FR-M5-03 | Individual Report | Detail answers per student with correct/wrong indicator | Must Have |
+| FR-M5-04 | Question Analysis | Statistics per question: % correct, % wrong, % blank | Should Have |
+| FR-M5-05 | Export Scores | Export score table to CSV/Excel | Should Have |
+| FR-M5-06 | Student Result View | Result page for student with score and review | Must Have |
+| FR-M5-07 | Pending Grading Indicator | Mark essay questions requiring manual grading | Must Have |
+| FR-M5-08 | Manual Grading Interface | Interface for teacher to grade essays with rubric | Must Have |
 
 ---
 
-### 6.7 MODUL 6: GUEST STUDENT EXPERIENCE
+### 6.7 MODULE 6: GUEST STUDENT EXPERIENCE
 
-**Deskripsi:** Modul untuk pengalaman Student Guest dari join hingga melihat hasil.
+**Description:** Module for Student Guest experience from joining to viewing results.
 
 #### User Stories
 
 | ID | User Story | Acceptance Criteria | Priority |
 |----|------------|---------------------|----------|
-| US-M6-01 | Sebagai Student Guest, saya ingin enter access code, sehingga saya bisa join kuis | **Given** saya di halaman join<br>**When** saya input access code valid<br>**Then** tampil info course/quiz | Must Have |
-| US-M6-02 | Sebagai Student Guest, saya ingin input nama, sehingga saya dapat identifikasi diri | **Given** access code valid<br>**When** saya input nama lengkap<br>**Then** sistem auto-register saya sebagai guest | Must Have |
-| US-M6-03 | Sebagai Student Guest, saya ingin kerjakan kuis dengan timer, sehingga saya tahu sisa waktu | **Given** saya sedang dalam quiz session<br>**When** timer berjalan<br>**Then** tampil countdown yang jelas | Must Have |
-| US-M6-04 | Sebagai Student Guest, saya ingin auto-save jawaban, sehingga tidak hilang jika koneksi putus | **Given** saya sedang menjawab<br>**When** saya input jawaban<br>**Then** jawaban auto-save setiap 30 detik | Must Have |
+| US-M6-01 | As a Student Guest, I want to enter access code so that I can join a quiz | **Given** I am on the join page<br>**When** I enter a valid access code<br>**Then** course/quiz info is displayed | Must Have |
+| US-M6-02 | As a Student Guest, I want to input my name so that I can identify myself | **Given** access code is valid<br>**When** I enter my full name<br>**Then** system auto-registers me as guest | Must Have |
+| US-M6-03 | As a Student Guest, I want to take quiz with timer so that I know remaining time | **Given** I am in quiz session<br>**When** timer is running<br>**Then** clear countdown is displayed | Must Have |
+| US-M6-04 | As a Student Guest, I want my answers to auto-save so that they won't be lost if connection drops | **Given** I am answering<br>**When** I input answers<br>**Then** answers auto-save every 30 seconds | Must Have |
 
 #### Functional Requirements Detail
 
 | ID | Requirement | Description | Priority |
 |----|-------------|-------------|----------|
-| FR-M6-01 | Access Code Entry | Form input access code (case-insensitive) | Must Have |
-| FR-M6-02 | Code Validation | Validasi code exists, course active, dalam date range | Must Have |
-| FR-M6-03 | Guest Name Input | Form input nama (min 3 karakter, max 100) | Must Have |
-| FR-M6-04 | Auto-Register Guest | Create user dengan role student_guest, email guest_{uuid}@quizizz.local | Must Have |
-| FR-M6-05 | Auto-Enrollment | Create enrollment record saat guest join | Must Have |
-| FR-M6-06 | Quiz Info Display | Tampil: judul, jumlah soal, time limit sebelum mulai | Must Have |
-| FR-M6-07 | Quiz Interface | Navigasi soal, answer input per tipe, progress indicator | Must Have |
-| FR-M6-08 | Timer Display | Countdown timer dengan warning (5 min, 1 min, 30 sec) | Must Have |
-| FR-M6-09 | Auto-Save | Auto-save jawaban ke database setiap 30 detik | Must Have |
-| FR-M6-10 | Manual Submit | Submit sebelum waktu habis dengan konfirmasi | Must Have |
-| FR-M6-11 | Auto-Submit | Auto-submit saat timer mencapai 00:00 | Must Have |
-| FR-M6-12 | Result Display | Tampil skor, correct/wrong breakdown, time spent | Must Have |
+| FR-M6-01 | Access Code Entry | Access code input form (case-insensitive) | Must Have |
+| FR-M6-02 | Code Validation | Validate code exists, course active, within date range | Must Have |
+| FR-M6-03 | Guest Name Input | Name input form (min 3 characters, max 100) | Must Have |
+| FR-M6-04 | Auto-Register Guest | Create user with student_guest role, email guest_{uuid}@quizizz.local | Must Have |
+| FR-M6-05 | Auto-Enrollment | Create enrollment record when guest joins | Must Have |
+| FR-M6-06 | Quiz Info Display | Display: title, number of questions, time limit before starting | Must Have |
+| FR-M6-07 | Quiz Interface | Question navigation, answer input per type, progress indicator | Must Have |
+| FR-M6-08 | Timer Display | Countdown timer with warnings (5 min, 1 min, 30 sec) | Must Have |
+| FR-M6-09 | Auto-Save | Auto-save answers to database every 30 seconds | Must Have |
+| FR-M6-10 | Manual Submit | Submit before time expires with confirmation | Must Have |
+| FR-M6-11 | Auto-Submit | Auto-submit when timer reaches 00:00 | Must Have |
+| FR-M6-12 | Result Display | Display score, correct/wrong breakdown, time spent | Must Have |
 
 ---
 
@@ -502,12 +504,12 @@ Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
 
 | ID | Requirement | Target | Priority |
 |----|-------------|--------|----------|
-| NFR-PERF-01 | Page load time | < 3 seconds untuk semua halaman utama | Must Have |
+| NFR-PERF-01 | Page load time | < 3 seconds for all main pages | Must Have |
 | NFR-PERF-02 | API response time | < 500 ms (95th percentile) | Must Have |
 | NFR-PERF-03 | Concurrent users | Support 1000+ concurrent quiz takers per instance | Must Have |
-| NFR-PERF-04 | Database query time | < 100 ms untuk queries umum | Must Have |
-| NFR-PERF-05 | Quiz submit processing | < 2 detik untuk auto-grading dan save | Must Have |
-| NFR-PERF-06 | Report generation | < 3 detik untuk generate score table | Should Have |
+| NFR-PERF-04 | Database query time | < 100 ms for common queries | Must Have |
+| NFR-PERF-05 | Quiz submit processing | < 2 seconds for auto-grading and save | Must Have |
+| NFR-PERF-06 | Report generation | < 3 seconds for generating score table | Should Have |
 
 ### 7.2 Availability & Reliability
 
@@ -517,31 +519,31 @@ Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
 | NFR-AVL-02 | RTO (Recovery Time Objective) | < 4 hours | Must Have |
 | NFR-AVL-03 | RPO (Recovery Point Objective) | < 1 hour | Must Have |
 | NFR-AVL-04 | Backup frequency | Daily automated backup | Must Have |
-| NFR-AVL-05 | Auto-save resilience | Jawaban tidak hilang jika disconnect < 30 detik | Must Have |
+| NFR-AVL-05 | Auto-save resilience | Answers not lost if disconnect < 30 seconds | Must Have |
 
 ### 7.3 Security
 
 | ID | Requirement | Target | Priority |
 |----|-------------|--------|----------|
-| NFR-SEC-01 | UUID Implementation | UUID v4 untuk semua primary keys | Must Have |
-| NFR-SEC-02 | Password Hashing | bcrypt dengan cost factor 10+ | Must Have |
+| NFR-SEC-01 | UUID Implementation | UUID v4 for all primary keys | Must Have |
+| NFR-SEC-02 | Password Hashing | bcrypt with cost factor 10+ | Must Have |
 | NFR-SEC-03 | Session Security | HTTP-only cookies, secure flag, sameSite = strict | Must Have |
-| NFR-SEC-04 | Access Code Protection | Access code tidak exposed di public API responses | Must Have |
-| NFR-SEC-05 | SQL Injection Prevention | Parameterized queries / ORM untuk semua DB access | Must Have |
-| NFR-SEC-06 | XSS Prevention | Input sanitization dan output encoding | Must Have |
-| NFR-SEC-07 | Rate Limiting | 100 requests/minute per IP untuk prevent abuse | Should Have |
+| NFR-SEC-04 | Access Code Protection | Access code not exposed in public API responses | Must Have |
+| NFR-SEC-05 | SQL Injection Prevention | Parameterized queries / ORM for all DB access | Must Have |
+| NFR-SEC-06 | XSS Prevention | Input sanitization and output encoding | Must Have |
+| NFR-SEC-07 | Rate Limiting | 100 requests/minute per IP to prevent abuse | Should Have |
 | NFR-SEC-08 | HTTPS Enforcement | All traffic via TLS 1.3 | Must Have |
-| NFR-SEC-09 | Audit Logging | Log semua user actions (create, update, delete) | Must Have |
+| NFR-SEC-09 | Audit Logging | Log all user actions (create, update, delete) | Must Have |
 
 ### 7.4 Scalability
 
 | ID | Requirement | Target | Priority |
 |----|-------------|--------|----------|
-| NFR-SCL-01 | Question Type Scalability | Arsitektur JSON support 10+ jenis soal tanpa schema change | Must Have |
+| NFR-SCL-01 | Question Type Scalability | JSON architecture supports 10+ question types without schema change | Must Have |
 | NFR-SCL-02 | Horizontal Scaling | Stateless architecture, support load balancing | Should Have |
-| NFR-SCL-03 | Data Growth | Support 100,000+ questions dan 1,000,000+ responses | Must Have |
+| NFR-SCL-03 | Data Growth | Support 100,000+ questions and 1,000,000+ responses | Must Have |
 | NFR-SCL-04 | User Growth | Support 10,000+ registered teachers | Must Have |
-| NFR-SCL-05 | Database Indexing | Index pada access_code, user_id, assessment_id | Must Have |
+| NFR-SCL-05 | Database Indexing | Index on access_code, user_id, assessment_id | Must Have |
 
 ### 7.5 Usability
 
@@ -549,18 +551,18 @@ Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
 |----|-------------|--------|----------|
 | NFR-USE-01 | Browser Support | Chrome 90+, Firefox 88+, Safari 14+, Edge 90+ | Must Have |
 | NFR-USE-02 | Responsive Design | Support desktop (1920x1080), tablet (768x1024), mobile (375x667) | Must Have |
-| NFR-USE-03 | Language | Bahasa Indonesia (default), English | Must Have |
-| NFR-USE-04 | Guest Flow Simplicity | Join quiz dalam maksimal 3 langkah | Must Have |
-| NFR-USE-05 | Error Messages | User-friendly error messages dengan actionable guidance | Should Have |
+| NFR-USE-03 | Language | English (default), Bahasa Indonesia | Must Have |
+| NFR-USE-04 | Guest Flow Simplicity | Join quiz in maximum 3 steps | Must Have |
+| NFR-USE-05 | Error Messages | User-friendly error messages with actionable guidance | Should Have |
 | NFR-USE-06 | Accessibility | WCAG 2.1 Level AA (target future release) | Nice to Have |
 
 ### 7.6 Compliance
 
 | ID | Requirement | Target | Priority |
 |----|-------------|--------|----------|
-| NFR-COMP-01 | Data Residency | Data disimpan di server Indonesia (jika applicable) | Should Have |
-| NFR-COMP-02 | Privacy Compliance | Guest data retained max 1 tahun, dapat dihapus | Should Have |
-| NFR-COMP-03 | Audit Support | Export logs untuk audit purposes | Must Have |
+| NFR-COMP-01 | Data Residency | Data stored in Indonesia servers (if applicable) | Should Have |
+| NFR-COMP-02 | Privacy Compliance | Guest data retained max 1 year, can be deleted | Should Have |
+| NFR-COMP-03 | Audit Support | Export logs for audit purposes | Must Have |
 
 ---
 
@@ -570,29 +572,29 @@ Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
 
 | ID | Rule | Description |
 |----|------|-------------|
-| BR-01 | Teacher Ownership | Teacher adalah owner penuh dari course yang dibuat, hanya teacher tersebut yang dapat edit/delete |
-| BR-02 | Access Code Uniqueness | Access code harus unik di seluruh sistem (case-insensitive) |
-| BR-03 | Course Enrollment | Satu siswa hanya bisa enroll sekali per course (tidak ada duplicate enrollment) |
-| BR-04 | Assessment Attempt | Satu siswa hanya bisa mengerjakan satu assessment sekali (tidak ada re-take tanpa reset dari teacher) |
-| BR-05 | Guest User Lifetime | Guest user record retained selama 1 tahun setelah aktivitas terakhir |
-| BR-06 | Auto-Grading Rules | Hanya soal objective (Multiple Choice, Fill Blank, Match, Reorder) yang di-auto-grade. Essay butuh manual grading |
-| BR-07 | Score Calculation | Skor total = sum(points_earned) dari semua soal. Essay yang belum graded = 0 poin sementara |
-| BR-08 | Timer Behavior | Saat timer habis, jawaban yang sudah tersimpan otomatis di-submit |
-| BR-09 | Course Type Change | Course dapat diubah dari Public ke Private atau sebaliknya, tetapi access_code harus di-set jika berubah ke Private |
-| BR-10 | Assessment Publishing | Assessment hanya dapat dikerjakan siswa jika status = 'published' dan dalam date range |
+| BR-01 | Teacher Ownership | Teacher is the full owner of created courses, only that teacher can edit/delete |
+| BR-02 | Access Code Uniqueness | Access code must be unique across the entire system (case-insensitive) |
+| BR-03 | Course Enrollment | A student can only enroll once per course (no duplicate enrollment) |
+| BR-04 | Assessment Attempt | A student can only complete an assessment once (no re-take without teacher reset) |
+| BR-05 | Guest User Lifetime | Guest user record retained for max 1 year after last activity |
+| BR-06 | Auto-Grading Rules | Only objective questions (Multiple Choice, Fill Blank, Match, Reorder) are auto-graded. Essay requires manual grading |
+| BR-07 | Score Calculation | Total score = sum(points_earned) from all questions. Ungraded essays = 0 temporary points |
+| BR-08 | Timer Behavior | When timer expires, saved answers are automatically submitted |
+| BR-09 | Course Type Change | Course can be changed from Public to Private or vice versa, but access_code must be set if changing to Private |
+| BR-10 | Assessment Publishing | Assessment can only be completed by students if status = 'published' and within date range |
 
 ### 8.2 Constraints
 
 | ID | Constraint | Impact |
 |----|------------|--------|
-| CON-01 | Guest User Limitation | Guest student tidak dapat akses fitur advanced (history tracking, multiple attempts) |
-| CON-02 | No Mobile App | Hanya web-based, tidak ada native mobile application pada fase ini |
-| CON-03 | No Payment Integration | Tidak ada fitur paid course atau subscription pada lite version |
-| CON-04 | No Live Multiplayer | Tidak ada fitur live quiz dengan real-time leaderboard pada lite version |
-| CON-05 | Browser Dependency | Fitur auto-save dan timer bergantung pada browser JavaScript enabled |
-| CON-06 | Email Verification Required | Teacher harus verifikasi email sebelum dapat membuat course |
-| CON-07 | UUID Storage Overhead | UUID (128-bit) lebih besar dari auto-increment integer, impact pada storage dan index size |
-| CON-08 | JSON Validation Complexity | Validasi JSON settings memerlukan logic tambahan di application layer |
+| CON-01 | Guest User Limitation | Guest students cannot access advanced features (history tracking, multiple attempts) |
+| CON-02 | No Mobile App | Web-based only, no native mobile application in this phase |
+| CON-03 | No Payment Integration | No paid course or subscription features in lite version |
+| CON-04 | No Live Multiplayer | No live quiz with real-time leaderboard feature in lite version |
+| CON-05 | Browser Dependency | Auto-save and timer features depend on browser JavaScript being enabled |
+| CON-06 | Email Verification Required | Teacher must verify email before creating courses |
+| CON-07 | UUID Storage Overhead | UUID (128-bit) is larger than auto-increment integer, impact on storage and index size |
+| CON-08 | JSON Validation Complexity | JSON settings validation requires additional logic at application layer |
 
 ---
 
@@ -602,14 +604,14 @@ Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
 
 | Entity | Source | Volume (Est.) | Update Frequency |
 |--------|--------|---------------|------------------|
-| users | Generated | 10,000+ records (Year 1) | Low (registrasi teacher + auto guest) |
+| users | Generated | 10,000+ records (Year 1) | Low (teacher registration + auto guest) |
 | courses | Teacher Input | 1,000+ records | Low (create/edit course) |
-| course_enrollments | Auto-Generated | 100,000+ records | Medium (saat student join) |
+| course_enrollments | Auto-Generated | 100,000+ records | Medium (when student joins) |
 | assessments | Teacher Input | 5,000+ records | Medium (create/edit assessment) |
 | questions | Teacher Input | 50,000+ records | Medium (create/edit questions) |
-| question_options | Teacher Input | 200,000+ records | Low (set saat create question) |
-| student_responses | Auto-Generated | 500,000+ records | High (saat student take quiz) |
-| response_details | Auto-Generated | 5,000,000+ records | High (setiap jawaban per soal) |
+| question_options | Teacher Input | 200,000+ records | Low (set during question creation) |
+| student_responses | Auto-Generated | 500,000+ records | High (when student takes quiz) |
+| response_details | Auto-Generated | 5,000,000+ records | High (every answer per question) |
 
 ### 9.2 Data Flow Diagram
 
@@ -662,11 +664,11 @@ Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
 
 | Aspect | Requirement |
 |--------|-------------|
-| Completeness | Semua required fields (NOT NULL) harus terisi. Validasi di application layer sebelum insert |
-| Accuracy | UUID auto-generated, tidak ada manual input untuk primary keys. Foreign key constraints enforced |
-| Timeliness | Timestamps (created_at, updated_at) auto-update. Response data real-time saat submit |
-| Consistency | Status transitions validated (contoh: draft → published, tidak bisa langsung draft → archived) |
-| Integrity | Cascade delete untuk soft deletes. Hard delete hanya untuk guest users > 1 tahun inactive |
+| Completeness | All required fields (NOT NULL) must be filled. Validation at application layer before insert |
+| Accuracy | UUID auto-generated, no manual input for primary keys. Foreign key constraints enforced |
+| Timeliness | Timestamps (created_at, updated_at) auto-update. Response data real-time on submit |
+| Consistency | Status transitions validated (e.g., draft → published, cannot go directly draft → archived) |
+| Integrity | Cascade delete for soft deletes. Hard delete only for guest users > 1 year inactive |
 
 ---
 
@@ -676,24 +678,24 @@ Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
 
 | ID | Assumption | Risk if Invalid |
 |----|------------|-----------------|
-| ASM-01 | Teacher memiliki akses internet stabil untuk membuat course | Jika tidak, proses create/edit soal dapat terganggu dan data mungkin hilang |
-| ASM-02 | Student memiliki device (HP/laptop) dengan browser modern | Jika tidak, student tidak dapat ikut kuis |
-| ASM-03 | Email service (SMTP) tersedia dan reliable untuk verifikasi | Jika tidak, teacher tidak dapat aktivasi akun |
-| ASM-04 | UUID v4 collision sangat jarang (1 dalam 2^122) sehingga tidak perlu handling khusus | Jika collision terjadi, dapat menyebabkan data corruption |
-| ASM-05 | Guest student nama yang diinput adalah nama asli/valid | Jika tidak, reporting dan identifikasi siswa menjadi tidak akurat |
-| ASM-06 | Teacher kompeten menggunakan teknologi web dasar | Jika tidak, diperlukan training dan onboarding tambahan |
+| ASM-01 | Teachers have stable internet access for creating courses | If not, course creation/editing may be interrupted and data may be lost |
+| ASM-02 | Students have devices (phone/laptop) with modern browsers | If not, students cannot take quizzes |
+| ASM-03 | Email service (SMTP) is available and reliable for verification | If not, teachers cannot activate accounts |
+| ASM-04 | UUID v4 collision is extremely rare (1 in 2^122) so no special handling needed | If collision occurs, it can cause data corruption |
+| ASM-05 | Guest student names entered are real/valid | If not, reporting and student identification become inaccurate |
+| ASM-06 | Teachers are competent in using basic web technologies | If not, additional training and onboarding is required |
 
 ### 10.2 Dependencies
 
 | ID | Dependency | Owner | Impact if Delayed |
 |----|------------|-------|-------------------|
-| DEP-01 | Email Service (SMTP) Configuration | DevOps | Teacher registration tidak berfungsi |
-| DEP-02 | Database Server (PostgreSQL/MySQL) Setup | DevOps | Seluruh sistem tidak dapat berjalan |
-| DEP-03 | SSL/TLS Certificate for HTTPS | DevOps | Security requirement tidak terpenuhi |
-| DEP-04 | Frontend Framework (React/Vue) Setup | Tech Lead | Development frontend tertunda |
-| DEP-05 | Backend Framework (Node.js/Python) Setup | Tech Lead | Development backend tertunda |
-| DEP-06 | UI/UX Design Mockups | Designer | Developer tidak punya referensi visual |
-| DEP-07 | Testing Environment Setup | QA | UAT tidak dapat dilakukan |
+| DEP-01 | Email Service (SMTP) Configuration | DevOps | Teacher registration will not function |
+| DEP-02 | Database Server (PostgreSQL) Setup | DevOps | Entire system cannot run |
+| DEP-03 | SSL/TLS Certificate for HTTPS | DevOps | Security requirement not met |
+| DEP-04 | Frontend Framework (React) Setup | Tech Lead | Frontend development delayed |
+| DEP-05 | Backend Framework (Next.js API) Setup | Tech Lead | Backend development delayed |
+| DEP-06 | UI/UX Design Mockups | Designer | Developers have no visual reference |
+| DEP-07 | Testing Environment Setup | QA | UAT cannot be performed |
 
 ---
 
@@ -724,46 +726,180 @@ Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
 
 ### 11.3 Success Criteria Summary
 
-**Project dianggap SUKSES jika:**
+**Project is considered SUCCESSFUL if:**
 
-1. ✅ Go-live sesuai timeline (estimasi: 8-12 minggu development)
-2. ✅ Budget tidak melebihi ceiling yang disetujui
-3. ✅ Seluruh Must Have requirements (49 items) delivered dan tested
-4. ✅ Zero critical bugs saat go-live
-5. ✅ 100+ teachers registered dalam 3 bulan pertama
-6. ✅ 90%+ student dapat join dan complete quiz tanpa bantuan teknis
-7. ✅ System uptime > 99.5% dalam 3 bulan pertama
-8. ✅ Average page load time < 3 detik untuk semua halaman utama
+1. ✅ Go-live on schedule (estimated: 8-12 weeks development)
+2. ✅ Budget does not exceed approved ceiling
+3. ✅ All Must Have requirements (49 items) delivered and tested
+4. ✅ Zero critical bugs at go-live
+5. ✅ 100+ teachers registered within first 3 months
+6. ✅ 90%+ students can join and complete quiz without technical assistance
+7. ✅ System uptime > 99.5% in first 3 months
+8. ✅ Average page load time < 3 seconds for all main pages
 
 ---
 
-## 12. GLOSSARY
+## 12. TECHNOLOGY STACK
+
+### 12.1 Technology Stack Overview
+
+This section defines the complete technology stack for the Quizizz Clone (Lite Version) as specified in the Implementation & Technical Architecture (ITA) document.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    TECHNOLOGY STACK                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  FRONTEND          │  BACKEND           │  DATA             │
+│  ─────────────     │  ─────────────     │  ─────────────    │
+│  • Next.js 15      │  • Next.js API     │  • Supabase       │
+│  • TypeScript 5    │    Routes          │    (PostgreSQL)   │
+│  • Tailwind CSS 4  │  • Server Actions  │  • Prisma ORM     │
+│  • Shadcn/ui       │  • Zod Validation  │  • Supabase Auth  │
+│  • TanStack Query  │  • Supabase JS     │  • Supabase       │
+│  • React Hook Form │    Client          │    Storage        │
+│  • Zod             │  • Edge Runtime    │                   │
+│  • Lucide React    │                    │                   │
+│                                                              │
+│  INFRASTRUCTURE    │  DEVOPS            │  INTEGRATION      │
+│  ─────────────     │  ─────────────     │  ─────────────    │
+│  • Vercel          │  • GitHub Actions  │  • Google OAuth   │
+│  • Supabase        │  • ESLint          │  • Email (Resend) │
+│  • Edge Network    │  • Prettier        │  • reCAPTCHA      │
+│  • CDN             │  • Husky           │                   │
+│  • Blob Storage    │  • Playwright      │                   │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 12.2 Frontend Stack
+
+| Layer | Technology | Version | Justification |
+|-------|------------|---------|---------------|
+| **Framework** | Next.js | 15.x (App Router) | Server Components, API Routes, optimal performance |
+| **Language** | TypeScript | 5.x | Type safety, better DX, catch errors early |
+| **State Management** | TanStack Query | 5.x | Server state management, caching, background sync |
+| **Form State** | React Hook Form | 8.x | Performant form handling, minimal re-renders |
+| **Styling** | Tailwind CSS | 4.x | Utility-first, consistent design, small bundle |
+| **UI Components** | Shadcn/ui | Latest | Accessible, customizable, copy-paste components |
+| **Icons** | Lucide React | Latest | Consistent icon set, tree-shakeable |
+| **Validation** | Zod | 3.x | Schema validation, type inference, client+server |
+| **HTTP Client** | Fetch API (native) | - | Built-in, no extra dependency, works with Next.js |
+| **Date Handling** | date-fns | 3.x | Lightweight, modular, tree-shakeable |
+| **Charts** | Recharts | 2.x | Composable, responsive, works well with React |
+
+### 12.3 Backend Stack
+
+| Layer | Technology | Version | Justification |
+|-------|------------|---------|---------------|
+| **Runtime** | Next.js API Routes | 15.x | Integrated with frontend, edge runtime support |
+| **Framework** | Next.js App Router | 15.x | Server Actions, Route Handlers, middleware |
+| **Language** | TypeScript | 5.x | Type safety end-to-end |
+| **ORM** | Prisma | 6.x | Type-safe queries, migrations, excellent DX |
+| **Validation** | Zod | 3.x | Request validation, type inference, error messages |
+| **Authentication** | Supabase Auth | Latest | Email/password + Google OAuth, JWT sessions |
+| **Database Client** | Supabase JS | 2.x | PostgreSQL with realtime, RLS, storage |
+| **API Documentation** | OpenAPI (via types) | 3.0 | Auto-generated from TypeScript types |
+| **Logging** | Pino (via Vercel) | - | Structured logging, Vercel Analytics integration |
+| **Testing** | Playwright + Vitest | Latest | E2E + Unit testing |
+
+### 12.4 Database Stack
+
+| Component | Technology | Version | Use Case |
+|-----------|------------|---------|----------|
+| **Primary Database** | Supabase (PostgreSQL) | 15.x | All application data, 8 core tables |
+| **Auth** | Supabase Auth | Latest | User authentication, sessions, OAuth |
+| **Object Storage** | Supabase Storage | Latest | User avatars, course covers, question assets |
+| **Realtime** | Supabase Realtime | Latest | Live quiz updates (future feature) |
+| **Edge Functions** | Supabase Edge Functions | Latest | Custom backend logic (if needed) |
+
+### 12.5 Infrastructure Stack
+
+| Component | Technology | Version | Use Case |
+|-----------|------------|---------|----------|
+| **Hosting** | Vercel | Latest | Next.js optimized hosting, edge network |
+| **Database Hosting** | Supabase Cloud | Latest | Managed PostgreSQL, auth, storage |
+| **CDN** | Vercel Edge Network | - | Global content delivery, caching |
+| **DNS** | Vercel DNS | - | Domain management, SSL certificates |
+| **Secret Management** | Vercel Environment Variables | - | Secure env var management |
+
+### 12.6 DevOps Stack
+
+| Component | Technology | Version | Use Case |
+|-----------|------------|---------|----------|
+| **CI/CD** | GitHub Actions | Latest | Automated testing, deployment |
+| **Version Control** | Git + GitHub | Latest | Source control, PR reviews |
+| **Package Manager** | pnpm | 9.x | Fast, disk-efficient dependency management |
+| **Code Quality** | ESLint + Prettier | Latest | Linting, formatting, consistency |
+| **Type Checking** | TypeScript | 5.x | Compile-time type checking |
+| **Testing** | Playwright + Vitest | Latest | E2E + Unit testing |
+| **Security Scanning** | GitHub Dependabot | Latest | Dependency vulnerability alerts |
+| **Pre-commit Hooks** | Husky + lint-staged | Latest | Auto-format, lint before commit |
+
+### 12.7 Architecture Principles
+
+| Principle | Description | Rationale |
+|-----------|-------------|-----------|
+| **Component-Driven** | All UI built from reusable composable components | UI consistency, maintainability, development speed |
+| **Type Safety First** | TypeScript strict mode across entire codebase | Prevent runtime errors, better DX, self-documenting code |
+| **Server Components Default** | Next.js App Router with Server Components as default | Performance, SEO, reduced bundle size |
+| **Single Source of Truth** | Supabase as primary database and auth provider | Data consistency, reduced complexity |
+| **API Versioning** | All API endpoints follow pattern `/api/v1/{context}/{resource}/{action}` | Future-proof, clear API structure |
+| **Validation Everywhere** | Zod schema validation on client and server | Type safety end-to-end, consistent error handling |
+
+### 12.8 Development Environment
+
+| Tool | Version | Purpose |
+|------|---------|---------|
+| Node.js | 20.x LTS (or 22.x) | JavaScript runtime |
+| pnpm | 9.x | Package manager |
+| Git | 2.x | Version control |
+| VS Code | Latest | Recommended IDE |
+| Supabase CLI | Latest (optional) | Local Supabase development |
+
+### 12.9 Recommended IDE Extensions
+
+```json
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "prisma.prisma",
+    "msjsdiag.vscode-react-native"
+  ]
+}
+```
+
+---
+
+## 13. GLOSSARY
 
 | Term | Definition |
 |------|------------|
-| **Access Code** | Kode unik 6 karakter alphanumeric untuk join Private course |
-| **Assessment** | Kuis atau penilaian yang berisi kumpulan soal dalam sebuah Course |
-| **Course** | Kelas atau mata pelajaran yang dibuat oleh Teacher, dapat berisi multiple Assessments |
-| **Guest Student** | Siswa yang tidak melakukan registrasi formal, bergabung sebagai guest via access code |
-| **Question Options** | Pilihan jawaban untuk soal Multiple Choice, atau items untuk Match/Reorder |
-| **Question Settings** | JSON configuration untuk properti spesifik per tipe soal (shuffle, case_sensitive, dll) |
-| **Question Extra Data** | JSON data tambahan untuk kompleksitas soal (pair_id, correct_order, accepted_answers) |
-| **Student Response** | Record pengerjaan kuis oleh siswa, berisi skor dan status submission |
-| **Response Details** | Detail jawaban per soal dalam sebuah Student Response |
-| **Teacher** | Pengguna terdaftar dengan role 'teacher', memiliki otoritas membuat Course dan Assessment |
-| **UUID** | Universally Unique Identifier (128-bit) digunakan sebagai primary key untuk semua tabel |
-| **Auto-Grading** | Proses penilaian otomatis untuk soal objective (Multiple Choice, Fill Blank, Match, Reorder) |
-| **Manual Grading** | Penilaian yang dilakukan Teacher secara manual, biasanya untuk soal Essay |
-| **Public Course** | Course yang dapat dicari dan dilihat oleh siapa saja tanpa access code |
-| **Private Course** | Course yang memerlukan access code untuk join |
-| **Soft Delete** | Penghapusan data dengan men-set flag is_active/inactive, bukan delete fisik dari database |
-| **Enrollment** | Record yang merepresentasikan siswa yang bergabung ke sebuah Course |
+| **Access Code** | Unique 6-character alphanumeric code to join Private courses |
+| **Assessment** | Quiz or assessment containing a collection of questions within a Course |
+| **Course** | Class or subject created by Teacher, can contain multiple Assessments |
+| **Guest Student** | Student who does not perform formal registration, joins as guest via access code |
+| **Question Options** | Answer options for Multiple Choice questions, or items for Match/Reorder |
+| **Question Settings** | JSON configuration for type-specific properties (shuffle, case_sensitive, etc.) |
+| **Question Extra Data** | JSON data for question complexities (pair_id, correct_order, accepted_answers) |
+| **Student Response** | Record of quiz completion by student, contains score and submission status |
+| **Response Details** | Answer details per question in a Student Response |
+| **Teacher** | Registered user with 'teacher' role, has authority to create Courses and Assessments |
+| **UUID** | Universally Unique Identifier (128-bit) used as primary key for all tables |
+| **Auto-Grading** | Automatic grading process for objective questions (Multiple Choice, Fill Blank, Match, Reorder) |
+| **Manual Grading** | Grading performed manually by Teacher, usually for Essay questions |
+| **Public Course** | Course that can be searched and viewed by anyone without access code |
+| **Private Course** | Course that requires access code to join |
+| **Soft Delete** | Data deletion by setting is_active/inactive flag, not physical delete from database |
+| **Enrollment** | Record representing a student joining a Course |
 
 ---
 
-## 13. APPROVAL SIGN-OFF
+## 14. APPROVAL SIGN-OFF
 
-### 13.1 Document Approval
+### 14.1 Document Approval
 
 | Role | Name | Signature | Date |
 |------|------|-----------|------|
@@ -773,24 +909,24 @@ Total effort guru: 15-25 MENIT per kuis (improvement: 85-90%)
 | IT Owner | _________________ | _________________ | _________ |
 | Tech Lead | _________________ | _________________ | _________ |
 
-### 13.2 Requirements Approval
+### 14.2 Requirements Approval
 
-Dengan menandatangani dokumen ini, stakeholder menyetujui bahwa:
+By signing this document, stakeholders agree that:
 
-1. ✅ Requirements telah direview dan dipahami secara menyeluruh
-2. ✅ Scope sudah sesuai dengan kebutuhan bisnis dan prioritas
-3. ✅ Prioritas requirements (Must/Should/Nice to Have) sudah tepat
-4. ✅ Dokumen ini menjadi baseline untuk development dan change management
-5. ✅ Setiap perubahan scope setelah approval akan melalui change request process
+1. ✅ Requirements have been reviewed and thoroughly understood
+2. ✅ Scope aligns with business needs and priorities
+3. ✅ Requirement priorities (Must/Should/Nice to Have) are appropriate
+4. ✅ This document becomes the baseline for development and change management
+5. ✅ Any scope changes after approval will go through change request process
 
 ---
 
 ## APPENDICES
 
-### Appendix A: Referensi Dokumen Terkait
+### Appendix A: Related Document References
 
-| Dokumen | Lokasi |
-|---------|--------|
+| Document | Location |
+|----------|----------|
 | Project Execution Plan | `/docs/project/02-project-execution-plan.md` |
 | Implementation & Architecture | `/docs/project/03-implementation-and-architecture.md` |
 | Database Schema | `/docs/project/04-database-schema.md` (To be created) |
@@ -798,14 +934,14 @@ Dengan menandatangani dokumen ini, stakeholder menyetujui bahwa:
 
 ### Appendix B: Question Type JSON Examples
 
-Lihat Section 6.5 untuk contoh lengkap JSON schema untuk setiap tipe soal.
+See Section 6.5 for complete JSON schema examples for each question type.
 
 ### Appendix C: User Journey Maps
 
-Lihat Section 2 untuk user personas dan journey maps detail.
+See Section 2 for detailed user personas and journey maps.
 
 ---
 
-*Dokumen ini adalah bagian dari Project Documentation Quizizz Clone (Lite Version)*  
-*Lokasi: `/docs/project/01-bussiness-requirement.md`*  
+*This document is part of the Quizizz Clone (Lite Version) Project Documentation*
+*Location: `/docs/project/01-bussiness-requirement.md`*
 *LearnWeb LMS Project © 2026*
