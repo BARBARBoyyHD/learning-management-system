@@ -7,14 +7,14 @@
  * @example
  * ```typescript
  * // In a Server Component or Server Action
- * import { createServerClient } from '@/lib/supabase/server'
+ * import { getSupabaseServerClient } from '@/lib/supabase/server'
  * 
- * const supabase = await createServerClient()
+ * const supabase = await getSupabaseServerClient()
  * const { data: { user } } = await supabase.auth.getUser()
  * ```
  */
 
-import { createServerClient } from '@supabase/ssr'
+import { createServerClient as createSupabaseServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 /**
@@ -23,7 +23,7 @@ import { cookies } from 'next/headers'
  * 
  * @returns Supabase client instance
  */
-export async function createServerClient() {
+export async function getSupabaseServerClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -36,7 +36,7 @@ export async function createServerClient() {
 
   const cookieStore = await cookies()
 
-  return createServerClient(supabaseUrl, supabaseAnonKey, {
+  return createSupabaseServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
       /**
        * Get all cookies from the request

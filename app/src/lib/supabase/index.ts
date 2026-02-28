@@ -6,7 +6,7 @@
  * @example
  * ```typescript
  * // Server Component or Server Action
- * import { createServerClient } from '@/lib/supabase'
+ * import { getSupabaseServerClient } from '@/lib/supabase'
  * 
  * // Client Component
  * import { createBrowserClient } from '@/lib/supabase'
@@ -17,7 +17,7 @@
  */
 
 export { createBrowserClient } from './client'
-export { createServerClient } from './server'
+export { getSupabaseServerClient } from './server'
 export { createSupabaseMiddlewareClient } from './middleware'
 
 // Re-export Supabase types for convenience
