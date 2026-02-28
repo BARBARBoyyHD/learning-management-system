@@ -7,11 +7,11 @@
 | Attribute | Value |
 |-----------|-------|
 | Document ID | DOC-QCL-ITA-001 |
-| Version | 1.0 |
+| Version | 1.1 |
 | Status | Draft |
 | Author | Solution Architecture Team |
-| Created | Februari 2026 |
-| Last Updated | 25 Februari 2026 |
+| Created | February 2026 |
+| Last Updated | 28 February 2026 |
 | Reviewed By | VP IT, Tech Lead, Security Team |
 | Approved By | Technical Steering Committee |
 
@@ -21,11 +21,13 @@
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 25 Februari 2026 | SA Team | Initial version |
+| 1.0 | 25 February 2026 | SA Team | Initial version |
+| 1.1 | 28 February 2026 | Solution Architecture Team | Updated package manager to npm, revised database schema per ERD guide |
+| 1.2 | 28 February 2026 | Solution Architecture Team | Changed primary keys from auto-increment integers to UUIDs for Supabase compatibility |
 
 ---
 
-## DAFTAR ISI
+## TABLE OF CONTENTS
 
 1. [Executive Summary](#1-executive-summary)
 2. [Architecture Overview](#2-architecture-overview)
@@ -46,20 +48,20 @@
 
 ## 1. EXECUTIVE SUMMARY
 
-### 1.1 Tujuan Dokumen
+### 1.1 Document Purpose
 
-Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitektur teknis, technology stack, dan standar pengembangan untuk proyek Quizizz Clone (Lite Version). Dokumen ini menjadi panduan utama bagi tim development dalam membangun sistem yang scalable, secure, maintainable, dan DRY (Don't Repeat Yourself).
+This Implementation & Technical Architecture (ITA) document defines the technical architecture, technology stack, and development standards for the Quizizz Clone (Lite Version) project. This document serves as the primary guide for the development team in building a system that is scalable, secure, maintainable, and DRY (Don't Repeat Yourself).
 
 ### 1.2 Architecture Principles
 
 | Principle | Description | Rationale |
 |-----------|-------------|-----------|
-| **Component-Driven** | Semua UI dibangun dari reusable components yang terkomposisi | Konsistensi UI, maintainability, development speed |
-| **Type Safety First** | TypeScript strict mode di seluruh codebase | Mencegah runtime errors, better DX, self-documenting code |
-| **Server Components Default** | Next.js App Router dengan Server Components sebagai default | Performance, SEO, reduced bundle size |
-| **Single Source of Truth** | Supabase sebagai primary database dan auth provider | Konsistensi data, reduced complexity |
-| **API Versioning** | Semua API endpoints mengikuti pattern `/api/v1/{context}/{resource}/{action}` | Future-proof, clear API structure |
-| **Validation Everywhere** | Zod schema validation di client dan server | Type safety end-to-end, consistent error handling |
+| **Component-Driven** | All UI built from reusable composable components | UI consistency, maintainability, development speed |
+| **Type Safety First** | TypeScript strict mode across entire codebase | Prevent runtime errors, better DX, self-documenting code |
+| **Server Components Default** | Next.js App Router with Server Components as default | Performance, SEO, reduced bundle size |
+| **Single Source of Truth** | PostgreSQL as primary database | Data consistency, reduced complexity |
+| **API Versioning** | All API endpoints follow pattern `/api/v1/{context}/{resource}/{action}` | Future-proof, clear API structure |
+| **Validation Everywhere** | Zod schema validation on client and server | Type safety end-to-end, consistent error handling |
 
 ### 1.3 Technology Stack Summary
 
@@ -70,22 +72,22 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
 │                                                              │
 │  FRONTEND          │  BACKEND           │  DATA             │
 │  ─────────────     │  ─────────────     │  ─────────────    │
-│  • Next.js 15      │  • Next.js API     │  • Supabase       │
-│  • TypeScript 5    │    Routes          │    (PostgreSQL)   │
-│  • Tailwind CSS 4  │  • Server Actions  │  • Prisma ORM     │
-│  • Shadcn/ui       │  • Zod Validation  │  • Supabase Auth  │
-│  • TanStack Query  │  • Supabase JS     │  • Supabase       │
-│  • React Hook Form │    Client          │    Storage        │
-│  • Zod             │  • Edge Runtime    │                   │
+│  • Next.js 15      │  • Next.js API     │  • PostgreSQL     │
+│  • TypeScript 5    │    Routes          │  • Prisma ORM     │
+│  • Tailwind CSS 4  │  • Server Actions  │                   │
+│  • Shadcn/ui       │  • Zod Validation  │                   │
+│  • TanStack Query  │  • Fetch API       │                   │
+│  • React Hook Form │  • Edge Runtime    │                   │
+│  • Zod             │                    │                   │
 │  • Lucide React    │                    │                   │
 │                                                              │
 │  INFRASTRUCTURE    │  DEVOPS            │  INTEGRATION      │
 │  ─────────────     │  ─────────────     │  ─────────────    │
 │  • Vercel          │  • GitHub Actions  │  • Google OAuth   │
-│  • Supabase        │  • ESLint          │  • Email (Resend) │
-│  • Edge Network    │  • Prettier        │  • reCAPTCHA      │
-│  • CDN             │  • Husky           │                   │
-│  • Blob Storage    │  • Playwright      │                   │
+│  • Edge Network    │  • ESLint          │  • Email (SMTP)   │
+│  • CDN             │  • Prettier        │  • reCAPTCHA      │
+│  • Blob Storage    │  • Husky           │                   │
+│  • PostgreSQL      │  • Playwright      │                   │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -135,25 +137,25 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
 │  │                              │                                         │    │
 │  │  ┌───────────────────────────┴───────────────────────────┐            │    │
 │  │  │                 REPOSITORY LAYER                      │            │    │
-│  │  │         (Prisma ORM + Supabase Client)                │            │    │
+│  │  │         (Prisma ORM + PostgreSQL Client)              │            │    │
 │  │  └───────────────────────────────────────────────────────┘            │    │
 │  └──────────────────────────────────────────────────────────────────────┘    │
 │                              │                                                │
 │  ┌───────────────────────────┼──────────────────────────────────────────┐    │
 │  │                      DATA LAYER                                        │    │
-│  │  ┌──────────────────┐  ┌────────────┐  ┌────────────────────┐        │    │
-│  │  │   Supabase       │  │   Supabase │  │   Supabase         │        │    │
-│  │  │   (PostgreSQL)   │  │   Storage  │  │   Auth             │        │    │
-│  │  │   • Tables       │  │   • Avatars│  │   • Email/Password │        │    │
-│  │  │   • RLS Policies │  │   • Covers │  │   • Google OAuth   │        │    │
-│  │  │   • Functions    │  │   • Assets │  │   • JWT Sessions   │        │    │
-│  │  └──────────────────┘  └────────────┘  └────────────────────┘        │    │
+│  │  ┌──────────────────┐  ┌────────────┐                                │    │
+│  │  │   PostgreSQL     │  │   Object   │                                │    │
+│  │  │   • Tables       │  │   Storage  │                                │    │
+│  │  │   • Auth         │  │   • Avatars│                                │    │
+│  │  │   • Sessions     │  │   • Covers │                                │    │
+│  │  │   • JWT          │  │   • Assets │                                │    │
+│  │  └──────────────────┘  └────────────┘                                │    │
 │  └──────────────────────────────────────────────────────────────────────┘    │
 │                              │                                                │
 │  ┌───────────────────────────┼──────────────────────────────────────────┐    │
 │  │                   INTEGRATION LAYER                                    │    │
 │  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                │    │
-│  │  │ Google OAuth │  │ Resend Email │  │ reCAPTCHA    │                │    │
+│  │  │ Google OAuth │  │ SMTP Email   │  │ reCAPTCHA    │                │    │
 │  │  │ (Auth)       │  │ (Transactional)│ │ (Bot Protect)│                │    │
 │  │  └──────────────┘  └──────────────┘  └──────────────┘                │    │
 │  └──────────────────────────────────────────────────────────────────────┘    │
@@ -186,7 +188,7 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
 │   │                    ▼ fetch                         │    │
 │   │   ┌─────────────────────────────────────────┐     │    │
 │   │   │         API Client Layer                │     │    │
-│   │   │         • Axios/Fetch Wrapper           │     │    │
+│   │   │         • Fetch Wrapper                 │     │    │
 │   │   │         • Interceptors (Auth, Error)    │     │    │
 │   │   │         • Type-safe responses           │     │    │
 │   │   └─────────────────────────────────────────┘     │    │
@@ -205,7 +207,7 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
 │   │        │              │              │             │    │
 │   │        ▼              ▼              ▼             │    │
 │   │   ┌─────────┐    ┌─────────┐    ┌─────────┐      │    │
-│   │   │ Zod     │    │ Supabase│    │  Types  │      │    │
+│   │   │ Zod     │    │ Postgres│    │  Types  │      │    │
 │   │   │Validation│    │  Client │    │(Prisma) │      │    │
 │   │   └─────────┘    └─────────┘    └─────────┘      │    │
 │   └────────────────────────────────────────────────────┘    │
@@ -214,10 +216,10 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
 │   ┌────────────────────────────────────────────────────┐    │
 │   │                 DATA STORES                         │    │
 │   │                                                     │    │
-│   │   Supabase (PostgreSQL)  │  Supabase Storage       │    │
-│   │   • 8 core tables        │  • User avatars         │    │
-│   │   • RLS enabled          │  • Course covers        │    │
-│   │   • Indexes optimized    │  • Question assets      │    │
+│   │   PostgreSQL           │  Object Storage           │    │
+│   │   • 6 core tables      │  • User avatars           │    │
+│   │   • Indexes optimized  │  • Course covers          │    │
+│   │                        │  • Question assets        │    │
 │   └────────────────────────────────────────────────────┘    │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
@@ -227,7 +229,7 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
 
 | Module | Depends On | Consumed By |
 |--------|------------|-------------|
-| Auth Module | Supabase Auth, Users Table | All Modules |
+| Auth Module | Users Table, Sessions | All Modules |
 | User Module | Auth Module, Database | Course, Assessment, Reporting |
 | Course Module | Auth Module, User Module | Assessment, Enrollment |
 | Assessment Module | Course Module, Question Module | Reporting, Grading |
@@ -265,8 +267,8 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
 | **Language** | TypeScript | 5.x | Type safety end-to-end |
 | **ORM** | Prisma | 6.x | Type-safe queries, migrations, excellent DX |
 | **Validation** | Zod | 3.x | Request validation, type inference, error messages |
-| **Authentication** | Supabase Auth | Latest | Email/password + Google OAuth, JWT sessions |
-| **Database Client** | Supabase JS | 2.x | PostgreSQL with realtime, RLS, storage |
+| **Authentication** | Custom JWT | Latest | Email/password + Google OAuth, JWT sessions |
+| **Database Client** | Prisma Client | 6.x | PostgreSQL with type-safe queries |
 | **API Documentation** | OpenAPI (via types) | 3.0 | Auto-generated from TypeScript types |
 | **Logging** | Pino (via Vercel) | - | Structured logging, Vercel Analytics integration |
 | **Testing** | Playwright + Vitest | Latest | E2E + Unit testing |
@@ -275,18 +277,17 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
 
 | Component | Technology | Version | Use Case |
 |-----------|------------|---------|----------|
-| **Primary Database** | Supabase (PostgreSQL) | 15.x | All application data, 8 core tables |
-| **Auth** | Supabase Auth | Latest | User authentication, sessions, OAuth |
-| **Object Storage** | Supabase Storage | Latest | User avatars, course covers, question assets |
-| **Realtime** | Supabase Realtime | Latest | Live quiz updates (future feature) |
-| **Edge Functions** | Supabase Edge Functions | Latest | Custom backend logic (if needed) |
+| **Primary Database** | PostgreSQL | 15.x | All application data, 6 core tables |
+| **Auth** | Custom JWT + Sessions | Latest | User authentication, sessions, OAuth |
+| **Object Storage** | Vercel Blob / AWS S3 | Latest | User avatars, course covers, question assets |
+| **ORM** | Prisma | 6.x | Type-safe database access |
 
 ### 3.4 Infrastructure Stack
 
 | Component | Technology | Version | Use Case |
 |-----------|------------|---------|----------|
 | **Hosting** | Vercel | Latest | Next.js optimized hosting, edge network |
-| **Database Hosting** | Supabase Cloud | Latest | Managed PostgreSQL, auth, storage |
+| **Database Hosting** | PostgreSQL (Managed) | 15.x | Managed PostgreSQL |
 | **CDN** | Vercel Edge Network | - | Global content delivery, caching |
 | **DNS** | Vercel DNS | - | Domain management, SSL certificates |
 | **Secret Management** | Vercel Environment Variables | - | Secure env var management |
@@ -297,7 +298,7 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
 |-----------|------------|---------|----------|
 | **CI/CD** | GitHub Actions | Latest | Automated testing, deployment |
 | **Version Control** | Git + GitHub | Latest | Source control, PR reviews |
-| **Package Manager** | pnpm | 9.x | Fast, disk-efficient dependency management |
+| **Package Manager** | npm | 10.x | Standard Node.js package manager |
 | **Code Quality** | ESLint + Prettier | Latest | Linting, formatting, consistency |
 | **Type Checking** | TypeScript | 5.x | Compile-time type checking |
 | **Testing** | Playwright + Vitest | Latest | E2E + Unit testing |
@@ -335,10 +336,9 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
 │  │                       │ Env Vars                      │   │
 │  │                       ▼                               │   │
 │  │  ┌─────────────────────────────────────────────┐     │   │
-│  │  │         Supabase Local/Cloud Instance        │     │   │
-│  │  │  • PostgreSQL (Local or Cloud)              │     │   │
-│  │  │  • Auth (Cloud)                             │     │   │
-│  │  │  • Storage (Cloud)                          │     │   │
+│  │  │         PostgreSQL Database                  │     │   │
+│  │  │  • Local or Cloud                           │     │   │
+│  │  │  • Prisma ORM                               │     │   │
 │  │  └─────────────────────────────────────────────┘     │   │
 │  │                                                       │   │
 │  └──────────────────────────────────────────────────────┘   │
@@ -351,10 +351,9 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
 | Tool | Version | Purpose |
 |------|---------|---------|
 | Node.js | 20.x LTS (or 22.x) | JavaScript runtime |
-| pnpm | 9.x | Package manager |
+| npm | 10.x | Package manager |
 | Git | 2.x | Version control |
 | VS Code | Latest | Recommended IDE |
-| Supabase CLI | Latest (optional) | Local Supabase development |
 
 ### 4.3 IDE Extensions
 
@@ -364,8 +363,7 @@ Dokumen Implementation & Technical Architecture (ITA) ini mendefinisikan arsitek
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "bradlc.vscode-tailwindcss",
-    "prisma.prisma",
-    "msjsdiag.vscode-react-native"
+    "prisma.prisma"
   ]
 }
 ```
@@ -400,7 +398,7 @@ quizizz-clone/
 │   │   │
 │   │   ├── (dashboard)/       # Teacher dashboard
 │   │   │   ├── dashboard/
-│   │   │   ├── courses/
+│   │   │   ├── quizzes/
 │   │   │   ├── assessments/
 │   │   │   └── layout.tsx
 │   │   │
@@ -412,8 +410,7 @@ quizizz-clone/
 │   │   ├── api/               # API Routes
 │   │   │   └── v1/
 │   │   │       ├── admin/
-│   │   │       ├── courses/
-│   │   │       ├── assessments/
+│   │   │       ├── quizzes/
 │   │   │       ├── questions/
 │   │   │       └── auth/
 │   │   │
@@ -433,23 +430,18 @@ quizizz-clone/
 │   │   │   ├── sidebar.tsx
 │   │   │   └── footer.tsx
 │   │   │
-│   │   ├── courses/           # Course-specific components
-│   │   │   ├── course-card.tsx
-│   │   │   ├── course-form.tsx
-│   │   │   └── ...
-│   │   │
-│   │   ├── assessments/       # Assessment components
-│   │   │   ├── assessment-card.tsx
-│   │   │   ├── assessment-form.tsx
+│   │   ├── quizzes/           # Quiz-specific components
+│   │   │   ├── quiz-card.tsx
+│   │   │   ├── quiz-form.tsx
 │   │   │   └── ...
 │   │   │
 │   │   ├── questions/         # Question components
 │   │   │   ├── question-editor.tsx
 │   │   │   ├── multiple-choice.tsx
-│   │   │   ├── essay.tsx
-│   │   │   ├── fill-blank.tsx
 │   │   │   ├── match.tsx
 │   │   │   ├── reorder.tsx
+│   │   │   ├── drag-drop.tsx
+│   │   │   ├── hotspot.tsx
 │   │   │   └── ...
 │   │   │
 │   │   └── forms/             # Reusable form components
@@ -458,20 +450,13 @@ quizizz-clone/
 │   │       └── ...
 │   │
 │   ├── lib/
-│   │   ├── supabase/
-│   │   │   ├── client.ts      # Supabase client (browser)
-│   │   │   ├── server.ts      # Supabase client (server)
-│   │   │   ├── middleware.ts  # Supabase middleware
-│   │   │   └── types.ts       # Supabase types
-│   │   │
 │   │   ├── prisma/
 │   │   │   ├── client.ts      # Prisma client singleton
 │   │   │   └── index.ts       # Re-exports
 │   │   │
 │   │   ├── validators/        # Zod schemas
 │   │   │   ├── auth.ts
-│   │   │   ├── course.ts
-│   │   │   ├── assessment.ts
+│   │   │   ├── quiz.ts
 │   │   │   ├── question.ts
 │   │   │   └── index.ts
 │   │   │
@@ -485,24 +470,21 @@ quizizz-clone/
 │   │
 │   ├── hooks/                 # Custom hooks
 │   │   ├── use-auth.ts
-│   │   ├── use-courses.ts
-│   │   ├── use-assessments.ts
+│   │   ├── use-quizzes.ts
 │   │   ├── use-questions.ts
 │   │   ├── use-quiz.ts
 │   │   └── index.ts
 │   │
 │   ├── services/              # Business logic layer
 │   │   ├── auth.service.ts
-│   │   ├── course.service.ts
-│   │   ├── assessment.service.ts
+│   │   ├── quiz.service.ts
 │   │   ├── question.service.ts
 │   │   ├── grading.service.ts
 │   │   └── reporting.service.ts
 │   │
 │   ├── repositories/          # Data access layer
 │   │   ├── user.repository.ts
-│   │   ├── course.repository.ts
-│   │   ├── assessment.repository.ts
+│   │   ├── quiz.repository.ts
 │   │   ├── question.repository.ts
 │   │   └── index.ts
 │   │
@@ -524,7 +506,7 @@ quizizz-clone/
 ├── components.json            # Shadcn/ui config
 ├── next.config.ts
 ├── package.json
-├── pnpm-lock.yaml
+├── package-lock.json
 ├── tailwind.config.ts
 ├── tsconfig.json
 └── vitest.config.ts
@@ -540,41 +522,35 @@ NEXT_PUBLIC_APP_NAME="Quizizz Clone"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 NODE_ENV=development
 
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
-NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
-SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
-SUPABASE_JWT_SECRET="your-jwt-secret"
-
 # Database (Prisma)
-DATABASE_URL="postgresql://postgres:[password]@db.your-project.supabase.co:5432/postgres"
+DATABASE_URL="postgresql://postgres:[password]@localhost:5432/quizizz_clone"
 
 # Auth
-NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
-NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
+JWT_SECRET="your-jwt-secret-key"
+NEXT_PUBLIC_SESSION_EXPIRY="24h"
 
-# Google OAuth (Supabase)
+# Google OAuth
 NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-google-client-id"
 GOOGLE_CLIENT_SECRET="your-google-client-secret"
 
-# Email (Supabase + Resend)
-SUPABASE_SMTP_HOST="smtp.resend.com"
-SUPABASE_SMTP_PORT=587
-SUPABASE_SMTP_USER="resend"
-SUPABASE_SMTP_PASSWORD="your-resend-key"
-SUPABASE_MAILER_FROM="noreply@yourdomain.com"
+# Email (SMTP)
+SMTP_HOST="smtp.gmail.com"
+SMTP_PORT=587
+SMTP_USER="your-email@gmail.com"
+SMTP_PASSWORD="your-app-password"
+MAIL_FROM="noreply@quizizz.local"
 
-# Storage
-NEXT_PUBLIC_SUPABASE_STORAGE_URL="https://your-project.supabase.co/storage/v1"
-SUPABASE_STORAGE_BUCKET="quizizz-assets"
+# Storage (Vercel Blob or AWS S3)
+BLOB_READ_WRITE_TOKEN="your-blob-token"
+# OR
+AWS_ACCESS_KEY_ID="your-aws-key"
+AWS_SECRET_ACCESS_KEY="your-aws-secret"
+AWS_BUCKET_NAME="quizizz-assets"
+AWS_REGION="us-east-1"
 
 # Security
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY="your-recaptcha-site-key"
 RECAPTCHA_SECRET_KEY="your-recaptcha-secret-key"
-
-# Rate Limiting (Vercel KV - optional)
-KV_REST_API_URL="your-kv-url"
-KV_REST_API_TOKEN="your-kv-token"
 
 # Analytics (Vercel)
 NEXT_PUBLIC_VERCEL_ANALYTICS_ID="your-analytics-id"
@@ -675,31 +651,31 @@ export const queryClient = new QueryClient({
   },
 });
 
-// hooks/use-courses.ts - Custom hook example
-export function useCourses() {
+// hooks/use-quizzes.ts - Custom hook example
+export function useQuizzes() {
   return useQuery({
-    queryKey: ['courses'],
+    queryKey: ['quizzes'],
     queryFn: async () => {
-      const res = await fetch('/api/v1/courses');
-      if (!res.ok) throw new Error('Failed to fetch courses');
+      const res = await fetch('/api/v1/quizzes');
+      if (!res.ok) throw new Error('Failed to fetch quizzes');
       return res.json();
     },
   });
 }
 
-export function useCreateCourse() {
+export function useCreateQuiz() {
   return useMutation({
-    mutationFn: async (data: CreateCourseInput) => {
-      const res = await fetch('/api/v1/courses', {
+    mutationFn: async (data: CreateQuizInput) => {
+      const res = await fetch('/api/v1/quizzes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (!res.ok) throw new Error('Failed to create course');
+      if (!res.ok) throw new Error('Failed to create quiz');
       return res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['courses'] });
+      queryClient.invalidateQueries({ queryKey: ['quizzes'] });
     },
   });
 }
@@ -708,56 +684,55 @@ export function useCreateCourse() {
 #### 5.1.3 Form Validation Pattern
 
 ```typescript
-// lib/validators/course.ts
+// lib/validators/quiz.ts
 import { z } from 'zod';
 
-export const createCourseSchema = z.object({
-  name: z.string().min(3, 'Nama course minimal 3 karakter'),
-  description: z.string().max(500, 'Deskripsi maksimal 500 karakter').optional(),
-  type: z.enum(['public', 'private']),
-  accessCode: z.string().length(6, 'Access code harus 6 karakter').optional(),
+export const createQuizSchema = z.object({
+  title: z.string().min(3, 'Quiz title must be at least 3 characters'),
+  description: z.string().max(500, 'Description max 500 characters').optional(),
+  isPublic: z.boolean().default(true),
 });
 
-export type CreateCourseInput = z.infer<typeof createCourseSchema>;
+export type CreateQuizInput = z.infer<typeof createQuizSchema>;
 
-// components/forms/course-form.tsx
+// components/forms/quiz-form.tsx
 'use client';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createCourseSchema, type CreateCourseInput } from '@/lib/validators/course';
-import { useCreateCourse } from '@/hooks/use-courses';
+import { createQuizSchema, type CreateQuizInput } from '@/lib/validators/quiz';
+import { useCreateQuiz } from '@/hooks/use-quizzes';
 import { FormField, FormLabel, FormControl, FormMessage } from '@/components/forms';
 import { Button, Input } from '@/components/ui';
 
-export function CourseForm() {
-  const createCourse = useCreateCourse();
-  
-  const form = useForm<CreateCourseInput>({
-    resolver: zodResolver(createCourseSchema),
+export function QuizForm() {
+  const createQuiz = useCreateQuiz();
+
+  const form = useForm<CreateQuizInput>({
+    resolver: zodResolver(createQuizSchema),
     defaultValues: {
-      name: '',
+      title: '',
       description: '',
-      type: 'public',
+      isPublic: true,
     },
   });
 
-  const onSubmit = (data: CreateCourseInput) => {
-    createCourse.mutate(data);
+  const onSubmit = (data: CreateQuizInput) => {
+    createQuiz.mutate(data);
   };
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
-      <FormField name="name">
-        <FormLabel>Nama Course</FormLabel>
+      <FormField name="title">
+        <FormLabel>Quiz Title</FormLabel>
         <FormControl>
-          <Input {...form.register('name')} />
+          <Input {...form.register('title')} />
         </FormControl>
         <FormMessage />
       </FormField>
       {/* ... other fields */}
-      <Button type="submit" disabled={createCourse.isPending}>
-        Create Course
+      <Button type="submit" disabled={createQuiz.isPending}>
+        Create Quiz
       </Button>
     </form>
   );
@@ -769,10 +744,10 @@ export function CourseForm() {
 #### 5.2.1 API Route Pattern
 
 ```typescript
-// app/api/v1/courses/route.ts
+// app/api/v1/quizzes/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { courseService } from '@/services/course.service';
-import { createCourseSchema, updateCourseSchema } from '@/lib/validators/course';
+import { quizService } from '@/services/quiz.service';
+import { createQuizSchema, updateQuizSchema } from '@/lib/validators/quiz';
 import { validateRequest } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
@@ -782,10 +757,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const courses = await courseService.getCoursesByTeacher(user.id);
-    return NextResponse.json({ data: courses });
+    const quizzes = await quizService.getQuizzesByTeacher(user.id);
+    return NextResponse.json({ data: quizzes });
   } catch (error) {
-    console.error('GET /api/v1/courses error:', error);
+    console.error('GET /api/v1/quizzes error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -801,10 +776,10 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const validatedData = createCourseSchema.parse(body);
+    const validatedData = createQuizSchema.parse(body);
 
-    const course = await courseService.createCourse(user.id, validatedData);
-    return NextResponse.json({ data: course }, { status: 201 });
+    const quiz = await quizService.createQuiz(user.id, validatedData);
+    return NextResponse.json({ data: quiz }, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -823,78 +798,56 @@ export async function POST(request: NextRequest) {
 #### 5.2.2 Service Layer Pattern
 
 ```typescript
-// services/course.service.ts
+// services/quiz.service.ts
 import { prisma } from '@/lib/prisma';
-import { courseRepository } from '@/repositories/course.repository';
-import type { CreateCourseInput, UpdateCourseInput } from '@/lib/validators/course';
+import { quizRepository } from '@/repositories/quiz.repository';
+import type { CreateQuizInput, UpdateQuizInput } from '@/lib/validators/quiz';
 
-export const courseService = {
-  async getCoursesByTeacher(teacherId: string) {
-    return courseRepository.findByTeacherId(teacherId);
+export const quizService = {
+  async getQuizzesByTeacher(teacherId: string) {
+    return quizRepository.findByTeacherId(teacherId);
   },
 
-  async getCourseById(courseId: string, userId: string) {
-    const course = await courseRepository.findById(courseId);
-    if (!course) {
-      throw new Error('Course not found');
+  async getQuizById(quizId: string, userId: string) {
+    const quiz = await quizRepository.findById(quizId);
+    if (!quiz) {
+      throw new Error('Quiz not found');
     }
-    
+
     // Check ownership or enrollment
-    if (course.teacherId !== userId) {
-      const enrollment = await courseRepository.getEnrollment(courseId, userId);
+    if (quiz.teacherId !== userId) {
+      const enrollment = await quizRepository.getEnrollment(quizId, userId);
       if (!enrollment) {
         throw new Error('Access denied');
       }
     }
-    
-    return course;
+
+    return quiz;
   },
 
-  async createCourse(teacherId: string, data: CreateCourseInput) {
-    // Generate access code for private courses
-    if (data.type === 'private' && !data.accessCode) {
-      data.accessCode = await this.generateAccessCode();
-    }
-
-    return courseRepository.create({
+  async createQuiz(teacherId: string, data: CreateQuizInput) {
+    return quizRepository.create({
       ...data,
       teacherId,
     });
   },
 
-  async updateCourse(courseId: string, userId: string, data: UpdateCourseInput) {
-    const course = await this.getCourseById(courseId, userId);
-    if (course.teacherId !== userId) {
-      throw new Error('Only course owner can update');
+  async updateQuiz(quizId: string, userId: string, data: UpdateQuizInput) {
+    const quiz = await this.getQuizById(quizId, userId);
+    if (quiz.teacherId !== userId) {
+      throw new Error('Only quiz owner can update');
     }
 
-    return courseRepository.update(courseId, data);
+    return quizRepository.update(quizId, data);
   },
 
-  async deleteCourse(courseId: string, userId: string) {
-    const course = await this.getCourseById(courseId, userId);
-    if (course.teacherId !== userId) {
-      throw new Error('Only course owner can delete');
+  async deleteQuiz(quizId: string, userId: string) {
+    const quiz = await this.getQuizById(quizId, userId);
+    if (quiz.teacherId !== userId) {
+      throw new Error('Only quiz owner can delete');
     }
 
-    // Soft delete
-    return courseRepository.softDelete(courseId);
-  },
-
-  async generateAccessCode(): Promise<string> {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // No I, O, 0, 1
-    let code = '';
-    for (let i = 0; i < 6; i++) {
-      code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    
-    // Check uniqueness
-    const exists = await courseRepository.findByAccessCode(code);
-    if (exists) {
-      return this.generateAccessCode();
-    }
-    
-    return code;
+    return quizRepository.delete(quizId);
   },
 };
 ```
@@ -902,96 +855,68 @@ export const courseService = {
 #### 5.2.3 Repository Pattern
 
 ```typescript
-// repositories/course.repository.ts
+// repositories/quiz.repository.ts
 import { prisma } from '@/lib/prisma';
-import type { Course, CourseEnrollment } from '@prisma/client';
-import type { CreateCourseInput, UpdateCourseInput } from '@/lib/validators/course';
+import type { Quiz, StudentResponse } from '@prisma/client';
+import type { CreateQuizInput, UpdateQuizInput } from '@/lib/validators/quiz';
 
-export const courseRepository = {
+export const quizRepository = {
   async findById(id: string) {
-    return prisma.course.findUnique({
+    return prisma.quiz.findUnique({
       where: { id },
       include: {
         teacher: {
           select: { id: true, name: true, email: true },
         },
-        assessments: {
-          where: { status: 'published' },
-          orderBy: { createdAt: 'desc' },
+        questions: {
+          orderBy: { orderIndex: 'asc' },
         },
         _count: {
-          select: { enrollments: true },
+          select: { responses: true },
         },
       },
     });
   },
 
   async findByTeacherId(teacherId: string) {
-    return prisma.course.findMany({
+    return prisma.quiz.findMany({
       where: { teacherId },
       orderBy: { createdAt: 'desc' },
       include: {
         _count: {
           select: {
-            assessments: true,
-            enrollments: true,
+            questions: true,
+            responses: true,
           },
         },
       },
     });
   },
 
-  async findByAccessCode(accessCode: string) {
-    return prisma.course.findUnique({
-      where: { accessCode: accessCode.toUpperCase() },
-      where: { is_active: true },
-    });
-  },
-
-  async create(data: CreateCourseInput & { teacherId: string }) {
-    return prisma.course.create({
+  async create(data: CreateQuizInput & { teacherId: string }) {
+    return prisma.quiz.create({
       data,
     });
   },
 
-  async update(id: string, data: UpdateCourseInput) {
-    return prisma.course.update({
+  async update(id: string, data: UpdateQuizInput) {
+    return prisma.quiz.update({
       where: { id },
       data,
     });
   },
 
-  async softDelete(id: string) {
-    return prisma.course.update({
+  async delete(id: string) {
+    return prisma.quiz.delete({
       where: { id },
-      data: { isActive: false },
     });
   },
 
-  async getEnrollment(courseId: string, userId: string) {
-    return prisma.courseEnrollment.findUnique({
+  async getEnrollment(quizId: string, userId: string) {
+    return prisma.studentResponse.findFirst({
       where: {
-        courseId_userId: {
-          courseId,
-          userId,
-        },
-      },
-    });
-  },
-
-  async createEnrollment(courseId: string, userId: string) {
-    return prisma.courseEnrollment.upsert({
-      where: {
-        courseId_userId: {
-          courseId,
-          userId,
-        },
-      },
-      update: { status: 'active' },
-      create: {
-        courseId,
+        quizId,
         userId,
-        status: 'active',
       },
     });
   },
@@ -1002,63 +927,68 @@ export const courseRepository = {
 
 ## 6. DATA ARCHITECTURE
 
-### 6.1 Database Schema (High-Level ERD)
+### 6.1 Database Schema (ERD)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         HIGH-LEVEL ERD                                       │
+│                         DATABASE SCHEMA (ERD)                                │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
-│  ┌───────────────┐       ┌───────────────┐       ┌───────────────┐         │
-│  │    users      │       │    courses    │       │   assessments │         │
-│  ├───────────────┤       ├───────────────┤       ├───────────────┤         │
-│  │ id (UUID PK)  │       │ id (UUID PK)  │       │ id (UUID PK)  │         │
-│  │ name          │◀──────│ teacher_id(FK)│       │ course_id(FK) │         │
-│  │ email         │       │ name          │──────▶│ title         │         │
-│  │ password_hash │       │ description   │       │ description   │         │
-│  │ role          │       │ type          │       │ time_limit    │         │
-│  │ created_at    │       │ access_code   │       │ status        │         │
-│  └───────────────┘       │ is_active     │       │ created_at    │         │
-│         │                └───────────────┘       └───────────────┘         │
-│         │                       │                        │                 │
-│         │  ┌────────────────────┘                        │                 │
-│         │  │                                             │                 │
-│         ▼  ▼                                             ▼                 │
-│  ┌───────────────────┐                         ┌───────────────┐         │
-│  │course_enrollments │                         │   questions   │         │
-│  ├───────────────────┤                         ├───────────────┤         │
-│  │ id (UUID PK)      │                         │ id (UUID PK)  │         │
-│  │ course_id (FK)    │                         │ assessment_id │         │
-│  │ user_id (FK)      │                         │ question_type │         │
-│  │ enrolled_at       │                         │ question_text │         │
-│  │ status            │                         │ settings(JSON)│         │
-│  └───────────────────┘                         │ points        │         │
-│         │                                      │ sort_order    │         │
-│         │                                      └───────────────┘         │
-│         │                                             │                   │
-│         │                                             │                   │
-│         │                                             ▼                   │
-│         │                                      ┌───────────────┐         │
-│         │                                      │question_options│         │
-│         │                                      ├───────────────┤         │
-│         │                                      │ id (UUID PK)  │         │
-│         │                                      │ question_id   │         │
-│         │                                      │ option_text   │         │
-│         │                                      │ is_correct    │         │
-│         │                                      │ extra_data(JSON)│       │
-│         │                                      └───────────────┘         │
-│         │                                                                 │
-│  ┌───────────────────┐                         ┌───────────────┐         │
-│  │student_responses  │◀────────────────────────│response_details│         │
-│  ├───────────────────┤                         ├───────────────┤         │
-│  │ id (UUID PK)      │                         │ id (UUID PK)  │         │
-│  │ assessment_id(FK) │                         │ response_id   │         │
-│  │ user_id (FK)      │                         │ question_id   │         │
-│  │ started_at        │                         │ option_id     │         │
-│  │ submitted_at      │                         │ answer_text   │         │
-│  │ score             │                         │ is_correct    │         │
-│  │ status            │                         │ points_earned │         │
-│  └───────────────────┘                         └───────────────┘         │
+│  ┌───────────────┐                                                          │
+│  │    users      │                                                          │
+│  ├───────────────┤                                                          │
+│  │ id (UUID PK)  │◄────────────────────────────────┐                        │
+│  │ username      │                                 │                        │
+│  │ email         │                                 │                        │
+│  │ password      │                                 │                        │
+│  │ role          │                                 │                        │
+│  │ created_at    │                                 │                        │
+│  └───────┬───────┘                                 │                        │
+│          │                                         │                        │
+│          │ 1                                       │                        │
+│          │                                         │                        │
+│          │ N                                       │                        │
+│          ▼                                         │                        │
+│  ┌───────────────┐       ┌───────────────┐        │                        │
+│  │    quizzes    │       │   questions   │        │                        │
+│  ├───────────────┤       ├───────────────┤        │                        │
+│  │ id (UUID PK)  │──────▶│ id (UUID PK)  │        │                        │
+│  │ teacher_id(FK)│       │ quiz_id (FK)  │        │                        │
+│  │ title         │       │ question_type │        │                        │
+│  │ description   │       │ question_text │        │                        │
+│  │ is_public     │       │ media_url     │        │                        │
+│  │ created_at    │       │ settings(JSON)│        │                        │
+│  └───────────────┘       │ points        │        │                        │
+│                          │ order_index   │        │                        │
+│                          └───────┬───────┘        │                        │
+│                                  │                │                        │
+│                          ┌───────┴────────┐       │                        │
+│                          │                │       │                        │
+│                          ▼                ▼       │                        │
+│                   ┌──────────────┐  ┌─────────────┴──┐                    │
+│                   │question_     │  │response_       │                    │
+│                   │options       │  │details         │                    │
+│                   ├──────────────┤  ├────────────────┤                    │
+│                   │ id (UUID PK) │  │ id (UUID PK)   │                    │
+│                   │ question_id  │  │ response_id    │                    │
+│                   │ option       │  │ question_id    │                    │
+│                   │ sort_order   │  │ answer_given   │                    │
+│                   │ is_correct   │  │ is_correct     │                    │
+│                   └──────────────┘  └────────────────┘                    │
+│                          ▲                ▲                               │
+│                          │                │                               │
+│  ┌───────────────────────┘                │                               │
+│  │                                        │                               │
+│  │  ┌───────────────┐                     │                               │
+│  │  │student_       │─────────────────────┘                               │
+│  │  │responses      │                                                     │
+│  │  ├───────────────┤                                                     │
+│  │  │ id (UUID PK)  │                                                     │
+│  │  │ user_id (FK)  │─────────────────────────────────────────────────────┘
+│  │  │ quiz_id (FK)  │
+│  │  │ score         │
+│  │  │ completed_at  │
+│  │  └───────────────┘
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1077,222 +1007,159 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Enums
-enum UserRole {
-  teacher
-  student_guest
-}
-
-enum CourseType {
-  public
-  private
-}
-
-enum EnrollmentStatus {
-  active
-  removed
-  completed
-}
-
-enum AssessmentStatus {
-  draft
-  published
-  archived
-}
-
-enum QuestionType {
-  multiple_choice
-  essay
-  fill_blank
-  match
-  reorder
-}
-
-enum ResponseStatus {
-  in_progress
-  submitted
-  abandoned
-}
-
 // User Model
 model User {
-  id                String    @id @default(uuid())
-  name              String
-  email             String    @unique
-  passwordHash      String?
-  role              UserRole  @default(student_guest)
-  avatarUrl         String?
-  isEmailVerified   Boolean   @default(false)
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  id         String         @id @default(uuid())
+  username   String
+  email      String         @unique
+  password   String
+  role       String         // 'teacher', 'student'
+  createdAt  DateTime       @default(now())
 
   // Relations
-  courses           Course[]
-  enrollments       CourseEnrollment[]
-  responses         StudentResponse[]
-  gradedResponses   ResponseDetail[] @relation("GradedBy")
+  quizzes    Quiz[]
+  responses  StudentResponse[]
 
   @@index([email])
   @@index([role])
 }
 
-// Course Model
-model Course {
-  id            String      @id @default(uuid())
-  teacherId     String
-  name          String
-  description   String?
-  type          CourseType  @default(public)
-  accessCode    String?     @unique
-  coverImageUrl String?
-  isActive      Boolean     @default(true)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+// Quiz Model
+model Quiz {
+  id          String         @id @default(uuid())
+  teacherId   String
+  title       String
+  description String?
+  isPublic    Boolean        @default(true)
+  createdAt   DateTime       @default(now())
 
   // Relations
-  teacher       User              @relation(fields: [teacherId], references: [id])
-  enrollments   CourseEnrollment[]
-  assessments   Assessment[]
-
-  @@index([teacherId])
-  @@index([type])
-  @@index([accessCode])
-}
-
-// Course Enrollment Model
-model CourseEnrollment {
-  id          String           @id @default(uuid())
-  courseId    String
-  userId      String
-  enrolledAt  DateTime         @default(now())
-  status      EnrollmentStatus @default(active)
-
-  // Relations
-  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([courseId, userId])
-  @@index([courseId])
-  @@index([userId])
-}
-
-// Assessment Model
-model Assessment {
-  id              String           @id @default(uuid())
-  courseId        String
-  title           String
-  description     String?
-  timeLimit       Int?
-  openDate        DateTime?
-  closeDate       DateTime?
-  status          AssessmentStatus @default(draft)
-  shuffleQuestions Boolean         @default(false)
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-
-  // Relations
-  course    Course            @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  teacher   User              @relation(fields: [teacherId], references: [id])
   questions Question[]
   responses StudentResponse[]
 
-  @@index([courseId])
-  @@index([status])
+  @@index([teacherId])
+  @@index([isPublic])
 }
 
 // Question Model
 model Question {
-  id            String       @id @default(uuid())
-  assessmentId  String
-  questionType  QuestionType
-  questionText  String
-  settings      Json?
-  points        Int          @default(10)
-  sortOrder     Int
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  id           String     @id @default(uuid())
+  quizId       String
+  questionType String     // 'multiple_choice', 'match', 'reorder', 'drag_drop', 'hotspot'
+  questionText String
+  mediaUrl     String?
+  settings     Json?      // Metadata for additional settings (e.g., hotspot coordinates, timer duration)
+  points       Int        @default(10)
+  orderIndex   Int
 
   // Relations
-  assessment Assessment        @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
-  options    QuestionOption[]
-  details    ResponseDetail[]
+  quiz    Quiz             @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options QuestionOption[]
+  details ResponseDetail[]
 
-  @@index([assessmentId])
+  @@index([quizId])
   @@index([questionType])
 }
 
 // Question Option Model
 model QuestionOption {
-  id          String   @id @default(uuid())
-  questionId  String
-  optionText  String
-  isCorrect   Boolean  @default(false)
-  sortOrder   Int
-  extraData   Json?
-  createdAt   DateTime @default(now())
+  id        String     @id @default(uuid())
+  questionId String
+  option    String     // Universal column for option text or answer key
+  sortOrder Int?       // For 'Reorder' or option ordering
+  isCorrect Boolean    @default(false)
 
   // Relations
   question Question       @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  details  ResponseDetail[]
 
   @@index([questionId])
 }
 
 // Student Response Model
 model StudentResponse {
-  id              String       @id @default(uuid())
-  assessmentId    String
-  userId          String
-  startedAt       DateTime     @default(now())
-  submittedAt     DateTime?
-  score           Decimal?     @db.Decimal(5, 2)
-  maxScore        Int
-  status          ResponseStatus @default(in_progress)
-  timeSpentSeconds Int?
+  id          String     @id @default(uuid())
+  userId      String
+  quizId      String
+  score       Int?
+  completedAt DateTime   @default(now())
 
   // Relations
-  assessment Assessment     @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
-  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  details    ResponseDetail[]
+  user     User           @relation(fields: [userId], references: [id])
+  quiz     Quiz           @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  details  ResponseDetail[]
 
-  @@unique([assessmentId, userId])
-  @@index([assessmentId])
   @@index([userId])
-  @@index([status])
+  @@index([quizId])
 }
 
 // Response Detail Model
 model ResponseDetail {
-  id            String   @id @default(uuid())
-  responseId    String
-  questionId    String
-  optionId      String?
-  answerText    String?
-  answerOrder   Json?
-  isCorrect     Boolean?
-  pointsEarned  Decimal  @default(0) @db.Decimal(5, 2)
-  gradedBy      String?
-  gradedAt      DateTime?
-  createdAt     DateTime @default(now())
+  id          String     @id @default(uuid())
+  responseId  String
+  questionId  String
+  answerGiven String?    // Stores what student answered (text or option ID)
+  isCorrect   Boolean?
 
   // Relations
-  response  StudentResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
-  question  Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  option    QuestionOption? @relation(fields: [optionId], references: [id])
-  gradedBy  User?           @relation("GradedBy", fields: [gradedBy], references: [id])
+  response StudentResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  question Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@index([responseId])
   @@index([questionId])
 }
 ```
 
-### 6.3 Caching Strategy
+### 6.3 Question Type Settings Examples
+
+```typescript
+// Multiple Choice Settings
+{
+  "shuffle": true,
+  "multipleAnswers": false
+}
+
+// Match Settings
+{
+  "shuffleLeft": true,
+  "pairs": [
+    { "left": "Apple", "right": "Buah" },
+    { "left": "Carrot", "right": "Sayur" }
+  ]
+}
+
+// Reorder Settings
+{
+  "correctOrder": ["first", "second", "third", "fourth"]
+}
+
+// Drag & Drop (Categorize) Settings
+{
+  "categories": ["Fruit", "Vegetable", "Animal"],
+  "items": [
+    { "id": "1", "text": "Apple", "category": "Fruit" },
+    { "id": "2", "text": "Carrot", "category": "Vegetable" }
+  ]
+}
+
+// Hotspot Settings
+{
+  "imageUrl": "/images/hotspot-quiz.png",
+  "correctZones": [
+    { "x": 100, "y": 150, "radius": 50 },
+    { "x": 300, "y": 200, "radius": 40 }
+  ],
+  "tolerance": 10
+}
+```
+
+### 6.4 Caching Strategy
 
 | Data Type | Cache Location | TTL | Invalidation |
 |-----------|----------------|-----|--------------|
-| Course List | TanStack Query | 5 minutes | On course create/update/delete |
-| Assessment Detail | TanStack Query | 2 minutes | On assessment update |
-| Question List | TanStack Query | 5 minutes | On question create/update/delete |
-| User Session | Supabase Auth (JWT) | 1 hour | On logout |
+| Quiz List | TanStack Query | 5 minutes | On quiz create/update/delete |
+| Question Detail | TanStack Query | 2 minutes | On question update |
+| User Session | JWT Cookie | 24 hours | On logout |
 | Guest Session | LocalStorage + DB | Session | On quiz submit |
 
 ---
@@ -1308,7 +1175,6 @@ model ResponseDetail {
 │                                                              │
 │  ┌─────────────────┐                                        │
 │  │  Google OAuth   │                                        │
-│  │  (Supabase)     │                                        │
 │  │                 │                                        │
 │  │  • Teacher Auth │                                        │
 │  │  • JWT Tokens   │                                        │
@@ -1316,16 +1182,15 @@ model ResponseDetail {
 │           │                                                  │
 │           ▼                                                  │
 │  ┌─────────────────┐         ┌─────────────────┐            │
-│  │   Supabase      │         │   Resend        │            │
-│  │   Auth          │────────▶│   Email         │            │
-│  │                 │         │                 │            │
-│  │  • Email/Pass   │         │  • Verification │            │
-│  │  • Google OAuth │         │  • Password Reset│           │
+│  │   Application   │         │   SMTP Server   │            │
+│  │   (Next.js)     │────────▶│                 │            │
+│  │                 │         │  • Verification │            │
+│  │  • Auth         │         │  • Password Reset│           │
 │  └────────┬────────┘         └─────────────────┘            │
 │           │                                                  │
 │           ▼                                                  │
 │  ┌─────────────────┐         ┌─────────────────┐            │
-│  │   Supabase      │         │   reCAPTCHA     │            │
+│  │   Object        │         │   reCAPTCHA     │            │
 │  │   Storage       │         │                 │            │
 │  │                 │         │  • Bot Protect  │            │
 │  │  • Avatars      │         │  • Rate Limit   │            │
@@ -1349,25 +1214,16 @@ Authentication:
   POST   /auth/reset-password    - Reset password
   GET    /auth/me                - Get current user
 
-Courses:
-  GET    /courses                - List courses (teacher)
-  POST   /courses                - Create course
-  GET    /courses/:id            - Get course detail
-  PUT    /courses/:id            - Update course
-  DELETE /courses/:id            - Delete course (soft)
-  GET    /courses/:id/students   - Get enrolled students
-  POST   /courses/:id/join       - Join course (guest)
-
-Assessments:
-  GET    /assessments            - List assessments
-  POST   /assessments            - Create assessment
-  GET    /assessments/:id        - Get assessment detail
-  PUT    /assessments/:id        - Update assessment
-  DELETE /assessments/:id        - Delete assessment
-  POST   /assessments/:id/publish - Publish assessment
+Quizzes:
+  GET    /quizzes                - List quizzes (teacher)
+  POST   /quizzes                - Create quiz
+  GET    /quizzes/:id            - Get quiz detail
+  PUT    /quizzes/:id            - Update quiz
+  DELETE /quizzes/:id            - Delete quiz
+  GET    /quizzes/:id/join       - Join quiz (guest with access code)
 
 Questions:
-  GET    /questions              - List questions (by assessment)
+  GET    /questions              - List questions (by quiz)
   POST   /questions              - Create question
   GET    /questions/:id          - Get question detail
   PUT    /questions/:id          - Update question
@@ -1381,14 +1237,14 @@ Quiz (Guest):
   GET    /quiz/:id/result        - Get quiz result
 
 Reporting:
-  GET    /reports/assessments/:id - Get assessment report
-  GET    /reports/students/:id    - Get student report
-  POST   /reports/grade          - Grade essay (manual)
-  GET    /reports/export/:id      - Export scores (CSV)
+  GET    /reports/quizzes/:id    - Get quiz report
+  GET    /reports/students/:id   - Get student report
+  POST   /reports/grade          - Grade manually
+  GET    /reports/export/:id     - Export scores (CSV)
 
 Admin:
   GET    /admin/users            - List all users
-  GET    /admin/courses          - List all courses
+  GET    /admin/quizzes          - List all quizzes
   GET    /admin/analytics        - System analytics
 ```
 
@@ -1431,12 +1287,11 @@ Admin:
 │                        │                                    │
 │                        ▼                                    │
 │              ┌─────────────────────┐                        │
-│              │   Supabase Cloud    │                        │
+│              │   PostgreSQL        │                        │
+│              │   (Managed)         │                        │
 │              │                     │                        │
-│              │  • PostgreSQL       │                        │
-│              │  • Auth             │                        │
-│              │  • Storage          │                        │
-│              │  • Realtime         │                        │
+│              │  • Database         │                        │
+│              │  • Sessions         │                        │
 │              └─────────────────────┘                        │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
@@ -1446,9 +1301,9 @@ Admin:
 
 | Environment | URL | Purpose | Data |
 |-------------|-----|---------|------|
-| Development | localhost:3000 | Local development | Local Supabase |
-| Staging | staging-*.vercel.app | Testing, UAT | Supabase staging project |
-| Production | quizizz.yourdomain.com | Production | Supabase production project |
+| Development | localhost:3000 | Local development | Local PostgreSQL |
+| Staging | staging-*.vercel.app | Testing, UAT | Staging PostgreSQL |
+| Production | quizizz.yourdomain.com | Production | Production PostgreSQL |
 
 ---
 
@@ -1486,57 +1341,14 @@ Admin:
 
 | Aspect | Implementation |
 |--------|----------------|
-| **Password Hashing** | bcrypt (via Supabase Auth) |
+| **Password Hashing** | bcrypt (cost factor 10+) |
 | **Session Management** | JWT tokens, HTTP-only cookies |
 | **API Security** | Zod validation, rate limiting |
-| **Database Security** | Row Level Security (RLS) |
+| **Database Security** | Parameterized queries (Prisma) |
 | **XSS Prevention** | React escaping, CSP headers |
 | **CSRF Protection** | SameSite cookies, CSRF tokens |
 | **SQL Injection** | Prisma parameterized queries |
-| **Rate Limiting** | Vercel KV or custom middleware |
-
-### 9.3 Row Level Security (RLS) Policies
-
-```sql
--- Enable RLS
-ALTER TABLE courses ENABLE ROW LEVEL SECURITY;
-ALTER TABLE assessments ENABLE ROW LEVEL SECURITY;
-ALTER TABLE student_responses ENABLE ROW LEVEL SECURITY;
-
--- Courses: Teachers can see their own courses
-CREATE POLICY "Teachers can view own courses"
-  ON courses FOR SELECT
-  USING (auth.uid()::text = teacher_id);
-
--- Courses: Teachers can insert their own courses
-CREATE POLICY "Teachers can insert own courses"
-  ON courses FOR INSERT
-  WITH CHECK (auth.uid()::text = teacher_id);
-
--- Assessments: Visible if course is accessible
-CREATE POLICY "Assessments visible to enrolled"
-  ON assessments FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM courses
-      WHERE courses.id = assessments.course_id
-      AND (
-        courses.type = 'public'
-        OR courses.teacher_id = auth.uid()::text
-        OR EXISTS (
-          SELECT 1 FROM course_enrollments
-          WHERE course_enrollments.course_id = courses.id
-          AND course_enrollments.user_id = auth.uid()::text
-        )
-      )
-    )
-  );
-
--- Student Responses: Users can see their own responses
-CREATE POLICY "Users can view own responses"
-  ON student_responses FOR SELECT
-  USING (auth.uid()::text = user_id);
-```
+| **Rate Limiting** | Custom middleware or Vercel KV |
 
 ---
 
@@ -1559,54 +1371,48 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
-      - run: pnpm install
-      - run: pnpm lint
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
 
   typecheck:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
-      - run: pnpm install
-      - run: pnpm typecheck
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run typecheck
 
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
-      - run: pnpm install
-      - run: pnpm test
-      - run: pnpm test:e2e
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test
+      - run: npm run test:e2e
 
   build:
     runs-on: ubuntu-latest
     needs: [lint, typecheck, test]
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
-      - run: pnpm install
-      - run: pnpm db:generate
-      - run: pnpm build
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run db:generate
+      - run: npm run build
 
   deploy:
     runs-on: ubuntu-latest
@@ -1649,7 +1455,7 @@ jobs:
 |------|---------|---------|
 | **Vercel Analytics** | Performance, Web Vitals | LCP, FID, CLS |
 | **Vercel Logs** | Application logs | Errors, warnings |
-| **Supabase Logs** | Database logs | Queries, errors |
+| **Database Logs** | PostgreSQL logs | Queries, errors |
 | **Sentry** (optional) | Error tracking | Exceptions, breadcrumbs |
 
 ### 11.2 Key Metrics
@@ -1686,8 +1492,8 @@ jobs:
 
 ```typescript
 // Files & Folders
-- kebab-case for files: user-profile.tsx, course-form.tsx
-- PascalCase for components: UserProfile, CourseForm
+- kebab-case for files: user-profile.tsx, quiz-form.tsx
+- PascalCase for components: UserProfile, QuizForm
 - camelCase for utilities: formatDate.ts, cn.ts
 
 // Variables & Functions
@@ -1697,11 +1503,11 @@ jobs:
 
 // API Routes
 - /api/v1/{resource}/{action}/{id}
-- GET /api/v1/courses - List courses
-- POST /api/v1/courses - Create course
-- GET /api/v1/courses/:id - Get course
-- PUT /api/v1/courses/:id - Update course
-- DELETE /api/v1/courses/:id - Delete course
+- GET /api/v1/quizzes - List quizzes
+- POST /api/v1/quizzes - Create quiz
+- GET /api/v1/quizzes/:id - Get quiz
+- PUT /api/v1/quizzes/:id - Update quiz
+- DELETE /api/v1/quizzes/:id - Delete quiz
 ```
 
 ### 12.3 Code Review Checklist
@@ -1722,12 +1528,13 @@ jobs:
 | Decision | Date | Rationale | Alternatives Considered |
 |----------|------|-----------|------------------------|
 | Next.js 15 App Router | Feb 2026 | Server Components, better performance | Pages Router, Remix |
-| Supabase | Feb 2026 | All-in-one: DB, Auth, Storage | Firebase, Self-hosted PostgreSQL |
+| PostgreSQL | Feb 2026 | Reliable, mature, JSON support | MySQL, MongoDB |
 | Prisma ORM | Feb 2026 | Type safety, excellent DX | Drizzle, raw SQL |
 | TanStack Query | Feb 2026 | Server state management, caching | SWR, Redux |
 | Shadcn/ui | Feb 2026 | Customizable, accessible, copy-paste | Material UI, Chakra UI |
 | Zod | Feb 2026 | Type inference, client+server validation | Yup, Joi |
 | Vercel Hosting | Feb 2026 | Next.js optimized, edge network | AWS, GCP, Railway |
+| npm Package Manager | Feb 2026 | Standard, widely adopted | pnpm, yarn |
 
 ---
 
@@ -1735,7 +1542,7 @@ jobs:
 
 | Risk | Probability | Impact | Mitigation |
 |------|-------------|--------|------------|
-| Supabase downtime | Low | High | Backup exports, migration plan |
+| Database downtime | Low | High | Backup exports, migration plan |
 | Vercel rate limits | Medium | Medium | Caching strategy, edge functions |
 | Database performance | Medium | High | Indexes, query optimization |
 | Security vulnerabilities | Medium | Critical | Regular audits, Dependabot |
@@ -1754,19 +1561,19 @@ git clone https://github.com/your-org/quizizz-clone.git
 cd quizizz-clone
 
 # 2. Install dependencies
-pnpm install
+npm install
 
 # 3. Setup environment variables
 cp .env.example .env.local
-# Edit .env.local with your Supabase credentials
+# Edit .env.local with your database credentials
 
 # 4. Setup database
-pnpm db:generate
-pnpm db:push
-pnpm db:seed
+npm run db:generate
+npm run db:push
+npm run db:seed
 
 # 5. Run development server
-pnpm dev
+npm run dev
 
 # 6. Open browser
 # http://localhost:3000
@@ -1782,15 +1589,15 @@ pnpm dev
 | CI/CD | Continuous Integration/Continuous Deployment |
 | DX | Developer Experience |
 | E2E | End-to-End |
+| ERD | Entity Relationship Diagram |
 | JWT | JSON Web Token |
 | ORM | Object-Relational Mapping |
-| RLS | Row Level Security |
 | RSC | React Server Components |
 | SSR | Server-Side Rendering |
 | UUID | Universally Unique Identifier |
 
 ---
 
-*Dokumen ini adalah bagian dari Project Documentation Quizizz Clone (Lite Version)*  
-*Lokasi: `/docs/project/03-implementation-and-architecture.md`*  
+*This document is part of the Quizizz Clone (Lite Version) Project Documentation*
+*Location: `/docs/project/03-implementation-and-architecture.md`*
 *LearnWeb LMS Project © 2026*
