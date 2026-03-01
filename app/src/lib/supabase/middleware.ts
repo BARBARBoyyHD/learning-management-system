@@ -12,13 +12,13 @@
  * @example
  * ```typescript
  * // middleware.ts
- * import { createServerClient } from '@supabase/ssr'
+ * import { getSupabaseMiddlewareClient } from '@/lib/supabase/middleware'
  * import { NextResponse } from 'next/server'
  * import type { NextRequest } from 'next/server'
  *
  * export async function middleware(request: NextRequest) {
  *   const response = NextResponse.next()
- *   const supabase = createServerClient(request, response)
+ *   const supabase = getSupabaseMiddlewareClient(request, response)
  *   await supabase.auth.getSession()
  *   return response
  * }
@@ -37,7 +37,7 @@ import { NextResponse } from 'next/server'
  * @param response - Next.js response object
  * @returns Supabase client instance
  */
-export function createSupabaseMiddlewareClient(
+export function getSupabaseMiddlewareClient(
   request: NextRequest,
   response: NextResponse
 ) {
@@ -57,7 +57,10 @@ export function createSupabaseMiddlewareClient(
         return request.cookies.getAll()
       },
       setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => response.cookies.set(name, value))
+        cookiesToSet.forEach(({ name, value }) => {
+          request.cookies.set(name, value)
+          response.cookies.set(name, value)
+        })
       },
     },
   })

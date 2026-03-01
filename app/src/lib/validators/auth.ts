@@ -1,15 +1,51 @@
-import { z } from 'zod';
+/**
+ * Authentication Validation Schemas
+ *
+ * Zod schemas for validating authentication-related forms and inputs.
+ * Used for both client-side and server-side validation.
+ */
+
+import { z } from 'zod'
 
 /**
- * Registration schema for teacher sign-up
- * - email: valid email format
- * - password: minimum 8 characters
- * - name: minimum 2 characters
+ * Login form validation schema
+ * - Email must be valid format
+ * - Password must be at least 8 characters
+ */
+export const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, 'Email is required')
+    .email('Please enter a valid email address'),
+  password: z
+    .string()
+    .min(1, 'Password is required')
+    .min(8, 'Password must be at least 8 characters'),
+})
+
+/**
+ * Registration form validation schema
+ * - Email must be valid format
+ * - Password must be at least 8 characters
+ * - Name must be at least 2 characters
  */
 export const registerSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-});
+  name: z
+    .string()
+    .min(1, 'Name is required')
+    .min(2, 'Name must be at least 2 characters'),
+  email: z
+    .string()
+    .min(1, 'Email is required')
+    .email('Please enter a valid email address'),
+  password: z
+    .string()
+    .min(1, 'Password is required')
+    .min(8, 'Password must be at least 8 characters'),
+})
 
-export type RegisterInput = z.infer<typeof registerSchema>;
+/**
+ * Type inferences for TypeScript
+ */
+export type LoginInput = z.infer<typeof loginSchema>
+export type RegisterInput = z.infer<typeof registerSchema>

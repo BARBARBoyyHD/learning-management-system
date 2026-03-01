@@ -6,19 +6,19 @@
  * @example
  * ```typescript
  * // Server Component or Server Action
- * import { createServerClient } from '@/lib/supabase'
+ * import { getSupabaseServerClient } from '@/lib/supabase'
  *
  * // Client Component
- * import { createBrowserClient } from '@/lib/supabase'
+ * import { getSupabaseBrowserClient } from '@/lib/supabase'
  *
  * // Middleware
- * import { createMiddlewareClient } from '@/lib/supabase'
+ * import { getSupabaseMiddlewareClient } from '@/lib/supabase'
  * ```
  */
 
-export { createClient as createBrowserClient } from './client'
-export { createClient as createServerClient } from './server'
-export { createSupabaseMiddlewareClient as createMiddlewareClient } from './middleware'
+export { getSupabaseBrowserClient } from './client'
+export { getSupabaseServerClient } from './server'
+export { getSupabaseMiddlewareClient } from './middleware'
 
 // Re-export Supabase types for convenience
 export type { User, Session, AuthError } from '@supabase/supabase-js'
