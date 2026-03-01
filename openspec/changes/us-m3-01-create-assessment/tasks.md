@@ -66,38 +66,39 @@ For MVP quiz creation, the existing schema is sufficient. Add `settings` JSON fi
 - [x] 5.11 Add loading state during submission
 - [x] 5.12 Apply design system tokens
 
-## 6. Course Detail Integration
+## 6. Dashboard Integration
 
-- [ ] 6.1 Add "Create Assessment" button to course detail page
-- [ ] 6.2 Position button prominently (near course header)
-- [ ] 6.3 Link to `/courses/:courseId/assessments/new`
-- [ ] 6.4 Create assessment list section
-- [ ] 6.5 Display assessment cards with title, description, status
-- [ ] 6.6 Add "Draft" badge for draft assessments
-- [ ] 6.7 Handle empty state (no assessments yet)
-- [ ] 6.8 Add "View/Edit" links for each assessment
-- [ ] 6.9 Test integration
+- [ ] 6.1 Add "Create Quiz" button to teacher dashboard page
+- [ ] 6.2 Position button prominently (near dashboard header)
+- [ ] 6.3 Link to `/quizzes/new`
+- [ ] 6.4 Create quiz list section on dashboard
+- [ ] 6.5 Display quiz cards with title, description, status (isPublic)
+- [ ] 6.6 Add "Draft" badge for private quizzes (isPublic = false)
+- [ ] 6.7 Handle empty state (no quizzes yet)
+- [ ] 6.8 Add "Edit/View" links for each quiz
+- [ ] 6.9 Show success message when quiz created (?created=<id>)
+- [ ] 6.10 Test integration
 
-## 7. Assessment List Component
+## 7. Quiz List Component
 
-- [ ] 7.1 Create `src/components/assessments/assessment-list.tsx`
-- [ ] 7.2 Accept assessments array as prop
-- [ ] 7.3 Display grid of assessment cards
-- [ ] 7.4 Show title, description preview, status
+- [ ] 7.1 Create `src/components/quizzes/quiz-list.tsx`
+- [ ] 7.2 Accept quizzes array as prop
+- [ ] 7.3 Display grid of quiz cards
+- [ ] 7.4 Show title, description preview, status (isPublic)
 - [ ] 7.5 Add draft/published badge
-- [ ] 7.6 Add "Edit" button for each assessment
-- [ ] 7.7 Add "View" button for published assessments
+- [ ] 7.6 Add "Edit" button for each quiz
+- [ ] 7.7 Add "View" button for published quizzes
 - [ ] 7.8 Responsive layout (mobile/desktop)
 - [ ] 7.9 Test component rendering
 
-## 8. Assessment Card Component
+## 8. Quiz Card Component
 
-- [ ] 8.1 Create `src/components/assessments/assessment-card.tsx`
-- [ ] 8.2 Display assessment title
+- [ ] 8.1 Create `src/components/quizzes/quiz-card.tsx`
+- [ ] 8.2 Display quiz title
 - [ ] 8.3 Show description preview (truncated)
 - [ ] 8.4 Show status badge (draft/published)
 - [ ] 8.5 Show question count (if available)
-- [ ] 8.6 Show time limit (if set)
+- [ ] 8.6 Show access code (for private quizzes)
 - [ ] 8.7 Add hover effects
 - [ ] 8.8 Apply design system tokens
 - [ ] 8.9 Test component
@@ -231,8 +232,8 @@ For MVP quiz creation, the existing schema is sufficient. Add `settings` JSON fi
 ## Implementation Notes
 
 **BRD Reference:**
-- FR-M3-01: Assessment Creation
-- US-M3-01: As a Teacher, I want to create an assessment in a course so that I can evaluate students
+- FR-M3-01: Quiz Creation
+- US-M3-01: As a Teacher, I want to create a quiz so that I can evaluate students
 
 **Acceptance Criteria:**
 - Given I am a teacher
@@ -242,38 +243,34 @@ For MVP quiz creation, the existing schema is sufficient. Add `settings` JSON fi
 **Estimated Effort:** 1 sprint (2-3 days)
 
 **Dependencies:**
-- Course module (M2) - for course context and permissions
 - Authentication (M1) - for teacher verification
 - Prisma ORM - for database operations
+- Quiz model exists (no course dependency)
 
 **Success Criteria:**
-- ✅ Teacher can create assessment from course detail
-- ✅ Assessment form validates input correctly
-- ✅ Assessment is created with draft status
-- ✅ Only course owner can create assessments
-- ✅ Assessment appears in course assessment list
+- ✅ Teacher can create quiz from dashboard
+- ✅ Quiz form validates input correctly
+- ✅ Quiz is created with draft status (isPublic = false)
+- ✅ Only quiz owner can edit/delete their quizzes
+- ✅ Quiz appears in teacher's quiz list
 - ✅ All tests pass (unit, integration, E2E)
 
 **Database Schema:**
 ```prisma
-model Assessment {
+model Quiz {
   id          String   @id @default(uuid())
-  courseId    String
   teacherId   String
   title       String   @db.VarChar(200)
-  description String?  @db.VarChar(2000)
-  status      String   @default("draft") // draft, published, archived
-  settings    Json     @default("{}")
+  description String?  @db.Text
+  isPublic    Boolean  @default(false)
+  accessCode  String?  @unique @db.Char(6)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
   
-  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  teacher     User     @relation(fields: [teacherId], references: [id])
-  questions   Question[]
+  teacher   User      @relation(fields: [teacherId], references: [id])
+  questions Question[]
   
-  @@index([courseId])
   @@index([teacherId])
-  @@map("assessments")
+  @@map("quizzes")
 }
 ```
 
