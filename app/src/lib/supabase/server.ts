@@ -4,9 +4,13 @@
  * Server-side Supabase client for use in Server Components and Server Actions.
  * Uses createServerClient from @supabase/ssr for proper HTTP-only cookie handling.
  *
+ * Note: In Next.js 16, cookies can only be modified in Server Actions or Route Handlers.
+ * For Server Components, this client only reads cookies (getSession, getUser).
+ * For session modification (signIn, signUp, signOut), use Server Actions.
+ *
  * @example
  * ```typescript
- * // In a Server Component or Server Action
+ * // In a Server Component (read-only)
  * import { createClient } from '@/lib/supabase/server'
  *
  * const supabase = await createClient()
@@ -47,12 +51,20 @@ export async function createClient() {
 
       /**
        * Set multiple cookies
-       * Supabase will set cookies for session management
+       * Note: In Next.js 16+, this only works in Server Actions and Route Handlers
+       * For Server Components, cookie modifications are ignored
        */
       setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value, options }) => {
-          cookieStore.set(name, value, options)
-        })
+        try {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, options)
+          })
+        } catch (error) {
+          // In Server Components, cookie modification throws
+          // This is expected - session refresh happens in Server Actions
+          // Silently ignore to prevent crashes in read-only operations
+          console.debug('Cookie modification not allowed in this context:', error)
+        }
       },
     },
   })
