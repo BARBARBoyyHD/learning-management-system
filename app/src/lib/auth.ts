@@ -18,7 +18,7 @@
  * ```
  */
 
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import type { Session, User } from '@supabase/supabase-js'
 
@@ -66,7 +66,7 @@ export interface OptionalAuthResult {
  * ```
  */
 export async function requireAuth(_request: NextRequest): Promise<AuthResult> {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await createClient()
   const { data: { session } } = await supabase.auth.getSession()
 
   if (!session) {
@@ -105,7 +105,7 @@ export async function requireAuth(_request: NextRequest): Promise<AuthResult> {
 export async function getOptionalAuth(
   _request: NextRequest
 ): Promise<OptionalAuthResult> {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await createClient()
   const { data: { session } } = await supabase.auth.getSession()
 
   return {
@@ -138,7 +138,7 @@ export async function requireUser(request: NextRequest): Promise<User> {
  * @returns true if authenticated, false otherwise
  */
 export async function isAuthenticated(_request: NextRequest): Promise<boolean> {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await createClient()
   const { data: { session } } = await supabase.auth.getSession()
   return !!session
 }

@@ -7,7 +7,7 @@
 
 'use server'
 
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { loginSchema } from '@/lib/validators/auth'
 import { redirect } from 'next/navigation'
 
@@ -53,7 +53,7 @@ export async function login(formData: FormData): Promise<LoginResult> {
     }
 
     // Create Supabase client
-    const supabase = await getSupabaseServerClient()
+    const supabase = await createClient()
 
     // Attempt sign in with Supabase
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -63,14 +63,6 @@ export async function login(formData: FormData): Promise<LoginResult> {
 
     // Handle Supabase auth errors
     if (error) {
-      // Check for specific error types
-      if (error.message.includes('Email not confirmed')) {
-        return {
-          success: false,
-          error: 'Please verify your email before logging in',
-        }
-      }
-
       // Generic error message for invalid credentials
       // (Security best practice: don't reveal if email exists)
       return {

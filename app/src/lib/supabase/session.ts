@@ -20,7 +20,7 @@
  * ```
  */
 
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import type { Session, User } from '@supabase/supabase-js'
 
@@ -38,7 +38,7 @@ import type { Session, User } from '@supabase/supabase-js'
  * ```
  */
 export async function getSession(): Promise<Session | null> {
-  const supabase = await getSupabaseServerClient()
+  const supabase = await createClient()
   const { data: { session } } = await supabase.auth.getSession()
   return session
 }

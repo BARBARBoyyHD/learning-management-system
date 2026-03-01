@@ -24,7 +24,7 @@
 'use client'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { getSupabaseBrowserClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/client'
 import type { User, Session } from '@supabase/supabase-js'
 
 /**
@@ -65,7 +65,7 @@ export const AUTH_QUERY_KEY = ['auth', 'session'] as const
  * @returns Auth state and actions
  */
 export function useAuth(): UseAuthReturn {
-  const supabase = getSupabaseBrowserClient()
+  const supabase = createClient()
   const queryClient = useQueryClient()
 
   // Query for fetching session
