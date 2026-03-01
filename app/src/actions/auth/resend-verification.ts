@@ -7,7 +7,7 @@
 
 'use server'
 
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 
 /**
@@ -47,7 +47,7 @@ export async function resendVerificationEmail(
     }
 
     // Create Supabase client
-    const supabase = await getSupabaseServerClient()
+    const supabase = await createClient()
 
     // Attempt to resend verification email
     // Note: Supabase doesn't have a direct "resend verification" method in the server SDK

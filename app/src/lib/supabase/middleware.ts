@@ -37,7 +37,7 @@ import { NextResponse } from 'next/server'
  * @param response - Next.js response object
  * @returns Supabase client instance
  */
-export function getSupabaseMiddlewareClient(
+export function createSupabaseMiddlewareClient(
   request: NextRequest,
   response: NextResponse
 ) {

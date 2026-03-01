@@ -12,11 +12,11 @@
 
 import { LoginForm } from '@/components/auth/login-form'
 import { redirect } from 'next/navigation'
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 
 export default async function LoginPage() {
   // Check if user is already logged in
-  const supabase = await getSupabaseServerClient()
+  const supabase = await createClient()
   const { data: { session } } = await supabase.auth.getSession()
 
   // Redirect to dashboard if already authenticated
@@ -25,19 +25,21 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      {/* Logo/Branding - Optional */}
-      {/* <div className="mb-8">
-        <Logo className="h-12 w-12" />
-      </div> */}
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="flex flex-col items-center">
+        {/* Logo/Branding - Optional */}
+        {/* <div className="mb-8">
+          <Logo className="h-12 w-12" />
+        </div> */}
 
-      {/* Login Form */}
-      <LoginForm />
+        {/* Login Form */}
+        <LoginForm />
 
-      {/* Footer text */}
-      <p className="mt-8 text-center text-sm text-neutral-500">
-        Protected by Supabase Auth
-      </p>
+        {/* Footer text */}
+        <p className="mt-8 text-center text-sm text-neutral-500">
+          Protected by Supabase Auth
+        </p>
+      </div>
     </div>
   )
 }

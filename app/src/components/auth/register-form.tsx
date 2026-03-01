@@ -7,7 +7,6 @@ import { register as registerAction } from '@/actions/auth/register';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
@@ -52,92 +51,120 @@ export function RegisterForm() {
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
-        <CardDescription>
-          Enter your details to register as a teacher
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Name field */}
-          <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
-            <Input
-              id="name"
-              type="text"
-              placeholder="John Doe"
-              disabled={isSubmitting}
-              {...register('name')}
-            />
-            {errors.name && (
-              <p className="text-sm text-red-500">{errors.name.message}</p>
-            )}
-          </div>
+    <div className="w-full max-w-md">
+      <div className="rounded-2xl bg-neutral-900 p-8 shadow-2xl">
+        {/* Header */}
+        <div className="mb-8 text-center">
+          <h1 className="text-2xl font-semibold text-white">
+            Create an account
+          </h1>
+          <p className="mt-2 text-sm text-neutral-400">
+            Enter your details to register as a teacher
+          </p>
+        </div>
 
-          {/* Email field */}
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="teacher@example.com"
-              disabled={isSubmitting}
-              {...register('email')}
-            />
-            {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
-            )}
-          </div>
-
-          {/* Password field */}
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              disabled={isSubmitting}
-              {...register('password')}
-            />
-            {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
-            )}
-          </div>
-
-          {/* Server error display */}
+        {/* Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Server Error */}
           {error && (
-            <div className="rounded-md bg-red-50 p-3 text-sm text-red-500 border border-red-200">
+            <div className="rounded-md bg-error-base/10 p-3 text-sm text-error-light border border-error-base/20">
               {error}
             </div>
           )}
 
-          {/* Submit button */}
+          {/* Name Field */}
+          <div className="space-y-2">
+            <Label htmlFor="name" className="text-neutral-200">
+              Name
+            </Label>
+            <Input
+              id="name"
+              type="text"
+              placeholder="John Doe"
+              className="border-neutral-700 bg-neutral-800 text-white placeholder:text-neutral-500 focus:border-primary-base focus:ring-primary-base"
+              disabled={isSubmitting}
+              {...register('name')}
+              autoComplete="name"
+            />
+            {errors.name && (
+              <p className="text-sm text-error-light" role="alert">
+                {errors.name.message}
+              </p>
+            )}
+          </div>
+
+          {/* Email Field */}
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-neutral-200">
+              Email
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="teacher@example.com"
+              className="border-neutral-700 bg-neutral-800 text-white placeholder:text-neutral-500 focus:border-primary-base focus:ring-primary-base"
+              disabled={isSubmitting}
+              {...register('email')}
+              autoComplete="email"
+            />
+            {errors.email && (
+              <p className="text-sm text-error-light" role="alert">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+
+          {/* Password Field */}
+          <div className="space-y-2">
+            <Label htmlFor="password" className="text-neutral-200">
+              Password
+            </Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              className="border-neutral-700 bg-neutral-800 text-white placeholder:text-neutral-500 focus:border-primary-base focus:ring-primary-base"
+              disabled={isSubmitting}
+              {...register('password')}
+              autoComplete="new-password"
+            />
+            {errors.password && (
+              <p className="text-sm text-error-light" role="alert">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+
+          {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full"
+            className="w-full h-11 text-base font-medium bg-primary-base hover:bg-primary-hover active:bg-primary-active shadow-lg shadow-primary/20"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin" />
                 Creating account...
               </>
             ) : (
               'Create account'
             )}
           </Button>
-        </form>
 
-        {/* Login link */}
-        <div className="mt-4 text-center text-sm">
-          <span className="text-gray-600">Already have an account? </span>
-          <a href="/login" className="text-primary-base hover:underline font-medium">
-            Sign in
-          </a>
-        </div>
-      </CardContent>
-    </Card>
+          {/* Login Link */}
+          <div className="text-center pt-2">
+            <p className="text-sm text-neutral-400">
+              Already have an account?{' '}
+              <a
+                href="/login"
+                className="text-primary-base hover:text-primary-light font-medium transition-colors"
+              >
+                Sign in
+              </a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
