@@ -1,15 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Enable React Compiler for automatic memoization
-  reactCompiler: true,
-  
+  // Disable React Compiler temporarily - compatibility issues with React 19
+  // reactCompiler: true,
+
   // Turbopack configuration (Next.js 16 default)
   experimental: {
     // Optimize server components
     optimizePackageImports: ['lucide-react', '@tanstack/react-query'],
   },
-  
+
   // Configure headers for security
   async headers() {
     return [

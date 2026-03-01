@@ -1,12 +1,12 @@
 /**
  * Setup Test API Endpoint
- * 
+ *
  * Returns JSON status of Prisma and Supabase configuration
  * Access at: /api/test-setup
  */
 
 import { NextResponse } from 'next/server'
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -38,7 +38,7 @@ export async function GET() {
     await prisma.$disconnect()
 
     // Test Supabase
-    const supabase = await getSupabaseServerClient()
+    const supabase = await createClient()
     const { data: { session }, error } = await supabase.auth.getSession()
     results.supabase = {
       configured: true,
