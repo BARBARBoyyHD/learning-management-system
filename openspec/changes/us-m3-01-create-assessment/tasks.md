@@ -68,40 +68,40 @@ For MVP quiz creation, the existing schema is sufficient. Add `settings` JSON fi
 
 ## 6. Dashboard Integration
 
-- [ ] 6.1 Add "Create Quiz" button to teacher dashboard page
-- [ ] 6.2 Position button prominently (near dashboard header)
-- [ ] 6.3 Link to `/quizzes/new`
-- [ ] 6.4 Create quiz list section on dashboard
-- [ ] 6.5 Display quiz cards with title, description, status (isPublic)
-- [ ] 6.6 Add "Draft" badge for private quizzes (isPublic = false)
-- [ ] 6.7 Handle empty state (no quizzes yet)
-- [ ] 6.8 Add "Edit/View" links for each quiz
-- [ ] 6.9 Show success message when quiz created (?created=<id>)
-- [ ] 6.10 Test integration
+- [x] 6.1 Add "Create Quiz" button to teacher dashboard page
+- [x] 6.2 Position button prominently (near dashboard header)
+- [x] 6.3 Link to `/quizzes/new`
+- [x] 6.4 Create quiz list section on dashboard
+- [x] 6.5 Display quiz cards with title, description, status (isPublic)
+- [x] 6.6 Add "Draft" badge for private quizzes (isPublic = false)
+- [x] 6.7 Handle empty state (no quizzes yet)
+- [x] 6.8 Add "Edit/View" links for each quiz
+- [x] 6.9 Show success message when quiz created (?created=<id>)
+- [x] 6.10 Test integration
 
 ## 7. Quiz List Component
 
-- [ ] 7.1 Create `src/components/quizzes/quiz-list.tsx`
-- [ ] 7.2 Accept quizzes array as prop
-- [ ] 7.3 Display grid of quiz cards
-- [ ] 7.4 Show title, description preview, status (isPublic)
-- [ ] 7.5 Add draft/published badge
-- [ ] 7.6 Add "Edit" button for each quiz
-- [ ] 7.7 Add "View" button for published quizzes
-- [ ] 7.8 Responsive layout (mobile/desktop)
-- [ ] 7.9 Test component rendering
+- [x] 7.1 Create `src/components/quizzes/quiz-list.tsx`
+- [x] 7.2 Accept quizzes array as prop
+- [x] 7.3 Display grid of quiz cards
+- [x] 7.4 Show title, description preview, status (isPublic)
+- [x] 7.5 Add draft/published badge
+- [x] 7.6 Add "Edit" button for each quiz
+- [x] 7.7 Add "View" button for published quizzes
+- [x] 7.8 Responsive layout (mobile/desktop)
+- [x] 7.9 Test component rendering
 
 ## 8. Quiz Card Component
 
-- [ ] 8.1 Create `src/components/quizzes/quiz-card.tsx`
-- [ ] 8.2 Display quiz title
-- [ ] 8.3 Show description preview (truncated)
-- [ ] 8.4 Show status badge (draft/published)
-- [ ] 8.5 Show question count (if available)
-- [ ] 8.6 Show access code (for private quizzes)
-- [ ] 8.7 Add hover effects
-- [ ] 8.8 Apply design system tokens
-- [ ] 8.9 Test component
+- [x] 8.1 Create `src/components/quizzes/quiz-card.tsx`
+- [x] 8.2 Display quiz title
+- [x] 8.3 Show description preview (truncated)
+- [x] 8.4 Show status badge (draft/published)
+- [x] 8.5 Show question count (if available)
+- [x] 8.6 Show access code (for private quizzes)
+- [x] 8.7 Add hover effects
+- [x] 8.8 Apply design system tokens
+- [x] 8.9 Test component
 
 ## 9. Permission Checks
 
