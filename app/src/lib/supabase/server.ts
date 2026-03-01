@@ -1,15 +1,15 @@
 /**
  * Supabase Server Client
- * 
+ *
  * Server-side Supabase client for use in Server Components and Server Actions.
  * Uses createServerClient from @supabase/ssr for proper HTTP-only cookie handling.
- * 
+ *
  * @example
  * ```typescript
  * // In a Server Component or Server Action
- * import { getSupabaseServerClient } from '@/lib/supabase/server'
- * 
- * const supabase = await getSupabaseServerClient()
+ * import { createClient } from '@/lib/supabase/server'
+ *
+ * const supabase = await createClient()
  * const { data: { user } } = await supabase.auth.getUser()
  * ```
  */
@@ -20,10 +20,10 @@ import { cookies } from 'next/headers'
 /**
  * Creates a Supabase client for server-side usage
  * Handles HTTP-only cookies for secure session management
- * 
+ *
  * @returns Supabase client instance
  */
-export async function getSupabaseServerClient() {
+export async function createClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 

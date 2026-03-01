@@ -1,13 +1,12 @@
 /**
  * Setup Test Page
- * 
+ *
  * Visual page to verify Prisma and Supabase configuration
  * Access at: http://localhost:3000/test-setup
  */
 
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { PrismaClient } from '@prisma/client'
-import { cookies } from 'next/headers'
 
 // Prisma Client singleton for this page
 const prisma = new PrismaClient()
@@ -27,7 +26,6 @@ async function runTests(): Promise<TestResult[]> {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     const databaseUrl = process.env.DATABASE_URL
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL
 
     if (!supabaseUrl || !supabaseAnonKey) {
       results.push({
@@ -128,7 +126,7 @@ async function runTests(): Promise<TestResult[]> {
 
   // Test 4: Supabase Auth Connection
   try {
-    const supabase = await getSupabaseServerClient()
+    const supabase = await createClient()
 
     // Try to get session (will be null if not logged in, which is fine)
     const { data: { session }, error } = await supabase.auth.getSession()
