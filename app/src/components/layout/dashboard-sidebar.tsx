@@ -22,12 +22,12 @@ const navigation: NavItem[] = [
   },
   {
     name: 'My Quizzes',
-    href: '/quizzes',
+    href: '/teacher/quizzes',
     icon: 'library_books',
   },
   {
     name: 'Create Quiz',
-    href: '/quizzes/new',
+    href: '/teacher/quizzes/new',
     icon: 'add_circle_outline',
   },
   {

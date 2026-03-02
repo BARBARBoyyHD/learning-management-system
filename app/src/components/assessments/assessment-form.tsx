@@ -80,10 +80,10 @@ export function AssessmentForm({ initialData }: AssessmentFormProps) {
 
       // Call Server Action
       const result = await createAssessment(formData)
-      
-      // Handle success - redirect to dashboard
+
+      // Handle success - redirect to questions editor
       if (result.success) {
-        window.location.href = `/dashboard?created=${result.assessmentId}`
+        window.location.href = `/teacher/quizzes/${result.assessmentId}/questions/new`
       } else {
         setError(result.error || 'Something went wrong')
         setIsLoading(false)
@@ -233,7 +233,7 @@ export function AssessmentForm({ initialData }: AssessmentFormProps) {
             type="button"
             variant="outline"
             disabled={isLoading}
-            className="border-neutral-300 text-neutral-700 hover:bg-neutral-100"
+            className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
           >
             <span className="material-symbols-outlined mr-2 h-4 w-4">arrow_back</span>
             Cancel
@@ -248,10 +248,13 @@ export function AssessmentForm({ initialData }: AssessmentFormProps) {
           {isLoading ? (
             <>
               <span className="material-symbols-outlined mr-2 h-4 w-4 animate-spin">progress_activity</span>
-              Saving...
+              Creating...
             </>
           ) : (
-            'Save Quiz'
+            <>
+              <span className="material-symbols-outlined mr-2 h-4 w-4">arrow_forward</span>
+              Next: Add Questions
+            </>
           )}
         </Button>
       </div>

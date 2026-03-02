@@ -29,7 +29,6 @@ export const quizService = {
       title: quiz.title,
       description: quiz.description,
       timeLimit: quiz.timeLimit,
-      status: getQuizStatus(quiz),
       questionCount: quiz._count.questions,
       accessCode: quiz.accessCode,
       isPublic: quiz.isPublic,
@@ -45,13 +44,11 @@ export const quizService = {
     total: number
     published: number
     draft: number
-    archived: number
   }> {
     const quizzes = await prisma.quiz.findMany({
       where: { teacherId },
       select: {
         isPublic: true,
-        accessCode: true,
       },
     })
 
@@ -59,12 +56,14 @@ export const quizService = {
       total: quizzes.length,
       published: 0,
       draft: 0,
-      archived: 0,
     }
 
     quizzes.forEach((quiz) => {
-      const status = getQuizStatus(quiz)
-      stats[status]++
+      if (quiz.isPublic) {
+        stats.published++
+      } else {
+        stats.draft++
+      }
     })
 
     return stats
@@ -91,7 +90,6 @@ export const quizService = {
       title: quiz.title,
       description: quiz.description,
       timeLimit: quiz.timeLimit,
-      status: getQuizStatus(quiz),
       questionCount: quiz._count.questions,
       accessCode: quiz.accessCode,
       isPublic: quiz.isPublic,
@@ -151,7 +149,6 @@ export const quizService = {
       title: updatedQuiz.title,
       description: updatedQuiz.description,
       timeLimit: updatedQuiz.timeLimit,
-      status: getQuizStatus(updatedQuiz),
       questionCount: updatedQuiz._count.questions,
       accessCode: updatedQuiz.accessCode,
       isPublic: updatedQuiz.isPublic,
@@ -182,23 +179,4 @@ function generateAccessCode(): string {
     code += chars.charAt(Math.floor(Math.random() * chars.length))
   }
   return code
-}
-
-/**
- * Determine quiz status based on isPublic and accessCode
- * 
- * Business logic:
- * - published: isPublic = true
- * - draft: isPublic = false AND no accessCode
- * - archived: isPublic = false AND has accessCode (alternative interpretation)
- * 
- * Note: Adjust based on your specific business rules
- */
-function getQuizStatus(quiz: { isPublic: boolean; accessCode: string | null }): Quiz['status'] {
-  if (quiz.isPublic) {
-    return 'published'
-  }
-  // If not public, consider as draft
-  // You might want to add an explicit 'status' field to the schema
-  return 'draft'
 }

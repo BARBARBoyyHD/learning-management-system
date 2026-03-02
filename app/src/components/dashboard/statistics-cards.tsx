@@ -3,7 +3,6 @@ interface StatisticsCardsProps {
     total: number
     published: number
     draft: number
-    archived: number
   }
 }
 
@@ -42,18 +41,10 @@ export function StatisticsCards({ stats }: StatisticsCardsProps) {
       borderColor: 'border-neutral-700',
       icon: 'description',
     },
-    {
-      name: 'Archived',
-      value: stats.archived,
-      color: 'text-neutral-500',
-      bgColor: 'bg-neutral-800/50',
-      borderColor: 'border-neutral-800',
-      icon: 'archive',
-    },
   ]
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {cards.map((card) => (
         <div
           key={card.name}

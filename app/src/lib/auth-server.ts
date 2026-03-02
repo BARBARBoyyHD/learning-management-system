@@ -11,6 +11,7 @@ import { cookies } from 'next/headers'
 /**
  * Get current user session from Supabase
  * Call this in any server component that needs user data
+ * Uses getUser() for server-side authentication (more secure than getSession())
  */
 export async function getSession() {
   const cookieStore = await cookies()
@@ -22,7 +23,7 @@ export async function getSession() {
         getAll() {
           return cookieStore.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(_cookiesToSet) {
           // Cookies can only be set in Route Handlers or Server Actions
           // This is a no-op for read-only session retrieval in Server Components
           // For cookie updates, use Server Actions or Route Handlers instead
@@ -30,7 +31,7 @@ export async function getSession() {
       },
     }
   )
-  return supabase.auth.getSession()
+  return supabase.auth.getUser()
 }
 
 /**
@@ -38,12 +39,12 @@ export async function getSession() {
  * Use this in pages that require authentication
  */
 export async function requireAuth() {
-  const { data: { session } } = await getSession()
-  
-  if (!session?.user) {
+  const { data: { user } } = await getSession()
+
+  if (!user) {
     const { redirect } = await import('next/navigation')
     redirect('/login')
   }
-  
-  return session
+
+  return user
 }
