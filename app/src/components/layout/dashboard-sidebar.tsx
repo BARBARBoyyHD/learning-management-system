@@ -3,40 +3,37 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import {
-  LayoutDashboard,
-  Library,
-  PlusCircle,
-  Settings,
-  LogOut,
-  ChevronRight,
-  User
-} from 'lucide-react'
 import { logout } from '@/actions/auth/logout'
 import { useTransition, useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
-const navigation = [
+interface NavItem {
+  name: string
+  href: string
+  icon: string
+}
+
+const navigation: NavItem[] = [
   {
     name: 'Dashboard',
     href: '/dashboard',
-    icon: LayoutDashboard,
+    icon: 'dashboard',
   },
   {
     name: 'My Quizzes',
     href: '/quizzes',
-    icon: Library,
+    icon: 'library_books',
   },
   {
     name: 'Create Quiz',
     href: '/quizzes/new',
-    icon: PlusCircle,
+    icon: 'add_circle_outline',
   },
   {
     name: 'Settings',
     href: '/dashboard/settings',
-    icon: Settings,
+    icon: 'settings',
   },
 ]
 
@@ -98,11 +95,11 @@ export function DashboardSidebar() {
               )}
             >
               <div className="flex items-center gap-3">
-                <item.icon className={cn('h-5 w-5', isActive ? 'text-primary-base' : 'text-neutral-500 group-hover:text-white')} />
+                <span className="material-symbols-outlined h-5 w-5">{item.icon}</span>
                 {item.name}
               </div>
               {isActive && (
-                <ChevronRight className="h-4 w-4 text-primary-base" />
+                <span className="material-symbols-outlined h-4 w-4 text-primary-base">chevron_right</span>
               )}
             </Link>
           )
@@ -114,7 +111,7 @@ export function DashboardSidebar() {
         <div className="flex items-center gap-3 rounded-lg bg-neutral-800/50 p-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-base/20">
             {isLoading ? (
-              <User className="h-5 w-5 text-primary-base" />
+              <span className="material-symbols-outlined text-primary-base">person</span>
             ) : (
               <span className="text-sm font-medium text-primary-base">{userInitial}</span>
             )}
@@ -128,16 +125,16 @@ export function DashboardSidebar() {
             </p>
           </div>
         </div>
-        
+
         <button
           className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-neutral-400 transition-colors hover:bg-neutral-800 hover:text-white disabled:opacity-50"
           onClick={handleLogout}
           disabled={isPending}
         >
           {isPending ? (
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-neutral-400 border-t-transparent" />
+            <span className="material-symbols-outlined h-4 w-4 animate-spin">progress_activity</span>
           ) : (
-            <LogOut className="h-4 w-4" />
+            <span className="material-symbols-outlined h-4 w-4">logout</span>
           )}
           {isPending ? 'Signing out...' : 'Sign out'}
         </button>

@@ -1,9 +1,9 @@
 /**
  * Prisma Client Module
- * 
+ *
  * Re-exports the Prisma client singleton and types
  */
 
-export { prisma, gracefulShutdown } from './client'
+export { prisma } from './client'
 export { PrismaClient } from '@prisma/client'
 export type { Prisma } from '@prisma/client'

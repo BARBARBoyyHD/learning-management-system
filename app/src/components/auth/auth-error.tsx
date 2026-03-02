@@ -14,7 +14,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { AlertCircle, Mail, X, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { resendVerificationEmail } from '@/actions/auth/resend-verification'
@@ -106,11 +105,11 @@ export function AuthErrorDisplay({
   const getErrorIcon = () => {
     switch (type) {
       case 'unverified_account':
-        return <Mail className="h-5 w-5 text-warning-base" />
+        return <span className="material-symbols-outlined h-5 w-5 text-warning-base">mail</span>
       case 'network_error':
-        return <AlertCircle className="h-5 w-5 text-error-base" />
+        return <span className="material-symbols-outlined h-5 w-5 text-error-base">error</span>
       default:
-        return <AlertCircle className="h-5 w-5 text-error-base" />
+        return <span className="material-symbols-outlined h-5 w-5 text-error-base">error</span>
     }
   }
 
@@ -174,7 +173,7 @@ export function AuthErrorDisplay({
               onClick={() => setShowResendForm(true)}
               className="border-warning/30 text-warning-base hover:bg-warning/10"
             >
-              <Mail className="mr-2 h-4 w-4" />
+              <span className="material-symbols-outlined mr-2 h-4 w-4">mail</span>
               Resend Verification Email
             </Button>
           )}
@@ -201,7 +200,7 @@ export function AuthErrorDisplay({
                 >
                   {isResending ? (
                     <>
-                      <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                      <span className="material-symbols-outlined mr-2 h-4 w-4 animate-spin">progress_activity</span>
                       Sending...
                     </>
                   ) : (
@@ -234,7 +233,7 @@ export function AuthErrorDisplay({
             className="flex-shrink-0 text-neutral-500 hover:text-neutral-300 transition-colors"
             aria-label="Dismiss error"
           >
-            <X className="h-5 w-5" />
+            <span className="material-symbols-outlined h-5 w-5">close</span>
           </button>
         )}
       </div>

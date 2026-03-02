@@ -2,14 +2,13 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Mail } from 'lucide-react';
 
 export function VerificationPending() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-lighter">
-          <Mail className="h-8 w-8 text-primary-base" />
+          <span className="material-symbols-outlined h-8 w-8 text-primary-base">mail</span>
         </div>
         <CardTitle className="text-2xl font-bold">Check your email</CardTitle>
         <CardDescription className="text-base">

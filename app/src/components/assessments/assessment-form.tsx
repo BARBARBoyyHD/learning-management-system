@@ -17,7 +17,6 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 /**
@@ -236,7 +235,7 @@ export function AssessmentForm({ initialData }: AssessmentFormProps) {
             disabled={isLoading}
             className="border-neutral-300 text-neutral-700 hover:bg-neutral-100"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <span className="material-symbols-outlined mr-2 h-4 w-4">arrow_back</span>
             Cancel
           </Button>
         </Link>
@@ -248,7 +247,7 @@ export function AssessmentForm({ initialData }: AssessmentFormProps) {
         >
           {isLoading ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <span className="material-symbols-outlined mr-2 h-4 w-4 animate-spin">progress_activity</span>
               Saving...
             </>
           ) : (

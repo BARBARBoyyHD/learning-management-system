@@ -1,8 +1,8 @@
 'use client'
 
 import { Quiz } from '@/types/quiz'
-import { Copy, Trash2, Edit, Library, Key } from 'lucide-react'
 import { useState } from 'react'
+import Link from 'next/link'
 
 interface QuizCardProps {
   quiz: Quiz
@@ -39,22 +39,23 @@ export function QuizCard({ quiz }: QuizCardProps) {
           <span className={`h-1.5 w-1.5 rounded-full ${config.dot}`} />
           {config.label}
         </span>
-        
+
         {/* Quick Actions */}
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button 
+          <Link
+            href={`/quizzes/${quiz.id}/edit`}
             className="p-1.5 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
             title="Edit"
           >
-            <Edit className="h-4 w-4" />
-          </button>
-          <button 
+            <span className="material-symbols-outlined h-4 w-4">edit</span>
+          </Link>
+          <button
             className="p-1.5 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
             title="Duplicate"
           >
-            <Copy className="h-4 w-4" />
+            <span className="material-symbols-outlined h-4 w-4">content_copy</span>
           </button>
-          <button 
+          <button
             className="p-1.5 text-neutral-400 hover:text-error-base hover:bg-neutral-800 rounded-lg transition-colors"
             title="Delete"
             onClick={(e) => {
@@ -62,7 +63,7 @@ export function QuizCard({ quiz }: QuizCardProps) {
               setShowMenu(!showMenu)
             }}
           >
-            <Trash2 className="h-4 w-4" />
+            <span className="material-symbols-outlined h-4 w-4">delete</span>
           </button>
         </div>
       </div>
@@ -84,12 +85,12 @@ export function QuizCard({ quiz }: QuizCardProps) {
       {/* Meta Info */}
       <div className="flex items-center gap-3 text-xs text-neutral-500 mb-4">
         <span className="flex items-center gap-1">
-          <Library className="h-3.5 w-3.5" />
+          <span className="material-symbols-outlined h-3.5 w-3.5">library_books</span>
           {quiz.questionCount} questions
         </span>
         {quiz.accessCode && (
           <span className="flex items-center gap-1 px-2 py-1 bg-neutral-800 rounded text-neutral-400">
-            <Key className="h-3 w-3" />
+            <span className="material-symbols-outlined h-3 w-3">vpn_key</span>
             {quiz.accessCode}
           </span>
         )}

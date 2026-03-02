@@ -25,6 +25,7 @@ const PROTECTED_PATHS = [
   '/dashboard',
   '/courses',
   '/assessments',
+  '/quizzes',
 ]
 
 /**

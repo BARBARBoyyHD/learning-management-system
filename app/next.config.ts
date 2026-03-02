@@ -5,9 +5,10 @@ const nextConfig: NextConfig = {
   // reactCompiler: true,
 
   // Turbopack configuration (Next.js 16 default)
+  // Note: Disabled lucide-react optimization due to React 19 compatibility issues
   experimental: {
     // Optimize server components
-    optimizePackageImports: ['lucide-react', '@tanstack/react-query'],
+    optimizePackageImports: ['@tanstack/react-query'],
   },
 
   // Configure headers for security
