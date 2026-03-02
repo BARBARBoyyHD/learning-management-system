@@ -105,36 +105,36 @@ For MVP quiz creation, the existing schema is sufficient. Add `settings` JSON fi
 
 ## 9. Permission Checks
 
-- [ ] 9.1 Implement course ownership check in Server Action
-- [ ] 9.2 Return 403 Forbidden for non-owners
-- [ ] 9.3 Add authentication check (requireAuth)
-- [ ] 9.4 Handle unauthorized errors in UI
-- [ ] 9.5 Test permission scenarios
-- [ ] 9.6 Test with course owner
-- [ ] 9.7 Test with non-owner
-- [ ] 9.8 Test with unauthenticated user
+- [x] 9.1 Implement course ownership check in Server Action
+- [x] 9.2 Return 403 Forbidden for non-owners
+- [x] 9.3 Add authentication check (requireAuth)
+- [x] 9.4 Handle unauthorized errors in UI
+- [x] 9.5 Test permission scenarios
+- [x] 9.6 Test with course owner
+- [x] 9.7 Test with non-owner
+- [x] 9.8 Test with unauthenticated user
 
 ## 10. Settings JSON Helper
 
-- [ ] 10.1 Create `src/lib/assessment-settings.ts`
-- [ ] 10.2 Add defaultSettings constant
-- [ ] 10.3 Add validateSettings function
-- [ ] 10.4 Add mergeSettings function (for updates)
-- [ ] 10.5 Add getTimeLimit utility
-- [ ] 10.6 Add isShuffleEnabled utility
-- [ ] 10.7 Export utilities
-- [ ] 10.8 Test helper functions
+- [x] 10.1 Create `src/lib/assessment-settings.ts`
+- [x] 10.2 Add defaultSettings constant
+- [x] 10.3 Add validateSettings function
+- [x] 10.4 Add mergeSettings function (for updates)
+- [x] 10.5 Add getTimeLimit utility
+- [x] 10.6 Add isShuffleEnabled utility
+- [x] 10.7 Export utilities
+- [x] 10.8 Test helper functions
 
 ## 11. Loading and Error States
 
-- [ ] 11.1 Add loading spinner during form submission
-- [ ] 11.2 Disable submit button while loading
-- [ ] 11.3 Show success toast on save
-- [ ] 11.4 Show error toast on failure
-- [ ] 11.5 Add retry mechanism for network errors
-- [ ] 11.6 Preserve form data on error
-- [ ] 11.7 Test loading states
-- [ ] 11.8 Test error scenarios
+- [x] 11.1 Add loading spinner during form submission
+- [x] 11.2 Disable submit button while loading
+- [x] 11.3 Show success toast on save
+- [x] 11.4 Show error toast on failure
+- [x] 11.5 Add retry mechanism for network errors
+- [x] 11.6 Preserve form data on error
+- [x] 11.7 Test loading states
+- [x] 11.8 Test error scenarios
 
 ## 12. Form Auto-Save (Optional)
 

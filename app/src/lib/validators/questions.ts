@@ -2,7 +2,7 @@
  * Question Validation Schemas
  *
  * Zod schemas for validating question creation and updates.
- * Supports Multiple Choice and other question types.
+ * Supports Multiple Choice, Essay, and other question types.
  */
 
 import { z } from 'zod'
@@ -38,6 +38,16 @@ export const multipleChoiceSettingsSchema = z.object({
 })
 
 /**
+ * Essay settings schema
+ */
+export const essaySettingsSchema = z.object({
+  requiresManualGrading: z.boolean().default(true),
+  rubric: z.string().max(2000, 'Rubric too long').optional().nullable(),
+  wordLimit: z.number().int().min(0).max(5000).default(0),
+  wordLimitMin: z.number().int().min(0).default(0),
+})
+
+/**
  * Multiple Choice question schema
  */
 export const multipleChoiceSchema = z.object({
@@ -56,10 +66,21 @@ export const multipleChoiceSchema = z.object({
 })
 
 /**
+ * Essay question schema
+ */
+export const essayQuestionSchema = z.object({
+  questionType: z.literal('essay'),
+  questionText: z.string().min(1, 'Question text is required').max(2000, 'Question text too long'),
+  points: z.number().int().min(1).default(10),
+  settings: essaySettingsSchema,
+})
+
+/**
  * Generic question create schema (union of all question types)
  */
 export const questionCreateSchema = z.discriminatedUnion('questionType', [
   multipleChoiceSchema,
+  essayQuestionSchema,
   // Add other question types later
 ])
 
@@ -67,10 +88,9 @@ export const questionCreateSchema = z.discriminatedUnion('questionType', [
  * Question update schema (partial of create schema)
  */
 export const questionUpdateSchema = z.object({
-  questionText: multipleChoiceSchema.shape.questionText.optional(),
-  points: multipleChoiceSchema.shape.points.optional(),
-  options: multipleChoiceSchema.shape.options.optional(),
-  settings: multipleChoiceSchema.shape.settings.optional(),
+  questionText: z.string().min(1).max(2000).optional(),
+  points: z.number().int().min(1).optional(),
+  settings: z.any().optional(),
 })
 
 /**
@@ -79,6 +99,8 @@ export const questionUpdateSchema = z.object({
 export type QuestionType = z.infer<typeof questionTypeEnum>
 export type Option = z.infer<typeof optionSchema>
 export type MultipleChoiceSettings = z.infer<typeof multipleChoiceSettingsSchema>
+export type EssaySettings = z.infer<typeof essaySettingsSchema>
 export type MultipleChoiceQuestion = z.infer<typeof multipleChoiceSchema>
+export type EssayQuestion = z.infer<typeof essayQuestionSchema>
 export type QuestionCreateInput = z.infer<typeof questionCreateSchema>
 export type QuestionUpdateInput = z.infer<typeof questionUpdateSchema>

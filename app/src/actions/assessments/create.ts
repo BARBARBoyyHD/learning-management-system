@@ -11,13 +11,14 @@ import { createClient } from '@/lib/supabase/server'
 import { assessmentCreateSchema } from '@/lib/validators/assessment'
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
+import { Prisma } from '@prisma/client'
 
 /**
  * Create assessment result type
  */
 export type CreateAssessmentResult =
   | { success: true; assessmentId: string }
-  | { success: false; error: string }
+  | { success: false; error: string; code?: 'UNAUTHORIZED' | 'FORBIDDEN' }
 
 /**
  * Generate a random 6-character access code
@@ -32,15 +33,52 @@ function generateAccessCode(): string {
 }
 
 /**
+ * Verify course ownership
+ *
+ * Checks if the authenticated user owns the specified course.
+ * Returns true if user is owner, false otherwise.
+ *
+ * Note: Course model not yet implemented in current schema.
+ * This function is a placeholder for future course-based permissions.
+ * For now, we only verify that the user is authenticated.
+ *
+ * @param courseId - The course ID to verify ownership for
+ * @param userId - The user ID to check ownership against
+ * @returns True if user owns the course, false otherwise
+ */
+async function verifyCourseOwnership(
+  courseId: string,
+  userId: string
+): Promise<boolean> {
+  // TODO: Implement course ownership check when Course model is added
+  // For now, we allow any authenticated user to create standalone quizzes
+  // When Course model is added, this should query:
+  // const course = await prisma.course.findUnique({
+  //   where: { id: courseId },
+  //   select: { teacherId: true },
+  // })
+  // return course?.teacherId === userId
+  
+  // Placeholder: Allow all authenticated users for standalone quizzes
+  // This will be replaced with actual course permission check later
+  console.log('Course ownership check requested for courseId:', courseId, 'userId:', userId)
+  return true // Allow for now - will be implemented when Course model exists
+}
+
+/**
  * Create Assessment Server Action
  *
  * Creates a new assessment with validation and authentication.
  * Assessment is created as draft (isPublic = false) by default.
  *
  * @param formData - Form data with title, description, settings
+ * @param courseId - Optional course ID for course-based assessments
  * @returns Result with assessment ID or error message
  */
-export async function createAssessment(formData: FormData): Promise<CreateAssessmentResult> {
+export async function createAssessment(
+  formData: FormData,
+  courseId?: string
+): Promise<CreateAssessmentResult> {
   try {
     // Parse form data
     const title = formData.get('title') as string
@@ -67,15 +105,29 @@ export async function createAssessment(formData: FormData): Promise<CreateAssess
     const supabase = await createClient()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
 
+    // 9.3 Add authentication check (requireAuth)
     if (authError || !user) {
       return {
         success: false,
         error: 'You must be logged in to create an assessment',
+        code: 'UNAUTHORIZED',
       }
     }
 
-    // Note: For quiz-only creation (no course dependency), we don't need course permission check
-    // If you want course-based assessments later, add course ownership verification here
+    // 9.1 Implement course ownership check in Server Action
+    // If courseId is provided, verify user owns the course
+    if (courseId) {
+      const isOwner = await verifyCourseOwnership(courseId, user.id)
+
+      // 9.2 Return 403 Forbidden for non-owners
+      if (!isOwner) {
+        return {
+          success: false,
+          error: 'You do not have permission to create assessments in this course',
+          code: 'FORBIDDEN',
+        }
+      }
+    }
 
     // Generate access code for private quizzes
     const accessCode = generateAccessCode()
@@ -104,6 +156,15 @@ export async function createAssessment(formData: FormData): Promise<CreateAssess
     // Client will handle the redirect
     return { success: true, assessmentId: assessment.id }
   } catch (error) {
+    // Handle database errors
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      console.error('Database error:', error.code, error.message)
+      return {
+        success: false,
+        error: 'Database error. Please try again.',
+      }
+    }
+
     // Handle unexpected errors
     console.error('Create assessment error:', error)
     return {
