@@ -62,6 +62,14 @@ function getQuestionTypeColor(type: string): string {
 }
 
 /**
+ * Check if question requires manual grading
+ */
+function requiresManualGrading(questionType: string, settings?: any): boolean {
+  if (questionType === 'essay') return true
+  return settings?.requiresManualGrading ?? false
+}
+
+/**
  * QuestionList component
  */
 export function QuestionList({ quizId, questions, canEdit = true }: QuestionListProps) {
@@ -160,6 +168,11 @@ export function QuestionList({ quizId, questions, canEdit = true }: QuestionList
                   <Badge variant="secondary" className="text-xs">
                     {getQuestionTypeDisplay(question.questionType)}
                   </Badge>
+                  {requiresManualGrading(question.questionType) && (
+                    <Badge className="bg-blue-100 text-blue-700 text-xs">
+                      Manual grading
+                    </Badge>
+                  )}
                   <span className="text-sm font-medium text-neutral-700">
                     {question.points} pts
                   </span>

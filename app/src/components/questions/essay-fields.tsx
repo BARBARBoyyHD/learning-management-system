@@ -1,0 +1,115 @@
+/**
+ * Essay Fields Component
+ *
+ * Component for editing Essay question-specific fields.
+ * Includes rubric and word limit configuration.
+ */
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import type { EssaySettings } from '@/lib/validators/questions'
+
+/**
+ * EssayFields props
+ */
+export interface EssayFieldsProps {
+  /** Essay settings */
+  settings: EssaySettings
+  /** Update settings callback */
+  onSettingsChange: (settings: EssaySettings) => void
+  /** Error message */
+  error?: string | null
+}
+
+/**
+ * EssayFields component
+ */
+export function EssayFields({ settings, onSettingsChange, error }: EssayFieldsProps) {
+  return (
+    <Card className="border-neutral-200 bg-white">
+      <CardHeader>
+        <CardTitle className="text-neutral-900">Essay Settings</CardTitle>
+        <CardDescription className="text-neutral-600">
+          Configure grading rubric and word limits for your essay question
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {/* Grading Rubric */}
+        <div className="space-y-2">
+          <Label htmlFor="rubric" className="text-neutral-700">
+            Grading Rubric (Optional)
+          </Label>
+          <textarea
+            id="rubric"
+            rows={4}
+            className="flex w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:border-primary-base focus:outline-none focus:ring-2 focus:ring-primary-base"
+            placeholder="Describe what you're looking for in a good answer. E.g., 'Students should mention: 1) Key concept A, 2) Example B, 3) Analysis C...'"
+            value={settings.rubric ?? ''}
+            onChange={(e) => onSettingsChange({ ...settings, rubric: e.target.value })}
+          />
+          <p className="text-xs text-neutral-500">
+            Guidelines for grading this essay (optional)
+          </p>
+        </div>
+
+        {/* Word Limit */}
+        <div className="space-y-2">
+          <Label htmlFor="wordLimit" className="text-neutral-700">
+            Word Limit
+          </Label>
+          <Input
+            id="wordLimit"
+            type="number"
+            min="0"
+            max="5000"
+            value={settings.wordLimit}
+            onChange={(e) => onSettingsChange({ ...settings, wordLimit: Number(e.target.value) })}
+            className="w-32 border-neutral-300"
+          />
+          <p className="text-xs text-neutral-500">
+            Maximum words allowed (0 = unlimited, max 5000)
+          </p>
+          {error && (
+            <p className="text-sm text-error-base" role="alert">
+              {error}
+            </p>
+          )}
+        </div>
+
+        {/* Minimum Word Count */}
+        <div className="space-y-2">
+          <Label htmlFor="wordLimitMin" className="text-neutral-700">
+            Minimum Word Count (Optional)
+          </Label>
+          <Input
+            id="wordLimitMin"
+            type="number"
+            min="0"
+            value={settings.wordLimitMin ?? 0}
+            onChange={(e) => onSettingsChange({ ...settings, wordLimitMin: Number(e.target.value) })}
+            className="w-32 border-neutral-300"
+          />
+          <p className="text-xs text-neutral-500">
+            Minimum words required (optional)
+          </p>
+        </div>
+
+        {/* Manual Grading Info */}
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+          <div className="flex items-start gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+              <span className="text-sm font-bold">!</span>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-blue-900">Manual Grading Required</p>
+              <p className="mt-1 text-sm text-blue-700">
+                Essay questions require manual grading by the teacher. Students will be notified that this question needs manual review.
+              </p>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
