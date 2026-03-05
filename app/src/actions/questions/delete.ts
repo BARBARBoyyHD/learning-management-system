@@ -72,8 +72,8 @@ export async function deleteQuestion(formData: FormData): Promise<DeleteQuestion
       where: { id: questionId },
     })
 
-    // Revalidate quiz page
-    revalidatePath(`/quizzes/${quizId}`)
+    // Revalidate quiz edit page
+    revalidatePath(`/quizzes/${quizId}/edit`)
 
     return { success: true }
   } catch (error) {

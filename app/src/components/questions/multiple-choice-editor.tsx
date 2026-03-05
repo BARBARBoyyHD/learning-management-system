@@ -1,7 +1,8 @@
 /**
- * Multiple Choice Question Editor
+ * Question Editor Component
  *
- * Component for creating and editing Multiple Choice questions.
+ * Component for creating and editing questions.
+ * Supports Multiple Choice and Essay question types.
  * Features color-coded options, correct answer selection, and shuffle configuration.
  */
 
@@ -12,33 +13,36 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Plus, Trash2, Save, Shuffle } from 'lucide-react'
+import { Plus, Trash2, Save, Shuffle, FileText } from 'lucide-react'
 import { createQuestion } from '@/actions/questions/create'
 import { updateQuestion } from '@/actions/questions/update'
+import { EssayFields } from '@/components/questions/essay-fields'
+import type { Option, EssaySettings } from '@/lib/validators/questions'
 
 /**
- * Option model for UI state
+ * Question type
  */
-interface Option {
-  id?: string
-  text: string
-  isCorrect: boolean
-  sortOrder: number
-}
+type QuestionType = 'multiple_choice' | 'essay'
 
 /**
- * MultipleChoiceEditor props
+ * QuestionEditor props
  */
-export interface MultipleChoiceEditorProps {
+export interface QuestionEditorProps {
   /** Quiz ID to add question to */
   quizId: string
   /** Initial data for editing */
   initialData?: {
     id?: string
+    questionType: QuestionType
     questionText: string
     points: number
-    shuffle: boolean
-    options: Option[]
+    shuffle?: boolean
+    options?: Option[]
+    settings?: {
+      rubric?: string | null
+      wordLimit?: number
+      wordLimitMin?: number
+    }
   }
 }
 
@@ -61,9 +65,10 @@ const OPTION_COLORS = [
 const OPTION_LABELS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
 /**
- * MultipleChoiceEditor component
+ * QuestionEditor component
  */
-export function MultipleChoiceEditor({ quizId, initialData }: MultipleChoiceEditorProps) {
+export function QuestionEditor({ quizId, initialData }: QuestionEditorProps) {
+  const [questionType, setQuestionType] = useState<QuestionType>(initialData?.questionType ?? 'multiple_choice')
   const [questionText, setQuestionText] = useState(initialData?.questionText ?? '')
   const [points, setPoints] = useState(initialData?.points ?? 10)
   const [shuffle, setShuffle] = useState(initialData?.shuffle ?? false)
@@ -75,16 +80,31 @@ export function MultipleChoiceEditor({ quizId, initialData }: MultipleChoiceEdit
       { text: '', isCorrect: false, sortOrder: 3 },
     ]
   )
+  const [essaySettings, setEssaySettings] = useState<EssaySettings>({
+    requiresManualGrading: true,
+    rubric: initialData?.settings?.rubric ?? null,
+    wordLimit: initialData?.settings?.wordLimit ?? 0,
+    wordLimitMin: initialData?.settings?.wordLimitMin ?? 0,
+  })
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   // Update form when initialData changes (for edit mode)
   useEffect(() => {
     if (initialData) {
+      setQuestionType(initialData.questionType)
       setQuestionText(initialData.questionText)
       setPoints(initialData.points)
-      setShuffle(initialData.shuffle)
-      setOptions(initialData.options)
+      setShuffle(initialData?.shuffle ?? false)
+      if (initialData.options) setOptions(initialData.options)
+      if (initialData.settings) {
+        setEssaySettings({
+          requiresManualGrading: true,
+          rubric: initialData.settings.rubric ?? null,
+          wordLimit: initialData.settings.wordLimit ?? 0,
+          wordLimitMin: initialData.settings.wordLimitMin ?? 0,
+        })
+      }
     }
   }, [initialData])
 
@@ -144,26 +164,44 @@ export function MultipleChoiceEditor({ quizId, initialData }: MultipleChoiceEdit
         return
       }
 
-      if (options.some((opt) => !opt.text.trim())) {
-        setError('All options must have text')
-        setIsSaving(false)
-        return
-      }
+      if (questionType === 'multiple_choice') {
+        if (options.some((opt) => !opt.text.trim())) {
+          setError('All options must have text')
+          setIsSaving(false)
+          return
+        }
 
-      if (!options.some((opt) => opt.isCorrect)) {
-        setError('At least one correct answer required')
-        setIsSaving(false)
-        return
+        if (!options.some((opt) => opt.isCorrect)) {
+          setError('At least one correct answer required')
+          setIsSaving(false)
+          return
+        }
+      } else if (questionType === 'essay') {
+        if (essaySettings.wordLimit < 0) {
+          setError('Word limit must be positive')
+          setIsSaving(false)
+          return
+        }
+        if (essaySettings.wordLimit > 5000) {
+          setError('Word limit too high (max 5000)')
+          setIsSaving(false)
+          return
+        }
       }
 
       // Create FormData
       const formData = new FormData()
       formData.append('quizId', quizId)
-      formData.append('questionType', 'multiple_choice')
+      formData.append('questionType', questionType)
       formData.append('questionText', questionText)
       formData.append('points', points.toString())
-      formData.append('shuffle', shuffle.toString())
-      formData.append('options', JSON.stringify(options))
+      
+      if (questionType === 'multiple_choice') {
+        formData.append('shuffle', shuffle.toString())
+        formData.append('options', JSON.stringify(options))
+      } else if (questionType === 'essay') {
+        formData.append('settings', JSON.stringify(essaySettings))
+      }
       
       // Add question ID if editing
       if (initialData?.id) {
@@ -176,8 +214,8 @@ export function MultipleChoiceEditor({ quizId, initialData }: MultipleChoiceEdit
         : await createQuestion(formData)
 
       if (result.success) {
-        // Redirect to quiz page
-        window.location.href = `/quizzes/${quizId}`
+        // Redirect to quiz edit page
+        window.location.href = `/quizzes/${quizId}/edit`
       } else {
         setError(result.error || 'Failed to save question')
         setIsSaving(false)
@@ -196,6 +234,63 @@ export function MultipleChoiceEditor({ quizId, initialData }: MultipleChoiceEdit
           <p className="text-sm text-error-base">{error}</p>
         </div>
       )}
+
+      {/* Question Type Selector */}
+      <Card className="border-neutral-200 bg-white">
+        <CardHeader>
+          <CardTitle className="text-neutral-900">Question Type</CardTitle>
+          <CardDescription className="text-neutral-600">
+            Select the type of question you want to create
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-4">
+            <button
+              type="button"
+              onClick={() => setQuestionType('multiple_choice')}
+              className={`flex-1 rounded-lg border-2 p-4 transition-all ${
+                questionType === 'multiple_choice'
+                  ? 'border-primary-base bg-primary-lighter'
+                  : 'border-neutral-200 hover:border-neutral-300'
+              }`}
+            >
+              <div className="flex items-center justify-center gap-2">
+                <div className={`flex h-10 w-10 items-center justify-center rounded-full ${
+                  questionType === 'multiple_choice' ? 'bg-primary-base text-white' : 'bg-neutral-200 text-neutral-600'
+                }`}>
+                  <span className="text-sm font-bold">MC</span>
+                </div>
+                <div className="text-left">
+                  <p className="font-medium text-neutral-900">Multiple Choice</p>
+                  <p className="text-sm text-neutral-500">Auto-graded</p>
+                </div>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setQuestionType('essay')}
+              className={`flex-1 rounded-lg border-2 p-4 transition-all ${
+                questionType === 'essay'
+                  ? 'border-blue-600 bg-blue-50'
+                  : 'border-neutral-200 hover:border-neutral-300'
+              }`}
+            >
+              <div className="flex items-center justify-center gap-2">
+                <div className={`flex h-10 w-10 items-center justify-center rounded-full ${
+                  questionType === 'essay' ? 'bg-blue-600 text-white' : 'bg-neutral-200 text-neutral-600'
+                }`}>
+                  <FileText className="h-5 w-5" />
+                </div>
+                <div className="text-left">
+                  <p className="font-medium text-neutral-900">Essay</p>
+                  <p className="text-sm text-neutral-500">Manual grading</p>
+                </div>
+              </div>
+            </button>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Question Text Card */}
       <Card className="border-neutral-200 bg-white">
@@ -236,32 +331,33 @@ export function MultipleChoiceEditor({ quizId, initialData }: MultipleChoiceEdit
         </CardContent>
       </Card>
 
-      {/* Options Card */}
-      <Card className="border-neutral-200 bg-white">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="text-neutral-900">Answer Options</CardTitle>
-              <CardDescription className="text-neutral-600">
-                Add 2-10 options and mark the correct answer(s)
-              </CardDescription>
+      {/* Question Type-Specific Fields */}
+      {questionType === 'multiple_choice' && (
+        <Card className="border-neutral-200 bg-white">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-neutral-900">Answer Options</CardTitle>
+                <CardDescription className="text-neutral-600">
+                  Add 2-10 options and mark the correct answer(s)
+                </CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="shuffle"
+                  checked={shuffle}
+                  onChange={(e) => setShuffle(e.target.checked)}
+                  className="h-4 w-4 rounded border-neutral-300 text-primary-base focus:ring-primary-base"
+                />
+                <Label htmlFor="shuffle" className="flex items-center gap-2 text-neutral-700">
+                  <Shuffle className="h-4 w-4" />
+                  Shuffle options
+                </Label>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                id="shuffle"
-                checked={shuffle}
-                onChange={(e) => setShuffle(e.target.checked)}
-                className="h-4 w-4 rounded border-neutral-300 text-primary-base focus:ring-primary-base"
-              />
-              <Label htmlFor="shuffle" className="flex items-center gap-2 text-neutral-700">
-                <Shuffle className="h-4 w-4" />
-                Shuffle options
-              </Label>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
+          </CardHeader>
+          <CardContent className="space-y-4">
           {/* Options List */}
           {options.map((option, index) => {
             const colors = OPTION_COLORS[index]
@@ -324,6 +420,16 @@ export function MultipleChoiceEditor({ quizId, initialData }: MultipleChoiceEdit
           )}
         </CardContent>
       </Card>
+      )}
+
+      {/* Essay Fields */}
+      {questionType === 'essay' && (
+        <EssayFields
+          settings={essaySettings}
+          onSettingsChange={setEssaySettings}
+          error={error}
+        />
+      )}
 
       {/* Action Buttons */}
       <div className="flex justify-end gap-4">

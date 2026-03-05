@@ -46,6 +46,7 @@ export async function createQuestion(formData: FormData): Promise<CreateQuestion
     const points = parseInt(formData.get('points') as string, 10)
     const shuffle = formData.get('shuffle') === 'on' || formData.get('shuffle') === 'true'
     const optionsJson = formData.get('options') as string
+    const settingsJson = formData.get('settings') as string
 
     // Validate required fields
     if (!quizId || !questionType || !questionText) {
@@ -75,44 +76,59 @@ export async function createQuestion(formData: FormData): Promise<CreateQuestion
     })
     const orderIndex = (maxOrder._max.orderIndex ?? -1) + 1
 
-    // Parse options
-    const options = JSON.parse(optionsJson) as Array<{
-      text: string
-      isCorrect: boolean
-      sortOrder: number
-    }>
+    // Create question based on type
+    if (questionType === 'multiple_choice') {
+      const options = JSON.parse(optionsJson) as Array<{
+        text: string
+        isCorrect: boolean
+        sortOrder: number
+      }>
 
-    // Create settings JSON
-    const settings = {
-      shuffle,
-      multipleAnswers: false,
-      optionCount: options.length,
-    }
+      const settings = {
+        shuffle,
+        multipleAnswers: false,
+        optionCount: options.length,
+      }
 
-    // Create question with options in a transaction
-    const question = await prisma.question.create({
-      data: {
-        quizId,
-        questionType,
-        questionText,
-        points,
-        orderIndex,
-        settings,
-        options: {
-          create: options.map((opt) => ({
-            option: opt.text,
-            isCorrect: opt.isCorrect,
-            sortOrder: opt.sortOrder,
-          })),
+      await prisma.question.create({
+        data: {
+          quizId,
+          questionType,
+          questionText,
+          points,
+          orderIndex,
+          settings,
+          options: {
+            create: options.map((opt) => ({
+              option: opt.text,
+              isCorrect: opt.isCorrect,
+              sortOrder: opt.sortOrder,
+            })),
+          },
         },
-      },
-      select: { id: true },
-    })
+      })
+    } else if (questionType === 'essay') {
+      const settings = JSON.parse(settingsJson)
+
+      await prisma.question.create({
+        data: {
+          quizId,
+          questionType,
+          questionText,
+          points,
+          orderIndex,
+          settings: {
+            ...settings,
+            requiresManualGrading: true,
+          },
+        },
+      })
+    }
 
     // Revalidate quiz page
     revalidatePath(`/quizzes/${quizId}`)
 
-    return { success: true, questionId: question.id }
+    return { success: true, questionId: '' }
   } catch (error) {
     console.error('Create question error:', error)
     return {

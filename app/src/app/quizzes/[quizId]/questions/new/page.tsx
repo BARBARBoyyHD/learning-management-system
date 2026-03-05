@@ -8,7 +8,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { prisma } from '@/lib/prisma'
 import { redirect, notFound } from 'next/navigation'
-import { MultipleChoiceEditor } from '@/components/questions/multiple-choice-editor'
+import { QuestionEditor } from '@/components/questions/multiple-choice-editor'
 
 export default async function CreateQuestionPage(props: {
   params: Promise<{ quizId: string }>
@@ -55,7 +55,7 @@ export default async function CreateQuestionPage(props: {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-4xl">
-          <MultipleChoiceEditor quizId={quizId} />
+          <QuestionEditor quizId={quizId} />
         </div>
       </main>
     </div>
