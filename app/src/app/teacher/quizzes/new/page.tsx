@@ -20,7 +20,7 @@ export default async function CreateQuizPage() {
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className='p-8'>
         <h1 className="text-3xl font-bold text-white">Create Quiz</h1>
         <p className="mt-2 text-neutral-400">
           Set up your quiz details. After saving, you'll add questions.
