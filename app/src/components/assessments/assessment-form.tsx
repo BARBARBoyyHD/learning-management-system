@@ -107,7 +107,7 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
 
           // Small delay to show toast before redirect to quiz edit page
           setTimeout(() => {
-            window.location.href = `/quizzes/${result.assessmentId}/edit`
+            window.location.href = `/teacher/quizzes/${result.assessmentId}/edit`
           }, 500)
         } else {
           // 11.4 Show error toast on failure

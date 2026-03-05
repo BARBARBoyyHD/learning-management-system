@@ -167,6 +167,30 @@ export const quizService = {
     })
     return quiz?.updatedAt ?? null
   },
+
+  /**
+   * Delete a quiz by ID
+   */
+  async delete(id: string, teacherId: string): Promise<void> {
+    // First verify the quiz belongs to this teacher
+    const existingQuiz = await prisma.quiz.findUnique({
+      where: { id },
+      select: { teacherId: true },
+    })
+
+    if (!existingQuiz) {
+      throw new Error('Quiz not found')
+    }
+
+    if (existingQuiz.teacherId !== teacherId) {
+      throw new Error('Unauthorized: You can only delete your own quizzes')
+    }
+
+    // Delete the quiz (cascade will handle related questions, options, etc.)
+    await prisma.quiz.delete({
+      where: { id },
+    })
+  },
 }
 
 /**

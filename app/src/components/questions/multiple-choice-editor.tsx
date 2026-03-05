@@ -215,7 +215,7 @@ export function QuestionEditor({ quizId, initialData }: QuestionEditorProps) {
 
       if (result.success) {
         // Redirect to quiz edit page
-        window.location.href = `/quizzes/${quizId}/edit`
+        window.location.href = `/teacher/quizzes/${quizId}/edit`
       } else {
         setError(result.error || 'Failed to save question')
         setIsSaving(false)
