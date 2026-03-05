@@ -171,7 +171,7 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
               Back to Dashboard
             </Button>
           </Link>
-          <Link href={`/quizzes/${quiz.id}/questions/new`}>
+          <Link href={`/teacher/quizzes/${quiz.id}/questions/new`}>
             <Button className="bg-primary-base text-white hover:bg-primary-hover">
               <Plus className="h-4 w-4 mr-2" />
               Add Question
@@ -226,7 +226,7 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
                   : `${questionCount} question${questionCount > 1 ? 's' : ''} • ${totalPoints} total points`}
               </CardDescription>
             </div>
-            <Link href={`/quizzes/${quiz.id}/questions/new`}>
+            <Link href={`/teacher/quizzes/${quiz.id}/questions/new`}>
               <Button size="sm" className="bg-primary-base text-white hover:bg-primary-hover">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Question
@@ -248,7 +248,7 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
                 Start building your quiz by adding your first question. Choose from multiple choice,
                 essay, fill in the blank, match, or reorder question types.
               </p>
-              <Link href={`/quizzes/${quiz.id}/questions/new`}>
+              <Link href={`/teacher/quizzes/${quiz.id}/questions/new`}>
                 <Button className="bg-primary-base text-white hover:bg-primary-hover">
                   <Plus className="h-4 w-4 mr-2" />
                   Add Your First Question
@@ -297,7 +297,7 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
                   {/* Actions */}
                   <div className="flex items-center gap-2">
                     <Link
-                      href={`/quizzes/${quiz.id}/questions/${question.id}/edit`}
+                      href={`/teacher/quizzes/${quiz.id}/questions/${question.id}/edit`}
                     >
                       <Button
                         variant="ghost"
@@ -335,7 +335,7 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
             Preview Quiz
           </Button>
         </Link>
-        <Link href={`/quizzes/${quiz.id}/questions/new`}>
+        <Link href={`/teacher/quizzes/${quiz.id}/questions/new`}>
           <Button className="bg-primary-base text-white hover:bg-primary-hover">
             <Plus className="h-4 w-4 mr-2" />
             Add Question
