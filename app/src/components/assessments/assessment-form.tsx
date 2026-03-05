@@ -311,7 +311,7 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
             disabled={isPending}
             className="border-neutral-300 text-neutral-700 hover:bg-neutral-100"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <span className="material-symbols-outlined mr-2 h-4 w-4">arrow_back</span>
             Cancel
           </Button>
         </Link>
@@ -323,11 +323,14 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
         >
           {isPending ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Saving...
+              <span className="material-symbols-outlined mr-2 h-4 w-4 animate-spin">progress_activity</span>
+              Creating...
             </>
           ) : (
-            'Save Quiz'
+            <>
+              <span className="material-symbols-outlined mr-2 h-4 w-4">arrow_forward</span>
+              Next: Add Questions
+            </>
           )}
         </Button>
       </div>

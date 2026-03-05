@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
 
 export function RegisterForm() {
   const [error, setError] = useState<string | null>(null);
@@ -143,7 +142,7 @@ export function RegisterForm() {
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="h-5 w-5 animate-spin" />
+                <span className="material-symbols-outlined h-5 w-5 animate-spin">progress_activity</span>
                 Creating account...
               </>
             ) : (

@@ -25,7 +25,14 @@ export default async function DashboardPage({
   const quizzes = await prisma.quiz.findMany({
     where: { teacherId: user.id },
     orderBy: { createdAt: 'desc' },
-    include: {
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      isPublic: true,
+      accessCode: true,
+      createdAt: true,
+      updatedAt: true,
       questions: {
         select: { id: true },
       },
@@ -44,6 +51,8 @@ export default async function DashboardPage({
     accessCode: quiz.accessCode,
     questionCount: quiz.questions.length,
     studentCount: quiz.responses.length,
+    createdAt: quiz.createdAt.toISOString(),
+    updatedAt: quiz.updatedAt.toISOString(),
   }))
 
   // Check if a quiz was just created
@@ -63,7 +72,7 @@ export default async function DashboardPage({
         </div>
 
         {/* Create Quiz Button */}
-        <Link href="/quizzes/new">
+        <Link href="/teacher/quizzes/new">
           <Button className="bg-primary-base text-white hover:bg-primary-hover shadow-lg shadow-primary/20">
             <Plus className="mr-2 h-5 w-5" />
             Create Quiz
@@ -145,7 +154,7 @@ export default async function DashboardPage({
           </CardContent>
         </Card>
 
-        <Link href="/quizzes/new">
+        <Link href="/teacher/quizzes/new">
           <Card className="border-neutral-800 bg-neutral-900 hover:bg-neutral-800 transition-colors cursor-pointer">
             <CardHeader>
               <CardTitle className="text-white">Create Quiz</CardTitle>
@@ -193,10 +202,7 @@ export default async function DashboardPage({
           )}
         </div>
 
-        <QuizList
-          quizzes={formattedQuizzes}
-          emptyMessage="You haven't created any quizzes yet. Click 'Create Quiz' to get started!"
-        />
+        <QuizList quizzes={formattedQuizzes} />
       </div>
     </div>
   )

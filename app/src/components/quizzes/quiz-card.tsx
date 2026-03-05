@@ -1,126 +1,94 @@
 /**
  * Quiz Card Component
  *
- * Displays a single quiz card with title, description, status, and actions.
+ * Displays a single quiz card with title, description, and actions.
  * Used in quiz lists on dashboard and other pages.
  */
 
+import { Quiz } from '@/types/quiz'
 import Link from 'next/link'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Clock, Users, Edit, Eye } from 'lucide-react'
 
 /**
  * Quiz card props
  */
 export interface QuizCardProps {
-  /** Quiz ID */
-  id: string
-  /** Quiz title */
-  title: string
-  /** Quiz description */
-  description?: string | null
-  /** Whether quiz is public (published) */
-  isPublic: boolean
-  /** Access code for private quizzes */
-  accessCode?: string | null
-  /** Question count */
-  questionCount?: number
-  /** Student count */
-  studentCount?: number
+  /** Quiz data */
+  quiz: Quiz
 }
 
 /**
  * QuizCard component
  */
-export function QuizCard({
-  id,
-  title,
-  description,
-  isPublic,
-  accessCode,
-  questionCount = 0,
-  studentCount = 0,
-}: QuizCardProps) {
+export function QuizCard({ quiz }: QuizCardProps) {
   return (
-    <Card className="border-neutral-200 bg-white shadow-sm hover:shadow-md transition-shadow">
-      <CardHeader>
-        <div className="flex items-start justify-between gap-2">
-          <CardTitle className="text-lg text-neutral-900 line-clamp-1">
-            {title}
-          </CardTitle>
-          {/* Status Badge */}
-          <Badge
-            variant={isPublic ? 'default' : 'secondary'}
-            className={
-              isPublic
-                ? 'bg-success-base text-white'
-                : 'bg-warning-base text-white'
-            }
-          >
-            {isPublic ? 'Published' : 'Draft'}
-          </Badge>
-        </div>
-        {description && (
-          <CardDescription className="text-neutral-600 line-clamp-2">
-            {description}
-          </CardDescription>
-        )}
-      </CardHeader>
-
-      <CardContent>
-        <div className="flex items-center gap-4 text-sm text-neutral-500">
-          {/* Question Count */}
-          <div className="flex items-center gap-1">
-            <Users className="h-4 w-4" />
-            <span>{questionCount} questions</span>
-          </div>
-
-          {/* Student Count */}
-          {studentCount > 0 && (
-            <div className="flex items-center gap-1">
-              <Clock className="h-4 w-4" />
-              <span>{studentCount} attempts</span>
-            </div>
-          )}
-
-          {/* Access Code for Private Quizzes */}
-          {!isPublic && accessCode && (
-            <div className="flex items-center gap-1 text-xs bg-neutral-100 px-2 py-1 rounded">
-              <span>Code: {accessCode}</span>
-            </div>
+    <div className="group rounded-xl border border-neutral-800 bg-neutral-900 p-6 transition-all hover:border-neutral-700 hover:shadow-lg hover:shadow-neutral-900/50">
+      {/* Header with Actions */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          {quiz.isPublic ? (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-success-base/10 text-success-base">
+              <span className="h-1.5 w-1.5 rounded-full bg-success-base" />
+              Public
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-neutral-700 text-neutral-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-neutral-400" />
+              Private
+            </span>
           )}
         </div>
-      </CardContent>
 
-      <CardFooter className="flex gap-2">
-        {/* Edit Button */}
-        <Link href={`/quizzes/${id}/edit`}>
-          <Button
-            variant="outline"
-            size="sm"
-            className="border-neutral-300 text-neutral-700 hover:bg-neutral-100"
+        {/* Quick Actions */}
+        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <Link
+            href={`/quizzes/${quiz.id}/edit`}
+            className="p-1.5 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
+            title="Edit"
           >
-            <Edit className="mr-2 h-4 w-4" />
-            Edit
-          </Button>
-        </Link>
-
-        {/* View Button (only for published) */}
-        {isPublic && (
-          <Link href={`/quizzes/${id}`}>
-            <Button
-              variant="default"
-              size="sm"
-              className="bg-primary-base text-white hover:bg-primary-hover"
-            >
-              <Eye className="mr-2 h-4 w-4" />
-              View
-            </Button>
+            <span className="material-symbols-outlined h-4 w-4">edit</span>
           </Link>
+          <button
+            className="p-1.5 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
+            title="Duplicate"
+          >
+            <span className="material-symbols-outlined h-4 w-4">content_copy</span>
+          </button>
+          <button
+            className="p-1.5 text-neutral-400 hover:text-error-base hover:bg-neutral-800 rounded-lg transition-colors"
+            title="Delete"
+          >
+            <span className="material-symbols-outlined h-4 w-4">delete</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Title */}
+      <h3 className="text-lg font-semibold text-white mb-2 line-clamp-1">
+        {quiz.title}
+      </h3>
+
+      {/* Description */}
+      {quiz.description && (
+        <p className="text-sm text-neutral-400 line-clamp-2 mb-4">
+          {quiz.description}
+        </p>
+      )}
+
+      {/* Meta Info */}
+      <div className="flex items-center gap-3 text-xs text-neutral-500">
+        {quiz.questionCount !== undefined && (
+          <span className="flex items-center gap-1">
+            <span className="material-symbols-outlined h-3.5 w-3.5">library_books</span>
+            {quiz.questionCount} questions
+          </span>
         )}
-      </CardFooter>
-    </Card>
+        {quiz.accessCode && (
+          <span className="flex items-center gap-1 px-2 py-1 bg-neutral-800 rounded text-neutral-400">
+            <span className="material-symbols-outlined h-3 w-3">vpn_key</span>
+            {quiz.accessCode}
+          </span>
+        )}
+      </div>
+    </div>
   )
 }

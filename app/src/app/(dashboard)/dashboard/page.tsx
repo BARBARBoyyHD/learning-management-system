@@ -1,22 +1,33 @@
 import { StatisticsCards } from '@/components/dashboard/statistics-cards'
 import { QuizList } from '@/components/quizzes/quiz-list'
-import { PlusCircle } from 'lucide-react'
+import { quizService } from '@/services/quiz.service'
+import { getSession } from '@/lib/auth-server'
 import Link from 'next/link'
 
 /**
  * Teacher Dashboard Page
- * 
- * Main landing page for teachers after login.
- * Displays quiz statistics and quiz listing.
  */
 export default async function DashboardPage() {
-  // TODO: Fetch quiz data from API when implemented
-  // For now, show empty state
-  const stats = {
+  const { data: { user } } = await getSession()
+
+  // Fetch quiz data if user is authenticated
+  let stats = {
     total: 0,
     published: 0,
     draft: 0,
-    archived: 0,
+  }
+  let quizzes: import('@/types/quiz').Quiz[] = []
+
+  if (user) {
+    const userId = user.id
+
+    const [statsData, quizzesData] = await Promise.all([
+      quizService.getStats(userId),
+      quizService.getByTeacher(userId),
+    ])
+
+    stats = statsData
+    quizzes = quizzesData
   }
 
   return (
@@ -29,12 +40,12 @@ export default async function DashboardPage() {
             Manage your quizzes and track student progress
           </p>
         </div>
-        
+
         <Link
-          href="/quizzes/new"
+          href="/teacher/quizzes/new"
           className="inline-flex items-center gap-2 rounded-lg bg-primary-base px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-hover transition-colors shadow-lg shadow-primary-base/20"
         >
-          <PlusCircle className="h-4 w-4" />
+          <span className="material-symbols-outlined">add_circle</span>
           Create Quiz
         </Link>
       </div>
@@ -43,7 +54,7 @@ export default async function DashboardPage() {
       <StatisticsCards stats={stats} />
 
       {/* Quiz List */}
-      <QuizList quizzes={[]} />
+      <QuizList quizzes={quizzes} />
     </div>
   )
 }

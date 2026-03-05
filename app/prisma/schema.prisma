@@ -45,9 +45,11 @@ model Quiz {
   teacherId   String
   title       String   @db.VarChar(200)
   description String?  @db.Text
+  timeLimit   Int?     // Time limit in minutes (null = no limit)
   isPublic    Boolean  @default(true)
   accessCode  String?  @unique @db.Char(6) // 6-character alphanumeric code for private quizzes
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
 
   // Relations
   teacher   User              @relation(fields: [teacherId], references: [id], onDelete: Cascade)

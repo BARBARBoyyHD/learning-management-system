@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Input } from '@/components/ui/input'
-import { Search } from 'lucide-react'
 
 export function QuizFilters() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -23,7 +22,7 @@ export function QuizFilters() {
 
       {/* Search Input */}
       <div className="relative flex-1 max-w-sm">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-500" />
+        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-500">search</span>
         <Input
           placeholder="Search quizzes..."
           value={searchQuery}

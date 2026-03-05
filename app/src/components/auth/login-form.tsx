@@ -16,7 +16,6 @@ import { login } from '@/actions/auth/login'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { AuthErrorDisplay, getAuthErrorType } from '@/components/auth/auth-error'
 
@@ -157,11 +156,9 @@ export function LoginForm() {
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
                 disabled={isLoading}
               >
-                {showPassword ? (
-                  <EyeOff className="h-5 w-5" />
-                ) : (
-                  <Eye className="h-5 w-5" />
-                )}
+                <span className="material-symbols-outlined text-lg">
+                  {showPassword ? 'visibility_off' : 'visibility'}
+                </span>
               </button>
             </div>
             {errors.password && (
@@ -179,7 +176,7 @@ export function LoginForm() {
           >
             {isLoading ? (
               <>
-                <Loader2 className="h-5 w-5 animate-spin" />
+                <span className="material-symbols-outlined h-5 w-5 animate-spin">progress_activity</span>
                 Signing in...
               </>
             ) : (
