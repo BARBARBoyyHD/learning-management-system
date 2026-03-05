@@ -1,61 +1,63 @@
 /**
  * Create Question Page
  *
- * Question editor for adding new questions to quizzes.
- * Supports multiple question types: Multiple Choice, Essay, Fill in Blank, Match, Reorder.
+ * Question editor for adding new questions to a quiz.
+ * Supports Multiple Choice and other question types.
  */
 
-import { quizService } from '@/services/quiz.service'
-import { requireAuth } from '@/lib/auth-server'
-import { notFound } from 'next/navigation'
-import { QuestionEditor } from '@/components/questions/question-editor'
+import { createClient } from '@/lib/supabase/server'
+import { prisma } from '@/lib/prisma'
+import { redirect, notFound } from 'next/navigation'
+import { QuestionEditor } from '@/components/questions/multiple-choice-editor'
 
-/**
- * Create Question Page Props
- */
-interface CreateQuestionPageProps {
-  params: Promise<{
-    quizId: string
-  }>
-}
+export default async function CreateQuestionPage(props: {
+  params: Promise<{ quizId: string }>
+}) {
+  const params = await props.params
+  const quizId = params.quizId
 
-/**
- * Create Question Page Component
- */
-export default async function CreateQuestionPage({ params }: CreateQuestionPageProps) {
-  // Authenticate user
-  await requireAuth()
+  // Check authentication
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  // Get quiz ID from params
-  const { quizId } = await params
-
-  // Fetch quiz data
-  const quiz = await quizService.getById(quizId)
-
-  // Check if quiz exists
-  if (!quiz) {
-    notFound()
+  if (!user) {
+    redirect('/login')
   }
 
-  // Check ownership (quiz.teacherId should exist if quiz exists)
-  if (!quiz.teacherId) {
+  // Verify quiz exists and belongs to user
+  const quiz = await prisma.quiz.findUnique({
+    where: { id: quizId },
+    select: {
+      id: true,
+      title: true,
+      teacherId: true,
+    },
+  })
+
+  if (!quiz || quiz.teacherId !== user.id) {
     notFound()
   }
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-neutral-50">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Add Question</h1>
-          <p className="mt-2 text-neutral-400">
-            Add a new question to &ldquo;{quiz.title}&rdquo;
+      <header className="border-b border-neutral-200 bg-white">
+        <div className="container mx-auto px-4 py-6">
+          <h1 className="text-2xl font-semibold text-neutral-900">
+            Create Question
+          </h1>
+          <p className="mt-1 text-sm text-neutral-600">
+            Adding to: {quiz.title}
           </p>
         </div>
-      </div>
+      </header>
 
-      {/* Question Editor */}
-      <QuestionEditor quizId={quizId} />
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
+        <div className="mx-auto max-w-4xl">
+          <QuestionEditor quizId={quizId} />
+        </div>
+      </main>
     </div>
   )
 }
