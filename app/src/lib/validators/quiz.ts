@@ -50,11 +50,31 @@ export const quizMetadataPartialUpdateSchema = quizMetadataUpdateSchema.partial(
  */
 export const accessCodeSchema = z
   .string()
-  .length(6)
-  .regex(/^[A-Z0-9]+$/)
+  .length(6, 'Access code must be exactly 6 characters')
+  .regex(/^[A-Z0-9]+$/, 'Access code must contain only letters and numbers')
+
+/**
+ * Access code input schema for student join form
+ * - Case-insensitive (accepts lowercase, converts to uppercase)
+ * - Validates 6-character alphanumeric string
+ */
+export const accessCodeInputSchema = z
+  .string()
+  .trim()
+  .toUpperCase()
+  .length(6, 'Code must be 6 characters')
+  .regex(/^[A-Z0-9]+$/, 'Code can only contain letters and numbers')
+
+/**
+ * Quiz join request schema
+ */
+export const quizJoinRequestSchema = z.object({
+  accessCode: accessCodeInputSchema,
+})
 
 /**
  * Type inferences for TypeScript
  */
 export type QuizMetadataUpdateInput = z.infer<typeof quizMetadataUpdateSchema>
 export type QuizMetadataPartialUpdateInput = z.infer<typeof quizMetadataPartialUpdateSchema>
+export type QuizJoinRequestInput = z.infer<typeof quizJoinRequestSchema>

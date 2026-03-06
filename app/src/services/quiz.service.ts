@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { Quiz } from '@/types/quiz'
-import { QuizMetadataUpdateInput } from '@/lib/validators/quiz'
+import { QuizMetadataUpdateInput, accessCodeInputSchema } from '@/lib/validators/quiz'
 
 /**
  * Quiz Service
@@ -166,6 +166,53 @@ export const quizService = {
       select: { updatedAt: true },
     })
     return quiz?.updatedAt ?? null
+  },
+
+  /**
+   * Find quiz by access code (case-insensitive)
+   */
+  async findByAccessCode(code: string) {
+    const quiz = await prisma.quiz.findFirst({
+      where: {
+        accessCode: {
+          equals: code.toUpperCase(),
+          mode: 'insensitive',
+        },
+      },
+      include: {
+        teacher: {
+          select: { name: true },
+        },
+        _count: {
+          select: { questions: true },
+        },
+      },
+    })
+
+    return quiz
+  },
+
+  /**
+   * Validate access code and return quiz join details
+   */
+  async validateAccessCode(code: string) {
+    // Validate code format
+    const validatedCode = accessCodeInputSchema.parse(code)
+
+    const quiz = await this.findByAccessCode(validatedCode)
+
+    if (!quiz) {
+      throw new Error('Invalid access code')
+    }
+
+    return {
+      quizId: quiz.id,
+      title: quiz.title,
+      description: quiz.description,
+      teacherName: quiz.teacher.name,
+      questionCount: quiz._count.questions,
+      timeLimit: quiz.timeLimit,
+    }
   },
 
   /**
