@@ -88,14 +88,21 @@ export async function POST(
       const question = quiz.questions.find((q) => q.id === questionId)
       if (!question) continue
 
-      // Find the selected option
-      const selectedOption = question.options.find(
-        (opt) => opt.id === answer
-      )
+      // Skip auto-grading for essay questions (they need manual grading)
+      const isEssay = question.questionType === 'essay'
 
-      // Check if correct and add points
-      if (selectedOption?.isCorrect) {
-        totalScore += question.points
+      // For multiple choice, find the selected option and check if correct
+      let isCorrect = false
+      if (!isEssay) {
+        const selectedOption = question.options.find(
+          (opt) => opt.id === answer
+        )
+        isCorrect = selectedOption?.isCorrect ?? false
+
+        // Add points for correct objective answers
+        if (isCorrect) {
+          totalScore += question.points
+        }
       }
 
       // Update or create response detail
@@ -111,7 +118,7 @@ export async function POST(
           where: { id: detail.id },
           data: {
             answerGiven: answer as string,
-            isCorrect: selectedOption?.isCorrect ?? false,
+            isCorrect: isEssay ? null : isCorrect, // null for essay (needs manual grading)
           },
         })
       } else {
@@ -120,7 +127,7 @@ export async function POST(
             responseId: response!.id,
             questionId,
             answerGiven: answer as string,
-            isCorrect: selectedOption?.isCorrect ?? false,
+            isCorrect: isEssay ? null : isCorrect, // null for essay (needs manual grading)
           },
         })
       }

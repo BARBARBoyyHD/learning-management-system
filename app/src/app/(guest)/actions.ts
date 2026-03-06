@@ -70,7 +70,7 @@ export async function registerGuestStudent(name: string, quizId: string) {
     if (error instanceof z.ZodError) {
       return {
         success: false,
-        error: error.errors[0]?.message || 'Invalid name',
+        error: error.issues[0]?.message || 'Invalid name',
       }
     }
 

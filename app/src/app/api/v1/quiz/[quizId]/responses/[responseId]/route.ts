@@ -14,7 +14,7 @@ export async function GET(
   { params }: { params: Promise<{ quizId: string; responseId: string }> }
 ) {
   try {
-    const { quizId, responseId } = await params
+    const { responseId } = await params
 
     // Fetch response details with question info
     const details = await prisma.responseDetail.findMany({

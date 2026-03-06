@@ -32,23 +32,39 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Page Header with Action */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-          <p className="mt-2 text-neutral-400">
-            Manage your quizzes and track student progress
-          </p>
+      {/* Welcome Banner */}
+      <section className="relative overflow-hidden rounded-3xl bg-primary-base p-8 md:p-12 text-white">
+        <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="space-y-4 max-w-xl">
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight">Welcome back, Instructor!</h2>
+            <p className="text-white/80 text-lg opacity-90 leading-relaxed">
+              Ready to create engaging quizzes for your students today? Check your latest reports and performance metrics below.
+            </p>
+            <div className="flex gap-4 pt-2">
+              <Link
+                href="/teacher/quizzes/new"
+                className="bg-white text-primary-base px-6 py-3 rounded-xl font-bold hover:bg-neutral-100 transition-colors"
+              >
+                Get Started
+              </Link>
+              <Link
+                href="/dashboard/reports"
+                className="bg-primary-base/20 border border-white/30 text-white px-6 py-3 rounded-xl font-bold backdrop-blur-sm hover:bg-primary-base/30 transition-colors"
+              >
+                View Reports
+              </Link>
+            </div>
+          </div>
+          <div className="hidden lg:block">
+            <div className="size-48 bg-white/10 rounded-3xl backdrop-blur-md border border-white/20 flex items-center justify-center transform rotate-6">
+              <span className="material-symbols-outlined text-7xl text-white">auto_awesome</span>
+            </div>
+          </div>
         </div>
-
-        <Link
-          href="/teacher/quizzes/new"
-          className="inline-flex items-center gap-2 rounded-lg bg-primary-base px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-hover transition-colors shadow-lg shadow-primary-base/20"
-        >
-          <span className="material-symbols-outlined">add_circle</span>
-          Create Quiz
-        </Link>
-      </div>
+        {/* Background shapes */}
+        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 size-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 size-64 bg-black/10 rounded-full blur-2xl"></div>
+      </section>
 
       {/* Statistics Cards */}
       <StatisticsCards stats={stats} />

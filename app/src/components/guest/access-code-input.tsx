@@ -127,7 +127,7 @@ export function AccessCodeInput({
   }
 
   return (
-    <div className="flex gap-2 justify-center">
+    <fieldset className="flex gap-2 justify-center">
       {Array.from({ length: 6 }).map((_, index) => (
         <input
           key={index}
@@ -137,12 +137,13 @@ export function AccessCodeInput({
           maxLength={1}
           disabled={disabled}
           aria-label={`Character ${index + 1} of 6`}
+          placeholder="•"
           className={cn(
-            'w-12 h-14 text-center text-2xl font-bold rounded-lg border-2 transition-all',
-            'focus:outline-none focus:ring-2 focus:ring-primary-base focus:border-primary-base',
+            'w-12 h-14 text-center text-xl font-bold rounded-lg border-2 transition-all',
+            'focus:outline-none focus:border-primary-base focus:ring-0',
             error
               ? 'border-error-base bg-error-base/10 text-error-base'
-              : 'border-neutral-700 bg-neutral-900 text-white hover:border-neutral-600',
+              : 'border-neutral-700 bg-neutral-800 text-white hover:border-neutral-600 focus:bg-neutral-800',
             disabled && 'opacity-50 cursor-not-allowed'
           )}
           onChange={(e) => handleChange(index, e.target.value)}
@@ -150,6 +151,6 @@ export function AccessCodeInput({
           onPaste={handlePaste}
         />
       ))}
-    </div>
+    </fieldset>
   )
 }

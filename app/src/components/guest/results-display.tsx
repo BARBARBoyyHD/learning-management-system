@@ -23,14 +23,15 @@ interface QuestionResult {
   userAnswer: {
     id: string
     text: string
-    isCorrect: boolean
+    isCorrect: boolean | null
   } | null
   correctAnswer: {
     id: string
     text: string
   } | null
-  isCorrect: boolean
+  isCorrect: boolean | null
   earnedPoints: number
+  needsGrading?: boolean
 }
 
 interface Quiz {
@@ -111,110 +112,163 @@ export function ResultsDisplay({
       {/* Question Review */}
       <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
         <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-          <span className="material-symbols-outlined h-5 w-5 text-neutral-400">
-            review
-          </span>
           Question Review
         </h2>
 
         <div className="space-y-4">
-          {questionResults.map((result, index) => (
-            <div
-              key={result.question.id}
-              className={cn(
-                'rounded-lg border p-4',
-                result.isCorrect
-                  ? 'border-success-base/30 bg-success-base/5'
-                  : 'border-error-base/30 bg-error-base/5'
-              )}
-            >
-              {/* Question Header */}
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <span
-                    className={cn(
-                      'flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold',
-                      result.isCorrect
-                        ? 'bg-success-base text-white'
-                        : 'bg-error-base text-white'
-                    )}
-                  >
-                    {index + 1}
-                  </span>
-                  <span className="text-sm text-neutral-400">
-                    {result.question.type.replace('_', ' ')}
-                  </span>
-                </div>
-                <span
-                  className={cn(
-                    'text-sm font-medium',
-                    result.isCorrect ? 'text-success-base' : 'text-error-base'
-                  )}
-                >
-                  {result.isCorrect ? (
-                    <span className="flex items-center gap-1">
-                      <span className="material-symbols-outlined h-4 w-4">
-                        check_circle
+          {questionResults.map((result, index) => {
+            const isEssay = result.question.type === 'essay'
+            const needsGrading = result.needsGrading || result.isCorrect === null
+
+            return (
+              <div
+                key={result.question.id}
+                className={cn(
+                  'rounded-lg border p-5',
+                  needsGrading
+                    ? 'border-neutral-700 bg-neutral-800/30'
+                    : result.isCorrect
+                    ? 'border-success-base/30 bg-success-base/5'
+                    : 'border-error-base/30 bg-error-base/5'
+                )}
+              >
+                {/* Question Header */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={cn(
+                        'flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold flex-shrink-0',
+                        needsGrading
+                          ? 'bg-neutral-600 text-white'
+                          : result.isCorrect
+                          ? 'bg-success-base text-white'
+                          : 'bg-error-base text-white'
+                      )}
+                    >
+                      {index + 1}
+                    </span>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                        {result.question.type.replace(/_/g, ' ')}
                       </span>
-                      Correct
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1">
-                      <span className="material-symbols-outlined h-4 w-4">
-                        cancel
-                      </span>
-                      Incorrect
-                    </span>
-                  )}
-                </span>
-              </div>
-
-              {/* Question Text */}
-              <p className="text-white mb-4">{result.question.text}</p>
-
-              {/* Answers */}
-              <div className="space-y-2">
-                {/* User's Answer */}
-                <div
-                  className={cn(
-                    'p-3 rounded-lg flex items-center justify-between',
-                    result.isCorrect
-                      ? 'bg-success-base/10 border border-success-base/30'
-                      : 'bg-error-base/10 border border-error-base/30'
-                  )}
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-neutral-400">Your answer:</span>
-                    <span className="text-white">
-                      {result.userAnswer?.text || 'No answer'}
-                    </span>
-                  </div>
-                  {result.isCorrect && (
-                    <span className="material-symbols-outlined h-5 w-5 text-success-base">
-                      check_circle
-                    </span>
-                  )}
-                </div>
-
-                {/* Correct Answer (if user got it wrong) */}
-                {!result.isCorrect && result.correctAnswer && (
-                  <div className="p-3 rounded-lg bg-success-base/10 border border-success-base/30">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-neutral-400">Correct answer:</span>
-                      <span className="text-success-base font-medium">
-                        {result.correctAnswer.text}
+                      <span className="text-xs text-neutral-500">
+                        {result.question.points} points
                       </span>
                     </div>
                   </div>
-                )}
-              </div>
+                  {needsGrading ? (
+                    <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-neutral-700 text-neutral-300 flex items-center gap-1.5 flex-shrink-0">
+                      <span className="material-symbols-outlined h-4 w-4">pending</span>
+                      Needs Grading
+                    </span>
+                  ) : result.isCorrect ? (
+                    <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-success-base/20 text-success-base flex items-center gap-1.5 flex-shrink-0">
+                      <span className="material-symbols-outlined h-4 w-4">check_circle</span>
+                      Correct
+                    </span>
+                  ) : (
+                    <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-error-base/20 text-error-base flex items-center gap-1.5 flex-shrink-0">
+                      <span className="material-symbols-outlined h-4 w-4">cancel</span>
+                      Incorrect
+                    </span>
+                  )}
+                </div>
 
-              {/* Points */}
-              <div className="mt-3 text-right text-sm text-neutral-400">
-                +{result.earnedPoints} / {result.question.points} points
+                {/* Question Text */}
+                <p className="text-white font-medium mb-4 leading-relaxed">
+                  {result.question.text}
+                </p>
+
+                {/* Answers */}
+                <div className="space-y-3">
+                  {/* User's Answer */}
+                  <div
+                    className={cn(
+                      'p-3.5 rounded-lg flex items-start gap-3',
+                      needsGrading
+                        ? 'bg-neutral-800/50 border border-neutral-700'
+                        : result.isCorrect
+                        ? 'bg-success-base/10 border border-success-base/30'
+                        : 'bg-error-base/10 border border-error-base/30'
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        'material-symbols-outlined h-5 w-5 flex-shrink-0 mt-0.5',
+                        needsGrading
+                          ? 'text-neutral-400'
+                          : result.isCorrect
+                          ? 'text-success-base'
+                          : 'text-error-base'
+                      )}
+                    >
+                      {needsGrading ? 'edit_note' : result.isCorrect ? 'person_check' : 'person_off'}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-xs font-medium text-neutral-400 block mb-1">
+                        Your answer:
+                      </span>
+                      <div className="text-white break-words whitespace-pre-wrap">
+                        {result.userAnswer?.text || 'No answer'}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Correct Answer (if user got it wrong and not essay) */}
+                  {!result.isCorrect && result.correctAnswer && !needsGrading && (
+                    <div className="p-3.5 rounded-lg bg-success-base/10 border border-success-base/30">
+                      <div className="flex items-start gap-3">
+                        <span className="material-symbols-outlined h-5 w-5 text-success-base flex-shrink-0 mt-0.5">
+                          task_alt
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-xs font-medium text-neutral-400 block mb-1">
+                            Correct answer:
+                          </span>
+                          <span className="text-success-base font-medium break-words">
+                            {result.correctAnswer.text}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Grading Notice for Essays */}
+                  {needsGrading && isEssay && (
+                    <div className="p-3.5 rounded-lg bg-info-base/10 border border-info-base/30">
+                      <div className="flex items-start gap-3">
+                        <span className="material-symbols-outlined h-5 w-5 text-info-base flex-shrink-0 mt-0.5">
+                          info
+                        </span>
+                        <div className="flex-1">
+                          <span className="text-xs font-medium text-info-base block mb-1">
+                            Pending teacher grading
+                          </span>
+                          <span className="text-xs text-neutral-400">
+                            Your essay answer has been submitted and is waiting for your teacher to review and grade it.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Points */}
+                <div className="mt-4 pt-3 border-t border-neutral-800 text-right">
+                  <span className={cn(
+                    'text-sm font-bold',
+                    needsGrading
+                      ? 'text-neutral-500'
+                      : result.isCorrect
+                      ? 'text-success-base'
+                      : 'text-neutral-500'
+                  )}>
+                    {needsGrading ? 'Pending grading' : `+${result.earnedPoints} / ${result.question.points} points`}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 
@@ -230,7 +284,7 @@ export function ResultsDisplay({
         </Button>
         <Button
           onClick={() => router.push(`/join/${quiz.id}`)}
-          className="flex-1 bg-primary-base hover:bg-primary-hover"
+          className="flex-1 bg-primary-base hover:bg-primary-base/90"
         >
           <span className="material-symbols-outlined h-5 w-5 mr-2">refresh</span>
           Retake Quiz

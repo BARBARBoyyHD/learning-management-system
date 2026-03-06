@@ -1,13 +1,13 @@
 /**
  * Quiz List Component
  *
- * Displays a grid of quiz cards.
+ * Displays a list of quizzes in a table format.
  * Handles empty state when no quizzes exist.
  */
 
 import { Quiz } from '@/types/quiz'
-import { QuizCard } from './quiz-card'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
 
 /**
  * Quiz list props
@@ -71,10 +71,70 @@ export function QuizList({ quizzes }: QuizListProps) {
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {quizzes.map((quiz) => (
-        <QuizCard key={quiz.id} quiz={quiz} />
-      ))}
-    </div>
+    <section className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-xl font-bold tracking-tight text-white">Recent Quizzes</h3>
+        <Link className="text-primary-base text-sm font-bold hover:underline" href="/teacher/quizzes">
+          View All
+        </Link>
+      </div>
+      <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead className="border-b border-neutral-800 bg-neutral-800/50">
+              <tr>
+                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-neutral-400">Quiz Title</th>
+                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-neutral-400">Date Created</th>
+                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-neutral-400">Questions</th>
+                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-neutral-400">Status</th>
+                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-neutral-400">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-neutral-800">
+              {quizzes.map((quiz) => (
+                <tr key={quiz.id} className="hover:bg-neutral-800/30 transition-colors">
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="size-10 bg-neutral-800 rounded-lg flex items-center justify-center overflow-hidden">
+                        <div className="w-full h-full bg-gradient-to-br from-primary-base to-purple-400"/>
+                      </div>
+                      <span className="font-bold text-white">{quiz.title}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-neutral-400">
+                    {new Date(quiz.createdAt).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric'
+                    })}
+                  </td>
+                  <td className="px-6 py-4 text-sm font-medium text-white">
+                    {quiz.questionCount || 0}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className={cn(
+                      'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold',
+                      quiz.isPublic
+                        ? 'bg-success-base/20 text-success-base'
+                        : 'bg-neutral-700 text-neutral-300'
+                    )}>
+                      {quiz.isPublic ? 'Published' : 'Draft'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <Link
+                      href={`/teacher/quizzes/${quiz.id}/edit`}
+                      className="p-2 hover:bg-neutral-800 rounded-lg text-neutral-400 hover:text-white transition-colors"
+                    >
+                      <span className="material-symbols-outlined">more_horiz</span>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   )
 }

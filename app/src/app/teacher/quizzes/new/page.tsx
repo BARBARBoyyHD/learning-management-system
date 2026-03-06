@@ -13,6 +13,7 @@
 import { AssessmentForm } from '@/components/assessments/assessment-form'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 
 export default async function CreateQuizPage() {
   // Check if user is authenticated
@@ -25,24 +26,31 @@ export default async function CreateQuizPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-neutral-950">
       {/* Header */}
-      <header className="border-b border-neutral-200 bg-white">
-        <div className="container mx-auto px-4 py-6">
-          <h1 className="text-2xl font-semibold text-neutral-900">
-            Create Quiz
-          </h1>
-          <p className="mt-1 text-sm text-neutral-600">
-            Set up your quiz details and settings
-          </p>
+      <header className="border-b border-neutral-800 bg-neutral-900/50 sticky top-0 z-40 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-2 text-sm text-neutral-400 mb-1">
+                <Link href="/dashboard" className="hover:text-white transition-colors">Dashboard</Link>
+                <span className="material-symbols-outlined h-4 w-4">chevron_right</span>
+                <Link href="/teacher/quizzes" className="hover:text-white transition-colors">My Quizzes</Link>
+                <span className="material-symbols-outlined h-4 w-4">chevron_right</span>
+                <span className="text-white">Create Quiz</span>
+              </div>
+              <h1 className="text-2xl font-bold text-white">Create Quiz</h1>
+              <p className="mt-1 text-sm text-neutral-400">
+                Set up your quiz details and settings
+              </p>
+            </div>
+          </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="mx-auto max-w-3xl">
-          <AssessmentForm />
-        </div>
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        <AssessmentForm />
       </main>
     </div>
   )
