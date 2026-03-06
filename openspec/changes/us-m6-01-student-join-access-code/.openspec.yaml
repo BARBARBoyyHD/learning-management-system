@@ -1,0 +1,26 @@
+name: us-m6-01-student-join-access-code
+description: Student guest access code entry and validation for quiz join flow
+status: in_progress
+created_at: 2026-03-05T00:00:00Z
+
+# Artifact workflow following spec-driven schema
+artifacts:
+  - id: proposal
+    name: Proposal
+    status: complete
+    file: proposal.md
+    
+  - id: design
+    name: Design
+    status: complete
+    file: design.md
+    
+  - id: tasks
+    name: Tasks
+    status: complete
+    file: tasks.md
+    
+  - id: specs
+    name: Specifications
+    status: complete
+    file: specs/student-guest-join/spec.md

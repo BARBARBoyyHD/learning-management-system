@@ -72,6 +72,13 @@ export function QuizCard({ quiz }: QuizCardProps) {
           {/* Quick Actions */}
           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
             <Link
+              href={`/dashboard/quizzes/${quiz.id}/results`}
+              className="p-1.5 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
+              title="View Results"
+            >
+              <span className="material-symbols-outlined h-4 w-4">analytics</span>
+            </Link>
+            <Link
               href={`/teacher/quizzes/${quiz.id}/edit`}
               className="p-1.5 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
               title="Edit"
