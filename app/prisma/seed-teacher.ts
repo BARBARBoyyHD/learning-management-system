@@ -26,8 +26,8 @@ async function main() {
     return
   }
 
-  // Hash password
-  const hashedPassword = await bcrypt.hash('teacher123', 10)
+  // Hash password (for reference if needed in future)
+  await bcrypt.hash('teacher123', 10)
 
   // Create teacher account
   // Note: This creates a user in the local users table

@@ -61,14 +61,10 @@ export function JoinForm() {
       // Success - navigate to next step (name input / quiz start)
       toast.success('Access code valid!')
 
-      // TODO: Navigate to name input page (US-M6-02)
-      // For now, just show success message
-      toast.success(`Found quiz: ${data.data.title}`)
-
       // Store quiz info for next step
       sessionStorage.setItem('quizToJoin', JSON.stringify(data.data))
 
-      // Navigate to name input page (will be created in US-M6-02)
+      // Navigate to name input page
       router.push(`/join/${data.data.quizId}/name`)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Something went wrong'
@@ -98,51 +94,58 @@ export function JoinForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Instruction */}
-      <div className="text-center">
-        <h2 className="text-xl font-semibold text-white mb-2">Enter Game Code</h2>
-        <p className="text-sm text-neutral-400">
-          Enter the 6-character code provided by your teacher
-        </p>
-      </div>
-
-      {/* Access Code Input */}
-      <div className="py-4">
-        <AccessCodeInput
-          onComplete={handleCodeComplete}
-          onChange={setAccessCode}
-          error={!!error}
-          disabled={isLoading}
-          autoSubmit={false}
-        />
-      </div>
-
-      {/* Error Message */}
-      {error && (
-        <div className="text-center">
-          <p className="text-sm text-error-base">{error}</p>
-          <p className="text-xs text-neutral-500 mt-1">
-            Having trouble? Check with your teacher
-          </p>
+    <div className="w-full max-w-[480px] space-y-6 ">
+      {/* Main Join Card */}
+      <div className="bg-neutral-900/80 backdrop-blur-xl border border-neutral-800 p-8 rounded-xl shadow-2xl flex flex-col">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2">Ready to Play?</h1>
+          <p className="text-neutral-400">Enter your game code to begin</p>
         </div>
-      )}
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Access Code Section */}
+          <div className="space-y-3">
+            <label className="block text-sm font-semibold text-neutral-300 ml-1">
+              Game Code
+            </label>
+            <AccessCodeInput
+              onComplete={handleCodeComplete}
+              onChange={setAccessCode}
+              error={!!error}
+              disabled={isLoading}
+              autoSubmit={false}
+            />
+          </div>
 
-      {/* Submit Button */}
-      <Button
-        type="submit"
-        disabled={isLoading || accessCode.length !== 6}
-        className="w-full h-12 text-lg bg-primary-base hover:bg-primary-hover transition-colors"
-      >
-        {isLoading ? (
-          <span className="flex items-center gap-2">
-            <span className="material-symbols-outlined h-5 w-5 animate-spin">progress_activity</span>
-            Checking...
-          </span>
-        ) : (
-          'Continue'
-        )}
-      </Button>
-    </form>
+          {/* Error Message */}
+          {error && (
+            <div className="text-center">
+              <p className="text-sm text-error-base">{error}</p>
+              <p className="text-xs text-neutral-500 mt-1">
+                Having trouble? Check with your teacher
+              </p>
+            </div>
+          )}
+
+          {/* Join Button */}
+          <Button
+            type="submit"
+            disabled={isLoading || accessCode.length !== 6}
+            className="w-full h-16 bg-primary-base hover:bg-primary-base/90 text-white font-bold text-xl rounded-xl shadow-lg shadow-primary-base/30 transition-all flex items-center justify-center gap-3 active:scale-95 group"
+          >
+            JOIN GAME
+            <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </Button>
+        </form>
+      </div>
+
+      {/* Secondary Actions */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-between items-center px-2">
+        <div className="flex items-center gap-2 text-neutral-400 text-sm">
+          <span className="material-symbols-outlined text-base">group</span>
+          <span>Ready to learn</span>
+        </div>
+      </div>
+    </div>
   )
 }

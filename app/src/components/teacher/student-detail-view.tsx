@@ -7,7 +7,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { prisma } from '@/lib/prisma'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -25,7 +24,8 @@ interface StudentResponse {
 
 interface Question {
   id: string
-  title: string
+  title?: string
+  questionText?: string
   points: number
 }
 

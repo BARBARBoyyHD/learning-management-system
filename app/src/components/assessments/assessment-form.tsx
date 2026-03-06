@@ -3,7 +3,7 @@
  *
  * Form for creating and editing assessments/quizzes.
  * Uses React Hook Form for form management and Zod for validation.
- * Implements Theme A (Light) design system for teacher-facing screens.
+ * Implements Theme B (Dark) design system for teacher-facing screens.
  */
 
 'use client'
@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, ArrowLeft, AlertCircle } from 'lucide-react'
+import { AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 
@@ -66,7 +66,6 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
       title: initialData?.title ?? '',
       description: initialData?.description ?? null,
       timeLimit: initialData?.timeLimit ?? null,
-      shuffleQuestions: initialData?.shuffleQuestions ?? false,
       maxAttempts: initialData?.maxAttempts ?? null,
     },
   })
@@ -91,7 +90,6 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
         formData.append('title', data.title)
         if (data.description) formData.append('description', data.description)
         if (data.timeLimit) formData.append('timeLimit', data.timeLimit.toString())
-        if (data.shuffleQuestions) formData.append('shuffleQuestions', 'on')
         if (data.maxAttempts) formData.append('maxAttempts', data.maxAttempts.toString())
 
         // Call Server Action with optional courseId
@@ -136,7 +134,6 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
             title: data.title,
             description: data.description,
             timeLimit: data.timeLimit,
-            shuffleQuestions: data.shuffleQuestions,
             maxAttempts: data.maxAttempts,
           })
 
@@ -158,7 +155,6 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
           title: data.title,
           description: data.description,
           timeLimit: data.timeLimit,
-          shuffleQuestions: data.shuffleQuestions,
           maxAttempts: data.maxAttempts,
         })
 
@@ -169,10 +165,10 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
 
   return (
     <div className="space-y-6">
-      {/* Error Message - 9.4 Handle unauthorized errors in UI */}
+      {/* Error Message */}
       {error && (
         <div
-          className="rounded-xl border border-error/20 bg-error/10 p-4 flex items-start gap-3"
+          className="rounded-xl border border-error-base/20 bg-error-base/10 p-4 flex items-start gap-3"
           role="alert"
           aria-live="assertive"
         >
@@ -185,23 +181,23 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
       )}
 
       {/* Main Settings Card */}
-      <Card className="border-neutral-200 bg-white shadow-sm">
+      <Card className="border-neutral-800 bg-neutral-900/50 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-neutral-900">Basic Information</CardTitle>
-          <CardDescription className="text-neutral-600">
+          <CardTitle className="text-white">Basic Information</CardTitle>
+          <CardDescription className="text-neutral-400">
             Enter the quiz title and optional description
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Title Field */}
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-neutral-700">
+            <Label htmlFor="title" className="text-neutral-300">
               Title <span className="text-error-base">*</span>
             </Label>
             <Input
               id="title"
               placeholder="Enter quiz title"
-              className="border-neutral-300 focus:border-primary-base focus:ring-primary-base"
+              className="border-neutral-700 bg-neutral-800 text-white placeholder:text-neutral-500 focus:border-primary-base focus:ring-primary-base"
               disabled={isPending}
               {...register('title')}
             />
@@ -214,14 +210,14 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
 
           {/* Description Field */}
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-neutral-700">
+            <Label htmlFor="description" className="text-neutral-300">
               Description
             </Label>
             <textarea
               id="description"
               rows={4}
               placeholder="Enter quiz description (optional)"
-              className="flex w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:border-primary-base focus:outline-none focus:ring-2 focus:ring-primary-base disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex w-full rounded-md border border-neutral-700 bg-neutral-800 px-3 py-2 text-sm text-white placeholder:text-neutral-500 focus:border-primary-base focus:outline-none focus:ring-2 focus:ring-primary-base disabled:cursor-not-allowed disabled:opacity-50"
               disabled={isPending}
               {...register('description')}
             />
@@ -235,17 +231,17 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
       </Card>
 
       {/* Quiz Settings Card */}
-      <Card className="border-neutral-200 bg-white shadow-sm">
+      <Card className="border-neutral-800 bg-neutral-900/50 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-neutral-900">Quiz Settings</CardTitle>
-          <CardDescription className="text-neutral-600">
+          <CardTitle className="text-white">Quiz Settings</CardTitle>
+          <CardDescription className="text-neutral-400">
             Configure time limits, shuffling, and attempt limits
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Time Limit */}
           <div className="space-y-2">
-            <Label htmlFor="timeLimit" className="text-neutral-700">
+            <Label htmlFor="timeLimit" className="text-neutral-300">
               Time Limit (minutes)
             </Label>
             <Input
@@ -254,7 +250,7 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
               min="1"
               max="180"
               placeholder="Leave empty for no time limit"
-              className="border-neutral-300 focus:border-primary-base focus:ring-primary-base"
+              className="border-neutral-700 bg-neutral-800 text-white placeholder:text-neutral-500 focus:border-primary-base focus:ring-primary-base"
               disabled={isPending}
               {...register('timeLimit', { valueAsNumber: true })}
             />
@@ -265,23 +261,9 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
             )}
           </div>
 
-          {/* Shuffle Questions */}
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="shuffleQuestions"
-              className="h-4 w-4 rounded border-neutral-300 text-primary-base focus:ring-primary-base"
-              disabled={isPending}
-              {...register('shuffleQuestions')}
-            />
-            <Label htmlFor="shuffleQuestions" className="text-neutral-700">
-              Shuffle question order for each student
-            </Label>
-          </div>
-
           {/* Max Attempts */}
           <div className="space-y-2">
-            <Label htmlFor="maxAttempts" className="text-neutral-700">
+            <Label htmlFor="maxAttempts" className="text-neutral-300">
               Maximum Attempts
             </Label>
             <Input
@@ -289,7 +271,7 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
               type="number"
               min="1"
               placeholder="Leave empty for unlimited"
-              className="border-neutral-300 focus:border-primary-base focus:ring-primary-base"
+              className="border-neutral-700 bg-neutral-800 text-white placeholder:text-neutral-500 focus:border-primary-base focus:ring-primary-base"
               disabled={isPending}
               {...register('maxAttempts', { valueAsNumber: true })}
             />
@@ -307,9 +289,9 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
         <Link href="/dashboard">
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             disabled={isPending}
-            className="border-neutral-300 text-neutral-700 hover:bg-neutral-100"
+            className="border border-neutral-700 bg-neutral-800 text-white hover:bg-neutral-700"
           >
             <span className="material-symbols-outlined mr-2 h-4 w-4">arrow_back</span>
             Cancel
@@ -319,7 +301,7 @@ export function AssessmentForm({ initialData, courseId }: AssessmentFormProps) {
           type="submit"
           onClick={handleSubmit(onSubmit)}
           disabled={isPending}
-          className="bg-primary-base text-white hover:bg-primary-hover active:bg-primary-active shadow-lg shadow-primary/20 min-w-[120px]"
+          className="bg-primary-base text-white hover:bg-primary-hover active:bg-primary-active shadow-lg shadow-primary-base/20 min-w-[120px]"
         >
           {isPending ? (
             <>

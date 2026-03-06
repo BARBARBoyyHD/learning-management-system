@@ -27,6 +27,7 @@ interface Question {
   id: string
   questionText: string
   points: number
+  title?: string
 }
 
 interface Quiz {

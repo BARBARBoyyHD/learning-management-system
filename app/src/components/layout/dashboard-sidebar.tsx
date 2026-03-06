@@ -23,12 +23,12 @@ const navigation: NavItem[] = [
   {
     name: 'My Quizzes',
     href: '/teacher/quizzes',
-    icon: 'library_books',
+    icon: 'quiz',
   },
   {
-    name: 'Create Quiz',
-    href: '/teacher/quizzes/new',
-    icon: 'add_circle_outline',
+    name: 'Reports',
+    href: '/dashboard/reports',
+    icon: 'analytics',
   },
   {
     name: 'Settings',
@@ -58,7 +58,6 @@ export function DashboardSidebar() {
   const handleLogout = () => {
     startTransition(async () => {
       await logout()
-      // Note: redirect will naturally clear client state
     })
   }
 
@@ -68,19 +67,20 @@ export function DashboardSidebar() {
   const userInitial = displayName.charAt(0).toUpperCase()
 
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 bg-neutral-900 border-r border-neutral-800">
+    <aside className="w-72 flex-shrink-0 border-r border-neutral-800 bg-neutral-900 flex flex-col">
       {/* Logo/Brand */}
-      <div className="flex h-16 items-center border-b border-neutral-800 px-6">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-base">
-            <span className="text-white font-bold text-sm">Q</span>
-          </div>
-          <span className="text-lg font-bold text-white">Quizizz</span>
+      <div className="p-6 flex items-center gap-3">
+        <div className="bg-primary-base p-2 rounded-lg flex items-center justify-center">
+          <span className="material-symbols-outlined text-white">school</span>
+        </div>
+        <div>
+          <h1 className="text-xl font-bold tracking-tight text-white">LearnWeb LMS</h1>
+          <p className="text-xs text-primary-base/60 font-medium uppercase tracking-wider">Teacher Portal</p>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex flex-col gap-1 p-4">
+      <nav className="flex-1 px-4 py-4 space-y-2">
         {navigation.map((item) => {
           const isActive = pathname === item.href
           return (
@@ -88,39 +88,34 @@ export function DashboardSidebar() {
               key={item.name}
               href={item.href}
               className={cn(
-                'group flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-all',
+                'flex items-center gap-3 px-4 py-3 rounded-xl transition-colors font-medium',
                 isActive
-                  ? 'bg-primary-base/10 text-primary-base'
+                  ? 'bg-primary-base text-white'
                   : 'text-neutral-400 hover:bg-neutral-800 hover:text-white'
               )}
             >
-              <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined h-5 w-5">{item.icon}</span>
-                {item.name}
-              </div>
-              {isActive && (
-                <span className="material-symbols-outlined h-4 w-4 text-primary-base">chevron_right</span>
-              )}
+              <span className="material-symbols-outlined">{item.icon}</span>
+              <span>{item.name}</span>
             </Link>
           )
         })}
       </nav>
 
       {/* User Section */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-neutral-800">
-        <div className="flex items-center gap-3 rounded-lg bg-neutral-800/50 p-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-base/20">
+      <div className="p-4 border-t border-neutral-800">
+        <div className="flex items-center gap-3 p-2">
+          <div className="size-10 rounded-full bg-primary-base/20 flex items-center justify-center">
             {isLoading ? (
-              <span className="material-symbols-outlined text-primary-base">person</span>
+              <span className="material-symbols-outlined text-primary-base">account_circle</span>
             ) : (
               <span className="text-sm font-medium text-primary-base">{userInitial}</span>
             )}
           </div>
-          <div className="flex-1 overflow-hidden">
-            <p className="truncate text-sm font-medium text-white">
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold truncate text-white">
               {isLoading ? 'Loading...' : displayName}
             </p>
-            <p className="truncate text-xs text-neutral-500">
+            <p className="text-xs text-neutral-500 truncate">
               {isLoading ? '' : displayEmail}
             </p>
           </div>

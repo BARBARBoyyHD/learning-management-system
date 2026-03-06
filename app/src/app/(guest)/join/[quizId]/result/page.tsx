@@ -93,11 +93,26 @@ export default async function ResultsPage({ params, searchParams }: ResultsPageP
       (detail) => detail.questionId === question.id
     )
 
-    const userAnswer = question.options.find(
-      (opt) => opt.id === userResponse?.answerGiven
-    )
+    // For essay questions, the answer is stored directly in answerGiven
+    // For multiple choice, we look up the option text
+    const isEssay = question.questionType === 'essay'
+    
+    const userAnswerObj = isEssay
+      ? {
+          id: 'essay-answer',
+          text: userResponse?.answerGiven || '',
+          isCorrect: userResponse?.isCorrect ?? null, // null means needs grading
+        }
+      : question.options.find((opt) => opt.id === userResponse?.answerGiven)
 
-    const correctAnswer = question.options.find((opt) => opt.isCorrect)
+    const correctAnswer = isEssay
+      ? null // Essays don't have a single correct answer
+      : question.options.find((opt) => opt.isCorrect)
+
+    // For essay questions, check if answered (not graded yet)
+    const isCorrect = isEssay
+      ? userResponse?.isCorrect ?? (userResponse?.answerGiven ? null : false)
+      : userAnswerObj?.isCorrect ?? false
 
     return {
       question: {
@@ -106,11 +121,11 @@ export default async function ResultsPage({ params, searchParams }: ResultsPageP
         type: question.questionType,
         points: question.points,
       },
-      userAnswer: userAnswer
+      userAnswer: userAnswerObj
         ? {
-            id: userAnswer.id,
-            text: userAnswer.option,
-            isCorrect: userAnswer.isCorrect,
+            id: userAnswerObj.id,
+            text: 'option' in userAnswerObj ? userAnswerObj.option : userAnswerObj.text,
+            isCorrect: userAnswerObj.isCorrect,
           }
         : null,
       correctAnswer: correctAnswer
@@ -119,8 +134,9 @@ export default async function ResultsPage({ params, searchParams }: ResultsPageP
             text: correctAnswer.option,
           }
         : null,
-      isCorrect: userAnswer?.isCorrect ?? false,
-      earnedPoints: userAnswer?.isCorrect ? question.points : 0,
+      isCorrect: isCorrect,
+      earnedPoints: isCorrect === true ? question.points : 0,
+      needsGrading: isEssay && userResponse?.isCorrect === null,
     }
   })
 

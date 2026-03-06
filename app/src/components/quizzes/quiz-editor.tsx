@@ -36,6 +36,7 @@ import {
 } from 'lucide-react'
 import { deleteQuestion } from '@/actions/questions/delete'
 import { toast } from 'sonner'
+import { cn } from '@/lib/utils'
 
 /**
  * QuizEditor props
@@ -139,13 +140,15 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+    <div className="max-w-5xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-semibold text-neutral-900">{quiz.title}</h1>
-            <Badge variant={quiz.isPublic ? 'default' : 'secondary'}>
+            <h1 className="text-2xl font-bold text-white">{quiz.title}</h1>
+            <Badge variant={quiz.isPublic ? 'default' : 'secondary'} className={cn(
+              quiz.isPublic ? 'bg-success-base/20 text-success-base hover:bg-success-base/30' : 'bg-neutral-700 text-neutral-300 hover:bg-neutral-600'
+            )}>
               {quiz.isPublic ? (
                 <>
                   <Eye className="h-3 w-3 mr-1" />
@@ -160,15 +163,16 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
             </Badge>
           </div>
           {quiz.description && (
-            <p className="text-neutral-600 text-sm">{quiz.description}</p>
+            <p className="text-neutral-400 text-sm">{quiz.description}</p>
           )}
         </div>
 
         {/* Header Actions */}
         <div className="flex items-center gap-3">
-          <Link href="/dashboard">
-            <Button variant="outline" size="sm">
-              Back to Dashboard
+          <Link href={`/teacher/quizzes/${quiz.id}/results`}>
+            <Button variant="secondary" size="sm">
+              <span className="material-symbols-outlined mr-2 h-4 w-4">analytics</span>
+              Results
             </Button>
           </Link>
           <Link href={`/teacher/quizzes/${quiz.id}/questions/new`}>
@@ -181,32 +185,32 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
       </div>
 
       {/* Quiz Settings Summary */}
-      <Card className="border-neutral-200 bg-white shadow-sm">
+      <Card className="border-neutral-800 bg-neutral-900/50 shadow-sm">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Quiz Settings</CardTitle>
-          <CardDescription>Current quiz configuration</CardDescription>
+          <CardTitle className="text-base text-white">Quiz Settings</CardTitle>
+          <CardDescription className="text-neutral-400">Current quiz configuration</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-4">
-            <div className="flex items-center gap-2 text-sm text-neutral-700">
+            <div className="flex items-center gap-2 text-sm">
               <Clock className="h-4 w-4 text-neutral-500" />
-              <span className="font-medium">Time Limit:</span>
-              <span className="text-neutral-600">Not set</span>
+              <span className="font-medium text-neutral-300">Time Limit:</span>
+              <span className="text-neutral-400">{quiz.timeLimit ? `${quiz.timeLimit} min` : 'Not set'}</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-neutral-700">
+            <div className="flex items-center gap-2 text-sm">
               <Shuffle className="h-4 w-4 text-neutral-500" />
-              <span className="font-medium">Shuffle:</span>
-              <span className="text-neutral-600">Off</span>
+              <span className="font-medium text-neutral-300">Shuffle:</span>
+              <span className="text-neutral-400">Off</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-neutral-700">
+            <div className="flex items-center gap-2 text-sm">
               <Repeat2 className="h-4 w-4 text-neutral-500" />
-              <span className="font-medium">Max Attempts:</span>
-              <span className="text-neutral-600">Unlimited</span>
+              <span className="font-medium text-neutral-300">Max Attempts:</span>
+              <span className="text-neutral-400">Unlimited</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-neutral-700">
+            <div className="flex items-center gap-2 text-sm">
               <FileText className="h-4 w-4 text-neutral-500" />
-              <span className="font-medium">Access Code:</span>
-              <span className="font-mono bg-neutral-100 px-2 py-0.5 rounded text-neutral-900">
+              <span className="font-medium text-neutral-300">Access Code:</span>
+              <span className="font-mono bg-neutral-800 px-2 py-0.5 rounded text-white">
                 {quiz.accessCode || 'Not set'}
               </span>
             </div>
@@ -215,12 +219,12 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
       </Card>
 
       {/* Questions Section */}
-      <Card className="border-neutral-200 bg-white shadow-sm">
+      <Card className="border-neutral-800 bg-neutral-900/50 shadow-sm">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-base">Questions</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-base text-white">Questions</CardTitle>
+              <CardDescription className="text-neutral-400">
                 {questionCount === 0
                   ? 'No questions yet. Add your first question to get started.'
                   : `${questionCount} question${questionCount > 1 ? 's' : ''} • ${totalPoints} total points`}
@@ -238,13 +242,13 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
           {questionCount === 0 ? (
             /* Empty State */
             <div className="text-center py-12">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-neutral-100 mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-neutral-800 mb-4">
                 <FileText className="h-8 w-8 text-neutral-400" />
               </div>
-              <h3 className="text-lg font-medium text-neutral-900 mb-2">
+              <h3 className="text-lg font-medium text-white mb-2">
                 No questions yet
               </h3>
-              <p className="text-neutral-600 mb-6 max-w-md mx-auto">
+              <p className="text-neutral-400 mb-6 max-w-md mx-auto">
                 Start building your quiz by adding your first question. Choose from multiple choice,
                 essay, fill in the blank, match, or reorder question types.
               </p>
@@ -261,12 +265,12 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
               {quiz.questions.map((question, index) => (
                 <div
                   key={question.id}
-                  className="flex items-center justify-between p-4 rounded-xl border border-neutral-200 bg-white hover:border-primary-base/50 transition-colors"
+                  className="flex items-center justify-between p-4 rounded-xl border border-neutral-800 bg-neutral-800/30 hover:border-primary-base/50 transition-colors"
                 >
                   <div className="flex items-center gap-4 flex-1">
                     {/* Question Number */}
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
-                      <span className="text-sm font-medium text-neutral-700">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center">
+                      <span className="text-sm font-medium text-neutral-300">
                         #{index + 1}
                       </span>
                     </div>
@@ -283,7 +287,7 @@ export function QuizEditor({ quiz }: QuizEditorProps) {
                           {question.points} pts
                         </span>
                       </div>
-                      <p className="text-neutral-900 text-sm truncate">
+                      <p className="text-white text-sm truncate">
                         {question.questionText}
                       </p>
                       {question.options.length > 0 && (

@@ -19,10 +19,10 @@ import { registerGuestStudent } from '@/app/(guest)/actions'
 
 interface NameInputFormProps {
   quizId: string
-  quizTitle: string
+  quizTitle?: string
 }
 
-export function NameInputForm({ quizId, quizTitle }: NameInputFormProps) {
+export function NameInputForm({ quizId, quizTitle: _quizTitle }: NameInputFormProps) {
   const router = useRouter()
   const [name, setName] = useState('')
   const [isLoading, setIsLoading] = useState(false)

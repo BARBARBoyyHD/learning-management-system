@@ -21,10 +21,5 @@ export const metadata = {
  * Join Page Component
  */
 export default function JoinPage() {
-  return (
-    <div className="w-full">
-      {/* Join Form */}
-      <JoinForm />
-    </div>
-  )
+  return <JoinForm />
 }
