@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   QUIZIZZ CLONE - DESIGN SYSTEM
+   Based on Color Guideline (DOC-QCL-CG-001)
+   ============================================================================ */
+
+/* ============================================================================
+   THEME A: LIGHT MODE (Indigo - Student-facing screens, Assessment Editor)
+   ============================================================================ */
+:root[data-theme="light"] {
+  /* Primary Colors - Indigo */
+  --color-primary-base: #6467f2;
+  --color-primary-hover: #4f46e5;
+  --color-primary-active: #4338ca;
+  --color-primary-light: #a5b4fc;
+  --color-primary-lighter: #e0e7ff;
+
+  /* Background Colors */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-tertiary: #f3f4f6;
+  --color-bg-pattern: #e0e7ff;
+
+  /* Text Colors */
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #6b7280;
+  --color-text-inverse: #ffffff;
+
+  /* Border Colors */
+  --color-border-primary: #e5e7eb;
+  --color-border-secondary: #d1d5db;
+
+  /* Semantic Colors */
+  --color-success-base: #22c55e;
+  --color-success-light: #86efac;
+  --color-warning-base: #f59e0b;
+  --color-warning-light: #fcd34d;
+  --color-error-base: #ef4444;
+  --color-error-light: #fca5a5;
+  --color-info-base: #3b82f6;
+  --color-info-light: #93c5fd;
+
+  /* Option Card Colors (Multiple Choice) */
+  --color-option-a: #8b5cf6;  /* Purple */
+  --color-option-b: #3b82f6;  /* Blue */
+  --color-option-c: #f97316;  /* Orange */
+  --color-option-d: #ec4899;  /* Pink */
+
+  /* Badge Colors */
+  --color-badge-published: #22c55e;
+  --color-badge-draft: #6b7280;
+  --color-badge-archived: #9ca3af;
+  --color-badge-active: #3b82f6;
+}
+
+/* ============================================================================
+   THEME B: DARK MODE (Deep Purple - Teacher Dashboard, Quiz screens)
+   ============================================================================ */
+:root[data-theme="dark"] {
+  /* Primary Colors - Deep Purple */
+  --color-primary-base: #6a25f4;
+  --color-primary-hover: #7c3aed;
+  --color-primary-active: #5b21b6;
+  --color-primary-light: #a78bfa;
+  --color-primary-lighter: #ddd6fe;
+
+  /* Background Colors */
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-bg-tertiary: #334155;
+  --color-bg-pattern: #1e293b;
+
+  /* Text Colors */
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #e2e8f0;
+  --color-text-tertiary: #cbd5e1;
+  --color-text-inverse: #0f172a;
+
+  /* Border Colors */
+  --color-border-primary: #475569;
+  --color-border-secondary: #64748b;
+
+  /* Semantic Colors */
+  --color-success-base: #22c55e;
+  --color-success-light: #86efac;
+  --color-warning-base: #f59e0b;
+  --color-warning-light: #fcd34d;
+  --color-error-base: #ef4444;
+  --color-error-light: #fca5a5;
+  --color-info-base: #3b82f6;
+  --color-info-light: #93c5fd;
+
+  /* Option Card Colors (Multiple Choice) */
+  --color-option-a: #8b5cf6;  /* Purple */
+  --color-option-b: #3b82f6;  /* Blue */
+  --color-option-c: #f97316;  /* Orange */
+  --color-option-d: #ec4899;  /* Pink */
+
+  /* Badge Colors */
+  --color-badge-published: #22c55e;
+  --color-badge-draft: #6b7280;
+  --color-badge-archived: #9ca3af;
+  --color-badge-active: #3b82f6;
+}
+
+/* ============================================================================
+   DEFAULT THEME (Light mode fallback)
+   ============================================================================ */
+:root {
+  --color-primary-base: #6467f2;
+  --color-primary-hover: #4f46e5;
+  --color-primary-active: #4338ca;
+  --color-primary-light: #a5b4fc;
+  --color-primary-lighter: #e0e7ff;
+
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-tertiary: #f3f4f6;
+
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #6b7280;
+
+  --color-border-primary: #e5e7eb;
+  --color-border-secondary: #d1d5db;
+
+  --color-success-base: #22c55e;
+  --color-warning-base: #f59e0b;
+  --color-error-base: #ef4444;
+  --color-info-base: #3b82f6;
+
+  /* Border Radius Scale */
+  --border-radius-default: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 24px;
+  --border-radius-full: 9999px;
+}
+
+/* ============================================================================
+   TAILWIND THEME CONFIGURATION
+   ============================================================================ */
+@theme inline {
+  /* Colors - Primary */
+  --color-primary-base: var(--color-primary-base);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-active: var(--color-primary-active);
+  --color-primary-light: var(--color-primary-light);
+  --color-primary-lighter: var(--color-primary-lighter);
+
+  /* Colors - Background */
+  --color-bg-primary: var(--color-bg-primary);
+  --color-bg-secondary: var(--color-bg-secondary);
+  --color-bg-tertiary: var(--color-bg-tertiary);
+
+  /* Colors - Text */
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-tertiary: var(--color-text-tertiary);
+
+  /* Colors - Border */
+  --color-border-primary: var(--color-border-primary);
+  --color-border-secondary: var(--color-border-secondary);
+
+  /* Colors - Semantic */
+  --color-success: var(--color-success-base);
+  --color-warning: var(--color-warning-base);
+  --color-error: var(--color-error-base);
+  --color-info: var(--color-info-base);
+
+  /* Colors - Option Cards */
+  --color-option-a: var(--color-option-a);
+  --color-option-b: var(--color-option-b);
+  --color-option-c: var(--color-option-c);
+  --color-option-d: var(--color-option-d);
+
+  /* Font Family */
+  --font-display: 'Lexend', sans-serif;
+  --font-sans: 'Lexend', sans-serif;
+
+  /* Border Radius */
+  --radius-default: var(--border-radius-default);
+  --radius-lg: var(--border-radius-lg);
+  --radius-xl: var(--border-radius-xl);
+  --radius-full: var(--border-radius-full);
+}
+
+/* ============================================================================
+   BASE STYLES
+   ============================================================================ */
+* {
+  border-color: var(--color-border-primary);
+}
+
+body {
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: 'Lexend', sans-serif;
+}
+
+/* ============================================================================
+   BACKGROUND PATTERNS (for quiz screens)
+   ============================================================================ */
+.pattern-bg {
+  background-color: var(--color-bg-pattern);
+  background-image: 
+    radial-gradient(var(--color-primary-base) 0.5px, transparent 0.5px),
+    radial-gradient(var(--color-primary-base) 0.5px, transparent 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  opacity: 0.15;
+}
+
+/* ============================================================================
+   UTILITY CLASSES
+   ============================================================================ */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-primary-base) 0%, var(--color-primary-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--color-primary-base) 0%, var(--color-primary-hover) 100%);
+}
