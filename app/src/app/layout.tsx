@@ -47,13 +47,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
         {/* Material Symbols Outlined Icons */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
         />
+        {/* Viewport for mobile responsiveness */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body
         className={`${lexend.variable} font-sans antialiased`}

@@ -39,14 +39,14 @@ export default async function CreateQuestionPage(props: {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-bg-primary">
       {/* Header */}
-      <header className="border-b border-neutral-200 bg-white">
+      <header className="border-b border-border-primary bg-bg-secondary">
         <div className="container mx-auto px-4 py-6">
-          <h1 className="text-2xl font-semibold text-neutral-900">
+          <h1 className="text-2xl font-semibold text-text-primary">
             Create Question
           </h1>
-          <p className="mt-1 text-sm text-neutral-600">
+          <p className="mt-1 text-sm text-text-secondary">
             Adding to: {quiz.title}
           </p>
         </div>

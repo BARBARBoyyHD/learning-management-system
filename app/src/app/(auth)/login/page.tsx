@@ -36,7 +36,7 @@ export default async function LoginPage() {
         <LoginForm />
 
         {/* Footer text */}
-        <p className="mt-8 text-center text-sm text-neutral-500">
+        <p className="mt-8 text-center text-sm text-text-tertiary">
           Protected by Supabase Auth
         </p>
       </div>

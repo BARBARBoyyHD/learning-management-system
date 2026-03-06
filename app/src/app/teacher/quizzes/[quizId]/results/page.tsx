@@ -121,18 +121,18 @@ export default async function QuizResultsPage(props: {
   }))
 
   return (
-    <div className="min-h-screen bg-neutral-950">
+    <div className="min-h-screen bg-bg-primary">
       {/* Top Navigation Bar */}
-      <header className="border-b border-neutral-800 bg-neutral-900/50 sticky top-0 z-40">
+      <header className="border-b border-border-primary bg-bg-secondary sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-white">{quiz.title}</h1>
-              <p className="text-sm text-neutral-400 mt-1">Quiz Results</p>
+              <h1 className="text-2xl font-bold text-text-primary">{quiz.title}</h1>
+              <p className="text-sm text-text-secondary mt-1">Quiz Results</p>
             </div>
             <a
               href={`/teacher/quizzes/${quizId}/edit`}
-              className="text-sm text-neutral-400 hover:text-white transition-colors"
+              className="text-sm text-text-secondary hover:text-text-primary transition-colors"
             >
               ← Back to Quiz Editor
             </a>

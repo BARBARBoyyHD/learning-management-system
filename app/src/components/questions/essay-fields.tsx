@@ -27,35 +27,35 @@ export interface EssayFieldsProps {
  */
 export function EssayFields({ settings, onSettingsChange, error }: EssayFieldsProps) {
   return (
-    <Card className="border-neutral-200 bg-white">
+    <Card className="border-border-primary bg-bg-secondary">
       <CardHeader>
-        <CardTitle className="text-neutral-900">Essay Settings</CardTitle>
-        <CardDescription className="text-neutral-600">
+        <CardTitle className="text-text-primary">Essay Settings</CardTitle>
+        <CardDescription className="text-text-secondary">
           Configure grading rubric and word limits for your essay question
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Grading Rubric */}
         <div className="space-y-2">
-          <Label htmlFor="rubric" className="text-neutral-700">
+          <Label htmlFor="rubric" className="text-text-secondary">
             Grading Rubric (Optional)
           </Label>
           <textarea
             id="rubric"
             rows={4}
-            className="flex w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm focus:border-primary-base focus:outline-none focus:ring-2 focus:ring-primary-base"
+            className="flex w-full rounded-md border border-border-primary bg-bg-primary px-3 py-2 text-sm text-text-primary focus:border-primary-base focus:outline-none focus:ring-2 focus:ring-primary-base"
             placeholder="Describe what you're looking for in a good answer. E.g., 'Students should mention: 1) Key concept A, 2) Example B, 3) Analysis C...'"
             value={settings.rubric ?? ''}
             onChange={(e) => onSettingsChange({ ...settings, rubric: e.target.value })}
           />
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-text-tertiary">
             Guidelines for grading this essay (optional)
           </p>
         </div>
 
         {/* Word Limit */}
         <div className="space-y-2">
-          <Label htmlFor="wordLimit" className="text-neutral-700">
+          <Label htmlFor="wordLimit" className="text-text-secondary">
             Word Limit
           </Label>
           <Input
@@ -65,9 +65,9 @@ export function EssayFields({ settings, onSettingsChange, error }: EssayFieldsPr
             max="5000"
             value={settings.wordLimit}
             onChange={(e) => onSettingsChange({ ...settings, wordLimit: Number(e.target.value) })}
-            className="w-32 border-neutral-300"
+            className="w-32 border-border-primary bg-bg-primary text-text-primary"
           />
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-text-tertiary">
             Maximum words allowed (0 = unlimited, max 5000)
           </p>
           {error && (
@@ -79,7 +79,7 @@ export function EssayFields({ settings, onSettingsChange, error }: EssayFieldsPr
 
         {/* Minimum Word Count */}
         <div className="space-y-2">
-          <Label htmlFor="wordLimitMin" className="text-neutral-700">
+          <Label htmlFor="wordLimitMin" className="text-text-secondary">
             Minimum Word Count (Optional)
           </Label>
           <Input
@@ -88,22 +88,22 @@ export function EssayFields({ settings, onSettingsChange, error }: EssayFieldsPr
             min="0"
             value={settings.wordLimitMin ?? 0}
             onChange={(e) => onSettingsChange({ ...settings, wordLimitMin: Number(e.target.value) })}
-            className="w-32 border-neutral-300"
+            className="w-32 border-border-primary bg-bg-primary text-text-primary"
           />
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-text-tertiary">
             Minimum words required (optional)
           </p>
         </div>
 
         {/* Manual Grading Info */}
-        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+        <div className="rounded-lg border border-blue-500/30 bg-blue-500/10 p-4">
           <div className="flex items-start gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/20 text-blue-400">
               <span className="text-sm font-bold">!</span>
             </div>
             <div>
-              <p className="text-sm font-medium text-blue-900">Manual Grading Required</p>
-              <p className="mt-1 text-sm text-blue-700">
+              <p className="text-sm font-medium text-text-primary">Manual Grading Required</p>
+              <p className="mt-1 text-sm text-text-secondary">
                 Essay questions require manual grading by the teacher. Students will be notified that this question needs manual review.
               </p>
             </div>

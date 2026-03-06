@@ -51,14 +51,14 @@ export default async function EditQuestionPage(props: {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-bg-primary">
       {/* Header */}
-      <header className="border-b border-neutral-200 bg-white">
+      <header className="border-b border-border-primary bg-bg-secondary">
         <div className="container mx-auto px-4 py-6">
-          <h1 className="text-2xl font-semibold text-neutral-900">
+          <h1 className="text-2xl font-semibold text-text-primary">
             Edit Question
           </h1>
-          <p className="mt-1 text-sm text-neutral-600">
+          <p className="mt-1 text-sm text-text-secondary">
             Editing in: {question.quiz.title}
           </p>
         </div>

@@ -14,14 +14,14 @@ export default function GuestLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="font-display bg-neutral-950 text-slate-100 min-h-screen flex flex-col relative overflow-hidden">
+    <div className="font-display bg-bg-primary text-text-primary min-h-screen flex flex-col relative overflow-hidden">
       {/* Background Pattern */}
       <div className={cn(
         'absolute inset-0 pointer-events-none opacity-10',
         'bg-[radial-gradient(#6a25f4_0.5px,transparent_0.5px),radial-gradient(#6a25f4_0.5px,transparent_0.5px)]',
         'bg-[size:20px_20px] bg-[position:0_0,10px_10px]'
       )}/>
-      
+
       {/* Decorative Blurs */}
       <div className="absolute -bottom-24 -left-24 size-64 bg-primary-base/20 rounded-full blur-[100px] pointer-events-none"/>
       <div className="absolute -top-24 -right-24 size-64 bg-primary-base/10 rounded-full blur-[100px] pointer-events-none"/>
@@ -33,11 +33,11 @@ export default function GuestLayout({
             <span className="material-symbols-outlined text-white text-2xl">rocket_launch</span>
           </div>
           <div>
-            <h2 className="text-white text-xl font-bold leading-tight tracking-tight">Quizizz Clone</h2>
+            <h2 className="text-text-primary text-xl font-bold leading-tight tracking-tight">Quizizz Clone</h2>
             <p className="text-primary-base/80 text-xs font-medium uppercase tracking-widest">LearnWeb LMS</p>
           </div>
         </div>
-        <button className="flex items-center justify-center rounded-full size-10 bg-neutral-800 text-neutral-400 hover:bg-neutral-700 hover:text-white transition-colors">
+        <button className="flex items-center justify-center rounded-full size-10 bg-bg-tertiary text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors">
           <span className="material-symbols-outlined">help</span>
         </button>
       </header>
@@ -48,7 +48,7 @@ export default function GuestLayout({
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 p-6 text-center text-neutral-500 text-xs">
+      <footer className="relative z-10 p-6 text-center text-text-tertiary text-xs">
         <p>© 2024 LearnWeb LMS Ecosystem. High-speed educational connectivity.</p>
       </footer>
 

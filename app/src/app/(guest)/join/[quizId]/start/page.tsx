@@ -63,51 +63,51 @@ export default async function QuizStartPage({ params, searchParams }: QuizStartP
       <div className="text-center mb-8">
         <div className="flex items-center justify-center gap-3 mb-4">
           <span className="material-symbols-outlined h-12 w-12 text-primary-base">quiz</span>
-          <h1 className="text-3xl font-bold text-white">Quiz Ready!</h1>
+          <h1 className="text-3xl font-bold text-text-primary">Quiz Ready!</h1>
         </div>
-        <p className="text-neutral-400">
+        <p className="text-text-secondary">
           Welcome, let&apos;s get you started
         </p>
       </div>
 
       {/* Quiz Info Card */}
-      <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6 mb-6">
-        <h2 className="text-xl font-semibold text-white mb-4">{quiz.title}</h2>
-        
+      <div className="rounded-xl border border-border-primary bg-bg-secondary p-6 mb-6">
+        <h2 className="text-xl font-semibold text-text-primary mb-4">{quiz.title}</h2>
+
         <div className="grid grid-cols-2 gap-4 mb-6">
           {/* Teacher */}
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined h-6 w-6 text-neutral-400">person</span>
+            <span className="material-symbols-outlined h-6 w-6 text-text-secondary">person</span>
             <div>
-              <p className="text-xs text-neutral-500">Teacher</p>
-              <p className="text-sm text-white">{quiz.teacher.name}</p>
+              <p className="text-xs text-text-tertiary">Teacher</p>
+              <p className="text-sm text-text-primary">{quiz.teacher.name}</p>
             </div>
           </div>
 
           {/* Questions */}
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined h-6 w-6 text-neutral-400">library_books</span>
+            <span className="material-symbols-outlined h-6 w-6 text-text-secondary">library_books</span>
             <div>
-              <p className="text-xs text-neutral-500">Questions</p>
-              <p className="text-sm text-white">{quiz.questions.length}</p>
+              <p className="text-xs text-text-tertiary">Questions</p>
+              <p className="text-sm text-text-primary">{quiz.questions.length}</p>
             </div>
           </div>
 
           {/* Points */}
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined h-6 w-6 text-neutral-400">star</span>
+            <span className="material-symbols-outlined h-6 w-6 text-text-secondary">star</span>
             <div>
-              <p className="text-xs text-neutral-500">Total Points</p>
-              <p className="text-sm text-white">{totalPoints}</p>
+              <p className="text-xs text-text-tertiary">Total Points</p>
+              <p className="text-sm text-text-primary">{totalPoints}</p>
             </div>
           </div>
 
           {/* Time Limit */}
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined h-6 w-6 text-neutral-400">schedule</span>
+            <span className="material-symbols-outlined h-6 w-6 text-text-secondary">schedule</span>
             <div>
-              <p className="text-xs text-neutral-500">Time Limit</p>
-              <p className="text-sm text-white">
+              <p className="text-xs text-text-tertiary">Time Limit</p>
+              <p className="text-sm text-text-primary">
                 {quiz.timeLimit ? `${quiz.timeLimit} minutes` : 'No limit'}
               </p>
             </div>
@@ -116,13 +116,13 @@ export default async function QuizStartPage({ params, searchParams }: QuizStartP
 
         {/* Question Types */}
         {quiz.questions.length > 0 && (
-          <div className="border-t border-neutral-800 pt-4">
-            <p className="text-xs text-neutral-500 mb-2">Question Types:</p>
+          <div className="border-t border-border-primary pt-4">
+            <p className="text-xs text-text-tertiary mb-2">Question Types:</p>
             <div className="flex flex-wrap gap-2">
               {Array.from(new Set(quiz.questions.map(q => q.questionType))).map(type => (
                 <span
                   key={type}
-                  className="px-3 py-1 rounded-full text-xs bg-primary-base/10 text-primary-light"
+                  className="px-3 py-1 rounded-full text-xs bg-primary-lighter text-primary-base"
                 >
                   {type.replace('_', ' ')}
                 </span>
@@ -133,30 +133,30 @@ export default async function QuizStartPage({ params, searchParams }: QuizStartP
       </div>
 
       {/* Instructions */}
-      <div className="rounded-xl border border-neutral-800 bg-neutral-900/30 p-4 mb-6">
-        <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+      <div className="rounded-xl border border-border-primary bg-bg-secondary/30 p-4 mb-6">
+        <h3 className="text-sm font-semibold text-text-primary mb-3 flex items-center gap-2">
           <span className="material-symbols-outlined h-4 w-4 text-info-base">info</span>
           Instructions
         </h3>
-        <ul className="space-y-2 text-sm text-neutral-400">
+        <ul className="space-y-2 text-sm text-text-secondary">
           <li className="flex items-start gap-2">
-            <span className="material-symbols-outlined h-4 w-4 text-neutral-500 mt-0.5">check_circle</span>
+            <span className="material-symbols-outlined h-4 w-4 text-text-tertiary mt-0.5">check_circle</span>
             <span>Answer all questions to the best of your ability</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="material-symbols-outlined h-4 w-4 text-neutral-500 mt-0.5">check_circle</span>
+            <span className="material-symbols-outlined h-4 w-4 text-text-tertiary mt-0.5">check_circle</span>
             <span>
-              {quiz.timeLimit 
+              {quiz.timeLimit
                 ? `You have ${quiz.timeLimit} minutes to complete the quiz`
                 : 'Take your time, there is no time limit'}
             </span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="material-symbols-outlined h-4 w-4 text-neutral-500 mt-0.5">check_circle</span>
+            <span className="material-symbols-outlined h-4 w-4 text-text-tertiary mt-0.5">check_circle</span>
             <span>Your answers are saved automatically</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="material-symbols-outlined h-4 w-4 text-neutral-500 mt-0.5">check_circle</span>
+            <span className="material-symbols-outlined h-4 w-4 text-text-tertiary mt-0.5">check_circle</span>
             <span>You can navigate between questions using Next/Previous buttons</span>
           </li>
         </ul>

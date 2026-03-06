@@ -19,9 +19,7 @@ function TeacherLayoutContent({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-neutral-950">
-      {/* Top Navigation Bar *
-
+    <div className="min-h-screen bg-bg-primary">
       {/* Main Content - Centered */}
       <main className="">
         {children}

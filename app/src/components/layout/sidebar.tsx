@@ -3,6 +3,14 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 
 interface SidebarNavItem {
   title: string
@@ -18,7 +26,7 @@ const navItems: SidebarNavItem[] = [
   },
   {
     title: 'My Quizzes',
-    href: '/quizzes',
+    href: '/teacher/quizzes/new',
     icon: 'quiz',
   },
   {
@@ -34,15 +42,38 @@ const navItems: SidebarNavItem[] = [
 ]
 
 /**
- * Sidebar Component
- * 
- * Main navigation sidebar with menu items
+ * Sidebar Navigation Component
  */
-export function Sidebar() {
+function SidebarNav() {
   const pathname = usePathname()
 
   return (
-    <aside className="w-72 flex-shrink-0 border-r border-border-primary bg-bg-primary flex flex-col">
+    <nav className="flex-1 px-4 py-4 space-y-2">
+      {navItems.map((item) => (
+        <Link
+          key={item.href}
+          href={item.href}
+          className={cn(
+            'flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors',
+            pathname === item.href
+              ? 'bg-primary-base text-white'
+              : 'text-text-secondary hover:bg-bg-tertiary hover:text-primary-base'
+          )}
+        >
+          <span className="material-symbols-outlined">{item.icon}</span>
+          <span>{item.title}</span>
+        </Link>
+      ))}
+    </nav>
+  )
+}
+
+/**
+ * Sidebar Content (reusable for both desktop and mobile)
+ */
+function SidebarContent() {
+  return (
+    <>
       {/* Logo */}
       <div className="p-6 flex items-center gap-3">
         <div className="bg-primary-base p-2 rounded-lg flex items-center justify-center">
@@ -55,23 +86,7 @@ export function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-4 space-y-2">
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={cn(
-              'flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors',
-              pathname === item.href
-                ? 'bg-primary-base text-white'
-                : 'text-text-secondary hover:bg-bg-tertiary hover:text-primary-base'
-            )}
-          >
-            <span className="material-symbols-outlined">{item.icon}</span>
-            <span>{item.title}</span>
-          </Link>
-        ))}
-      </nav>
+      <SidebarNav />
 
       {/* User Profile */}
       <div className="p-4 border-t border-border-primary">
@@ -85,6 +100,47 @@ export function Sidebar() {
           </div>
         </div>
       </div>
-    </aside>
+    </>
+  )
+}
+
+/**
+ * Main Sidebar Component
+ *
+ * Desktop: Fixed sidebar
+ * Mobile: Hamburger menu with Sheet drawer
+ */
+export function Sidebar() {
+  return (
+    <>
+      {/* Mobile Header with Hamburger */}
+      <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-bg-primary border-b border-border-primary px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="bg-primary-base p-2 rounded-lg flex items-center justify-center">
+            <span className="material-symbols-outlined text-white text-xl">school</span>
+          </div>
+          <h1 className="text-lg font-bold text-text-primary">LearnWeb LMS</h1>
+        </div>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="md:hidden">
+              <span className="material-symbols-outlined">menu</span>
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-72 p-0">
+            <SheetHeader className="sr-only">
+              <SheetTitle>LearnWeb LMS Navigation</SheetTitle>
+            </SheetHeader>
+            <SidebarContent />
+          </SheetContent>
+        </Sheet>
+      </header>
+
+
+      <aside className="hidden md:fixed w-72 flex-shrink-0 border-r border-border-primary bg-bg-primary flex flex-col">
+        <SidebarContent />
+      </aside>
+    </>
   )
 }

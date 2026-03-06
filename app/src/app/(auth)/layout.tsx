@@ -21,7 +21,7 @@ export default function AuthLayout({
 }) {
   return (
     <div className={`${lexend.variable} font-sans`}>
-      <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-950 px-4 py-12">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-bg-primary px-4 py-12">
         {/* Background decoration */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -left-1/4 -top-1/4 h-96 w-96 rounded-full bg-primary-base/10 blur-3xl" />

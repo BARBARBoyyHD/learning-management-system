@@ -43,7 +43,7 @@ export default async function DashboardPage() {
             <div className="flex gap-4 pt-2">
               <Link
                 href="/teacher/quizzes/new"
-                className="bg-white text-primary-base px-6 py-3 rounded-xl font-bold hover:bg-neutral-100 transition-colors"
+                className="bg-white text-primary-base px-6 py-3 rounded-xl font-bold hover:bg-bg-secondary transition-colors"
               >
                 Get Started
               </Link>

@@ -63,10 +63,10 @@ export default async function DashboardPage({
       {/* Welcome Section */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-text-primary">
             Welcome back!
           </h2>
-          <p className="mt-2 text-neutral-400">
+          <p className="mt-2 text-text-secondary">
             Manage your courses and quizzes from here.
           </p>
         </div>
@@ -91,74 +91,74 @@ export default async function DashboardPage({
 
       {/* Stats Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-neutral-800 bg-neutral-900">
+        <Card className="border-border-primary bg-bg-secondary">
           <CardHeader className="pb-2">
-            <CardDescription className="text-neutral-400">Total Quizzes</CardDescription>
-            <CardTitle className="text-4xl font-bold text-white">{quizzes.length}</CardTitle>
+            <CardDescription className="text-text-secondary">Total Quizzes</CardDescription>
+            <CardTitle className="text-4xl font-bold text-text-primary">{quizzes.length}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-neutral-500">Create quizzes to assess your students</p>
+            <p className="text-sm text-text-tertiary">Create quizzes to assess your students</p>
           </CardContent>
         </Card>
 
-        <Card className="border-neutral-800 bg-neutral-900">
+        <Card className="border-border-primary bg-bg-secondary">
           <CardHeader className="pb-2">
-            <CardDescription className="text-neutral-400">Total Questions</CardDescription>
-            <CardTitle className="text-4xl font-bold text-white">
+            <CardDescription className="text-text-secondary">Total Questions</CardDescription>
+            <CardTitle className="text-4xl font-bold text-text-primary">
               {quizzes.reduce((sum, q) => sum + q.questions.length, 0)}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-neutral-500">Questions across all quizzes</p>
+            <p className="text-sm text-text-tertiary">Questions across all quizzes</p>
           </CardContent>
         </Card>
 
-        <Card className="border-neutral-800 bg-neutral-900">
+        <Card className="border-border-primary bg-bg-secondary">
           <CardHeader className="pb-2">
-            <CardDescription className="text-neutral-400">Total Attempts</CardDescription>
-            <CardTitle className="text-4xl font-bold text-white">
+            <CardDescription className="text-text-secondary">Total Attempts</CardDescription>
+            <CardTitle className="text-4xl font-bold text-text-primary">
               {quizzes.reduce((sum, q) => sum + q.responses.length, 0)}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-neutral-500">Student quiz attempts</p>
+            <p className="text-sm text-text-tertiary">Student quiz attempts</p>
           </CardContent>
         </Card>
 
-        <Card className="border-neutral-800 bg-neutral-900">
+        <Card className="border-border-primary bg-bg-secondary">
           <CardHeader className="pb-2">
-            <CardDescription className="text-neutral-400">Published</CardDescription>
-            <CardTitle className="text-4xl font-bold text-white">
+            <CardDescription className="text-text-secondary">Published</CardDescription>
+            <CardTitle className="text-4xl font-bold text-text-primary">
               {quizzes.filter((q) => q.isPublic).length}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-neutral-500">Quizzes visible to students</p>
+            <p className="text-sm text-text-tertiary">Quizzes visible to students</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Quick Actions */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="border-neutral-800 bg-neutral-900">
+        <Card className="border-border-primary bg-bg-secondary">
           <CardHeader>
-            <CardTitle className="text-white">Create Course</CardTitle>
-            <CardDescription className="text-neutral-400">
+            <CardTitle className="text-text-primary">Create Course</CardTitle>
+            <CardDescription className="text-text-secondary">
               Start building a new course for your students
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-text-tertiary">
               Course creation feature coming soon...
             </p>
           </CardContent>
         </Card>
 
         <Link href="/teacher/quizzes/new">
-          <Card className="border-neutral-800 bg-neutral-900 hover:bg-neutral-800 transition-colors cursor-pointer">
+          <Card className="border-border-primary bg-bg-secondary hover:bg-bg-tertiary transition-colors cursor-pointer">
             <CardHeader>
-              <CardTitle className="text-white">Create Quiz</CardTitle>
-              <CardDescription className="text-neutral-400">
+              <CardTitle className="text-text-primary">Create Quiz</CardTitle>
+              <CardDescription className="text-text-secondary">
                 Create quizzes and assessments for your students
               </CardDescription>
             </CardHeader>
@@ -171,15 +171,15 @@ export default async function DashboardPage({
           </Card>
         </Link>
 
-        <Card className="border-neutral-800 bg-neutral-900">
+        <Card className="border-border-primary bg-bg-secondary">
           <CardHeader>
-            <CardTitle className="text-white">View Reports</CardTitle>
-            <CardDescription className="text-neutral-400">
+            <CardTitle className="text-text-primary">View Reports</CardTitle>
+            <CardDescription className="text-text-secondary">
               Analyze student performance and quiz results
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-text-tertiary">
               Reporting feature coming soon...
             </p>
           </CardContent>
@@ -189,13 +189,13 @@ export default async function DashboardPage({
       {/* Your Quizzes Section */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-semibold text-white flex items-center gap-2">
+          <h3 className="text-xl font-semibold text-text-primary flex items-center gap-2">
             <FileCheck className="h-6 w-6" />
             Your Quizzes
           </h3>
           {quizzes.length > 0 && (
             <Link href="/quizzes">
-              <Button variant="outline" size="sm" className="border-neutral-700 text-neutral-300 hover:bg-neutral-800">
+              <Button variant="outline" size="sm" className="border-border-primary text-text-secondary hover:bg-bg-tertiary">
                 View All
               </Button>
             </Link>

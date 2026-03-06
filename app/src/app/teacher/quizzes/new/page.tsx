@@ -26,21 +26,21 @@ export default async function CreateQuizPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950">
+    <div className="min-h-screen bg-bg-primary">
       {/* Header */}
-      <header className="border-b border-neutral-800 bg-neutral-900/50 sticky top-0 z-40 backdrop-blur-md">
+      <header className="border-b border-border-primary bg-bg-secondary sticky top-0 z-40 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <div className="flex items-center gap-2 text-sm text-neutral-400 mb-1">
-                <Link href="/dashboard" className="hover:text-white transition-colors">Dashboard</Link>
+              <div className="flex items-center gap-2 text-sm text-text-secondary mb-1">
+                <Link href="/dashboard" className="hover:text-text-primary transition-colors">Dashboard</Link>
                 <span className="material-symbols-outlined h-4 w-4">chevron_right</span>
-                <Link href="/teacher/quizzes" className="hover:text-white transition-colors">My Quizzes</Link>
+                <Link href="/teacher/quizzes" className="hover:text-text-primary transition-colors">My Quizzes</Link>
                 <span className="material-symbols-outlined h-4 w-4">chevron_right</span>
-                <span className="text-white">Create Quiz</span>
+                <span className="text-text-primary">Create Quiz</span>
               </div>
-              <h1 className="text-2xl font-bold text-white">Create Quiz</h1>
-              <p className="mt-1 text-sm text-neutral-400">
+              <h1 className="text-2xl font-bold text-text-primary">Create Quiz</h1>
+              <p className="mt-1 text-sm text-text-secondary">
                 Set up your quiz details and settings
               </p>
             </div>

@@ -83,43 +83,43 @@ export default async function QuizResultsPage({ params }: ResultsPageProps) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Quiz Results</h1>
-          <p className="text-neutral-400">{quiz.title}</p>
+          <h1 className="text-3xl font-bold text-text-primary mb-2">Quiz Results</h1>
+          <p className="text-text-secondary">{quiz.title}</p>
         </div>
       </div>
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-4">
+        <div className="rounded-xl border border-border-primary bg-bg-secondary p-4">
           <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined h-6 w-6 text-neutral-400">people</span>
-            <span className="text-sm text-neutral-400">Total Students</span>
+            <span className="material-symbols-outlined h-6 w-6 text-text-secondary">people</span>
+            <span className="text-sm text-text-secondary">Total Students</span>
           </div>
-          <p className="text-2xl font-bold text-white">{totalStudents}</p>
+          <p className="text-2xl font-bold text-text-primary">{totalStudents}</p>
         </div>
 
-        <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-4">
+        <div className="rounded-xl border border-border-primary bg-bg-secondary p-4">
           <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined h-6 w-6 text-neutral-400">trending_up</span>
-            <span className="text-sm text-neutral-400">Average Score</span>
+            <span className="material-symbols-outlined h-6 w-6 text-text-secondary">trending_up</span>
+            <span className="text-sm text-text-secondary">Average Score</span>
           </div>
-          <p className="text-2xl font-bold text-white">{averageScore}/{totalPoints}</p>
+          <p className="text-2xl font-bold text-text-primary">{averageScore}/{totalPoints}</p>
         </div>
 
-        <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-4">
+        <div className="rounded-xl border border-border-primary bg-bg-secondary p-4">
           <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined h-6 w-6 text-neutral-400">percent</span>
-            <span className="text-sm text-neutral-400">Average %</span>
+            <span className="material-symbols-outlined h-6 w-6 text-text-secondary">percent</span>
+            <span className="text-sm text-text-secondary">Average %</span>
           </div>
           <p className="text-2xl font-bold text-success-base">{averagePercentage}%</p>
         </div>
 
-        <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-4">
+        <div className="rounded-xl border border-border-primary bg-bg-secondary p-4">
           <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined h-6 w-6 text-neutral-400">assignment</span>
-            <span className="text-sm text-neutral-400">Total Points</span>
+            <span className="material-symbols-outlined h-6 w-6 text-text-secondary">assignment</span>
+            <span className="text-sm text-text-secondary">Total Points</span>
           </div>
-          <p className="text-2xl font-bold text-white">{totalPoints}</p>
+          <p className="text-2xl font-bold text-text-primary">{totalPoints}</p>
         </div>
       </div>
 
