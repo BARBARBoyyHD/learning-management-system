@@ -17,9 +17,9 @@ const lexend = Lexend({
 });
 
 export const metadata: Metadata = {
-  // Base URL
-  metadataBase: new URL("https://quizizz.learnweb.local"),
-  
+  // Base URL - Uses Vercel deployment URL in production, localhost in development
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+
   // Basic Metadata
   title: {
     default: "Quizizz Clone - Interactive Learning Platform | LearnWeb LMS",
