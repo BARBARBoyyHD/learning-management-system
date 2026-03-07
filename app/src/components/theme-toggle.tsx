@@ -2,9 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-
-type Theme = 'dark'
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false)

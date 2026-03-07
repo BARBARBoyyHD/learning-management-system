@@ -154,7 +154,6 @@ function DashboardSidebarContent({
  * Mobile: Hamburger menu with Sheet drawer
  */
 export function DashboardSidebar() {
-  const pathname = usePathname()
   const [isPending, startTransition] = useTransition()
   const [user, setUser] = useState<SupabaseUser | null>(null)
   const [isLoading, setIsLoading] = useState(true)
