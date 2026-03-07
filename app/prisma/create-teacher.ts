@@ -2,7 +2,7 @@
  * Create Test Teacher via Supabase Admin API
  *
  * This creates a teacher account in Supabase Auth with known credentials.
- * Run with: npx dotenv-cli -e .env.local -- npx tsx prisma/create-teacher.ts
+ * Run with: npx dotenv-cli -e .env -- npx tsx prisma/create-teacher.ts
  */
 
 import { createClient } from '@supabase/supabase-js'
@@ -17,7 +17,7 @@ async function main() {
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
   if (!supabaseUrl || !supabaseServiceKey) {
-    console.error('❌ Missing Supabase credentials in .env.local')
+    console.error('❌ Missing Supabase credentials in .env')
     console.error('   Need: NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY')
     process.exit(1)
   }
