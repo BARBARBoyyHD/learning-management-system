@@ -5,7 +5,7 @@
  * Shows statistics, student list with scores, and detailed answer views.
  */
 
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 import { prisma } from '@/lib/prisma'
 import { redirect, notFound } from 'next/navigation'
 import { QuizResultsView } from '@/components/teacher/quiz-results-view'
@@ -17,7 +17,7 @@ export default async function QuizResultsPage(props: {
   const { quizId } = params
 
   // Check authentication
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
