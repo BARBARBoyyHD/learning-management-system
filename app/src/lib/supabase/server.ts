@@ -1,33 +1,29 @@
 /**
  * Supabase Server Client
- *
+ * 
  * Server-side Supabase client for use in Server Components and Server Actions.
  * Uses createServerClient from @supabase/ssr for proper HTTP-only cookie handling.
- *
- * Note: In Next.js 16, cookies can only be modified in Server Actions or Route Handlers.
- * For Server Components, this client only reads cookies (getSession, getUser).
- * For session modification (signIn, signUp, signOut), use Server Actions.
- *
+ * 
  * @example
  * ```typescript
- * // In a Server Component (read-only)
- * import { createClient } from '@/lib/supabase/server'
- *
- * const supabase = await createClient()
+ * // In a Server Component or Server Action
+ * import { createServerClient } from '@/lib/supabase/server'
+ * 
+ * const supabase = await createServerClient()
  * const { data: { user } } = await supabase.auth.getUser()
  * ```
  */
 
-import { createServerClient as createSupabaseServerClient } from '@supabase/ssr'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 /**
  * Creates a Supabase client for server-side usage
  * Handles HTTP-only cookies for secure session management
- *
+ * 
  * @returns Supabase client instance
  */
-export async function createClient() {
+export async function createServerClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -40,7 +36,7 @@ export async function createClient() {
 
   const cookieStore = await cookies()
 
-  return createSupabaseServerClient(supabaseUrl, supabaseAnonKey, {
+  return createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
       /**
        * Get all cookies from the request
@@ -51,20 +47,12 @@ export async function createClient() {
 
       /**
        * Set multiple cookies
-       * Note: In Next.js 16+, this only works in Server Actions and Route Handlers
-       * For Server Components, cookie modifications are ignored
+       * Supabase will set cookies for session management
        */
       setAll(cookiesToSet) {
-        try {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, options)
-          })
-        } catch (error) {
-          // In Server Components, cookie modification throws
-          // This is expected - session refresh happens in Server Actions
-          // Silently ignore to prevent crashes in read-only operations
-          console.debug('Cookie modification not allowed in this context:', error)
-        }
+        cookiesToSet.forEach(({ name, value, options }) => {
+          cookieStore.set(name, value, options)
+        })
       },
     },
   })
