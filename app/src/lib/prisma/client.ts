@@ -1,12 +1,10 @@
 import { PrismaClient } from '@prisma/client'
 
 /**
- * Prisma Client Singleton
+ * Prisma Client Singleton for Next.js
  * 
- * Prevents multiple instances of Prisma Client during development
- * with Hot Module Replacement (HMR) or Turbopack.
- * 
- * @see https://www.prisma.io/docs/guides/other/troubleshooting-orm/help-articles/nextjs-prisma-client-dev-practices
+ * Prevents multiple instances during development with HMR/Turbopack.
+ * Uses globalThis to maintain single instance across hot reloads.
  */
 
 const globalForPrisma = globalThis as unknown as {
@@ -16,18 +14,9 @@ const globalForPrisma = globalThis as unknown as {
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
-    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+    log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
   })
 
-// Prevent multiple instances in development
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma
-}
-
-/**
- * Graceful shutdown for serverless environments
- * Call this in your server shutdown hook
- */
-export async function gracefulShutdown() {
-  await prisma.$disconnect()
 }
