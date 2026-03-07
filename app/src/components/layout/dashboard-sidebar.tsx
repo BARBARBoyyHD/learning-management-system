@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { logout } from '@/actions/auth/logout'
 import { useTransition, useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createBrowserClient } from '@/lib/supabase/client'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 import { Button } from '@/components/ui/button'
 import {
@@ -161,7 +161,7 @@ export function DashboardSidebar() {
   useEffect(() => {
     // Fetch current user from Supabase Auth
     const fetchUser = async () => {
-      const supabase = createClient()
+      const supabase = createBrowserClient()
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
       setIsLoading(false)

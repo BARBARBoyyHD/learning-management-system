@@ -7,7 +7,7 @@
 
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 import { loginSchema } from '@/lib/validators/auth'
 import { redirect } from 'next/navigation'
 
@@ -53,7 +53,7 @@ export async function login(formData: FormData): Promise<LoginResult> {
     }
 
     // Create Supabase client
-    const supabase = await createClient()
+    const supabase = await createServerClient()
 
     // Attempt sign in with Supabase
     const { data, error } = await supabase.auth.signInWithPassword({

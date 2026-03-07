@@ -8,7 +8,7 @@
  */
 
 import { prisma } from '@/lib/prisma'
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { ResultsList } from '@/components/teacher/results-list'
 
@@ -28,7 +28,7 @@ export default async function QuizResultsPage({ params }: ResultsPageProps) {
   const { quizId } = await params
 
   // Check authentication
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {

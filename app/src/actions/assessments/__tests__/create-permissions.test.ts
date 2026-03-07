@@ -17,7 +17,7 @@ import { prisma } from '@/lib/prisma'
 
 // Mock Supabase auth
 vi.mock('@/lib/supabase/server', () => ({
-  createClient: vi.fn(() => ({
+  createServerClient: vi.fn(() => ({
     auth: {
       getUser: vi.fn(),
     },
@@ -29,7 +29,7 @@ vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
 }))
 
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 
 describe('Assessment Permission Checks (Section 9)', () => {
   beforeEach(async () => {

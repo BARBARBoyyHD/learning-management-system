@@ -11,13 +11,13 @@
  */
 
 import { AssessmentForm } from '@/components/assessments/assessment-form'
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 export default async function CreateQuizPage() {
   // Check if user is authenticated
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   // Redirect to login if not authenticated

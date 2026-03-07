@@ -6,7 +6,7 @@
  */
 
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -38,7 +38,7 @@ export async function GET() {
     await prisma.$disconnect()
 
     // Test Supabase
-    const supabase = await createClient()
+    const supabase = await createServerClient()
     const { data: { session }, error } = await supabase.auth.getSession()
     results.supabase = {
       configured: true,

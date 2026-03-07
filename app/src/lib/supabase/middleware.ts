@@ -25,14 +25,14 @@
  * ```
  */
 
-import { createMiddlewareClient } from '@supabase/ssr'
+import { createBrowserClient } from '@supabase/ssr'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 /**
  * Creates a Supabase client for middleware usage
  * Handles cookie operations in edge runtime
- * 
+ *
  * @param request - Next.js request object
  * @param response - Next.js response object
  * @returns Supabase client instance
@@ -51,8 +51,16 @@ export function createSupabaseMiddlewareClient(
     )
   }
 
-  return createMiddlewareClient(request, response, {
-    supabaseUrl,
-    supabaseKey: supabaseAnonKey,
+  return createBrowserClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll()
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value }) => {
+          response.cookies.set(name, value)
+        })
+      },
+    },
   })
 }

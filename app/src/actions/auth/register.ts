@@ -1,6 +1,6 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { createServerClient } from '@/lib/supabase/server';
 import { registerSchema } from '@/lib/validators/auth';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
@@ -27,7 +27,7 @@ export async function register(formData: FormData): Promise<RegisterResult> {
     const validatedData = registerSchema.parse({ email, password, name });
 
     // Create Supabase client
-    const supabase = await createClient();
+    const supabase = await createServerClient();
 
     // Call Supabase signUp
     const result = await supabase.auth.signUp({

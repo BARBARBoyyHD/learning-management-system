@@ -10,11 +10,12 @@
  * - /dashboard/*
  * - /courses/*
  * - /assessments/*
+ * - /teacher/*
  *
  * @see https://supabase.com/docs/guides/auth/auth-nextjs/using-nextjs-middleware
  */
 
-import { createServerClient } from '@supabase/ssr'
+import { createBrowserClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
@@ -26,6 +27,8 @@ const PROTECTED_PATHS = [
   '/courses',
   '/assessments',
   '/quizzes',
+  '/teacher',
+  '/test-setup',
 ]
 
 /**
@@ -45,40 +48,7 @@ const AUTH_PATHS = [
  * @param request - Next.js request object
  * @returns Next.js response object (possibly with redirect)
  */
-export async function middleware(request: NextRequest) {
-  // Create Supabase client for middleware
-  // Uses createServerClient for edge runtime compatibility
-  let response = NextResponse.next()
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        /**
-         * Get all cookies from the request
-         */
-        getAll() {
-          return request.cookies.getAll()
-        },
-        /**
-         * Set cookies on the response
-         * Important: This refreshes session tokens
-         */
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            request.cookies.set(name, value)
-            response.cookies.set(name, value, options)
-          })
-        },
-      },
-    }
-  )
-
-  // Get current session
-  // This also refreshes the session if token is about to expire
-  const { data: { session } } = await supabase.auth.getSession()
-
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Check if accessing a protected route
@@ -91,21 +61,45 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith(path)
   )
 
+  // Create Supabase client for middleware
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => {
+            request.cookies.set(name, value)
+            request.cookies.set(name, value)
+          })
+        },
+      },
+    }
+  )
+
+  // Get current session
+  const { data: { session } } = await supabase.auth.getSession()
+
+  console.log('[Middleware] Path:', pathname, 'Has session:', !!session)
+
   // Redirect authenticated users away from auth pages
   if (isAuthPath && session) {
+    console.log('[Middleware] Redirecting to /dashboard')
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
   // Redirect unauthenticated users away from protected routes
   if (isProtectedPath && !session) {
-    // Save the intended URL for post-login redirect
+    console.log('[Middleware] Redirecting to /login')
     const loginUrl = new URL('/login', request.url)
     loginUrl.searchParams.set('redirectTo', pathname)
     return NextResponse.redirect(loginUrl)
   }
 
-  // Continue to the requested page
-  return response
+  return NextResponse.next()
 }
 
 /**
