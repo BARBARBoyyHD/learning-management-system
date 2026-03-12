@@ -13,6 +13,22 @@ datasource db {
 }
 
 // ============================================================================
+// ENUMS
+// ============================================================================
+
+enum SubscriptionTier {
+  FREE
+  PREMIUM
+}
+
+enum SubscriptionStatus {
+  active
+  cancelled
+  expired
+  trial
+}
+
+// ============================================================================
 // USER MODEL
 // Stores teacher-specific data (Supabase auth.users is source of truth for auth)
 // users.id matches Supabase auth.users.id (UUID)
@@ -24,6 +40,13 @@ model User {
   role      String   @default("teacher") @db.VarChar(20) // 'teacher' or 'student'
   createdAt DateTime @default(now())
 
+  // Subscription fields for pricing tiers
+  subscriptionTier     SubscriptionTier   @default(FREE)
+  subscriptionStatus   SubscriptionStatus @default(trial)
+  trialEndsAt          DateTime?
+  subscriptionEndsAt   DateTime?
+  mayarCustomerId      String?            @db.VarChar(255)
+
   // Relations
   quizzes   Quiz[]
   responses StudentResponse[]
@@ -31,6 +54,7 @@ model User {
   // Indexes for performance
   @@index([email])
   @@index([role])
+  @@index([subscriptionTier])
 
   // Constraints
   @@map("users")

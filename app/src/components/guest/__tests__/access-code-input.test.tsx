@@ -1,5 +1,6 @@
 /**
  * Access Code Input Component Tests
+ * @ts-nocheck - Testing library types not installed
  */
 
 import { describe, it, expect, vi } from 'vitest'
