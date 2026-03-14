@@ -1,4 +1,4 @@
-# Pricing Plan for Quizizz Clone (Lite Version)
+# Pricing Plan for BrainBlitz
 ## Vibe Coding Competition - Mayar.id Integration
 
 ---
@@ -764,6 +764,6 @@
 ---
 
 *Document created: 7 March 2026*
-*Quizizz Clone (Lite Version) - Pricing Plan*
+*BrainBlitz - Pricing Plan*
 *Vibe Coding Competition - Mayar.id Integration*
 *Deadline: 15 March 2026 (8 days remaining)*

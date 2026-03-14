@@ -1,6 +1,6 @@
 ## Context
 
-This change implements a freemium pricing model with Mayar.id payment gateway integration for the Quizizz Clone LMS. Teachers get FREE tier (limited) or PREMIUM tier (unlimited) access.
+This change implements a freemium pricing model with Mayar.id payment gateway integration for the BrainBlitz LMS. Teachers get FREE tier (limited) or PREMIUM tier (unlimited) access.
 
 **Key Constraints:**
 - Simple implementation (<100 lines per file where possible)

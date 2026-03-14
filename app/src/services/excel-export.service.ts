@@ -107,9 +107,9 @@ export const excelExportService = {
    */
   async generateExcel(data: ExportData): Promise<Buffer> {
     const workbook = new ExcelJS.Workbook()
-    workbook.creator = 'Quizizz Clone'
+    workbook.creator = 'BrainBlitz'
     workbook.created = new Date()
-    workbook.lastModifiedBy = 'Quizizz Clone Export'
+    workbook.lastModifiedBy = 'BrainBlitz Export'
 
     // Add main worksheet
     const worksheet = workbook.addWorksheet('Quiz Results', {

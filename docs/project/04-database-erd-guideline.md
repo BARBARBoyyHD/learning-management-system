@@ -1,5 +1,5 @@
 # DATABASE ERD GUIDELINE
-## Quizizz Clone (Lite Version)
+## BrainBlitz
 ### LearnWeb LMS Project
 
 ---
@@ -34,7 +34,7 @@
 
 ### 1.1 Document Purpose
 
-This document defines the Entity Relationship Diagram (ERD) and database schema guidelines for the Quizizz Clone (Lite Version) project. It serves as the authoritative reference for database design, migrations, and data modeling decisions.
+This document defines the Entity Relationship Diagram (ERD) and database schema guidelines for the BrainBlitz project. It serves as the authoritative reference for database design, migrations, and data modeling decisions.
 
 ### 1.2 Design Principles
 
@@ -588,6 +588,6 @@ UPDATE quizzes SET is_private = false;
 
 ---
 
-*This document is part of the Quizizz Clone (Lite Version) Project Documentation*
+*This document is part of the BrainBlitz Project Documentation*
 *Location: `/docs/project/04-database-erd-guideline.md`*
 *LearnWeb LMS Project © 2026*

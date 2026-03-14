@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
       amount: PREMIUM_PRICE,
       mobile: '081234567890', // Default phone, user can update later
       redirectUrl: `${NEXT_PUBLIC_SITE_URL}/pricing?status=success`,
-      description: 'Quizizz Clone Premium Subscription - Monthly',
+      description: 'BrainBlitz Premium Subscription - Monthly',
       expiredAt: expiresAt.toISOString(),
       metadata: {
         user_id: userId,

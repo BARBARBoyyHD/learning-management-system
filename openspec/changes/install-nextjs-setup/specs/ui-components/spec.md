@@ -28,7 +28,7 @@ The system SHALL have base layout components for consistent page structure inclu
 
 #### Scenario: Header component created
 - **WHEN** developer imports Header from `@/components/layout/header`
-- **THEN** component displays application logo (Quizizz Clone), navigation links, and user profile section with Material Symbols icons
+- **THEN** component displays application logo (BrainBlitz), navigation links, and user profile section with Material Symbols icons
 
 #### Scenario: Sidebar component created
 - **WHEN** developer imports Sidebar from `@/components/layout/sidebar`

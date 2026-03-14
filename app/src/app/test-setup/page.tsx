@@ -364,7 +364,7 @@ export default async function SetupTestPage() {
 
         {/* Footer */}
         <div className="mt-12 text-center text-sm text-text-tertiary">
-          <p>Quizizz Clone - Setup Test Page</p>
+          <p>BrainBlitz - Setup Test Page</p>
           <p className="mt-1">Built with Next.js 16, Prisma 6, and Supabase</p>
         </div>
       </div>

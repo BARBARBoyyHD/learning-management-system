@@ -33,7 +33,7 @@ export default function GuestLayout({
             <span className="material-symbols-outlined text-white text-2xl">rocket_launch</span>
           </div>
           <div>
-            <h2 className="text-text-primary text-xl font-bold leading-tight tracking-tight">Quizizz Clone</h2>
+            <h2 className="text-text-primary text-xl font-bold leading-tight tracking-tight">BrainBlitz</h2>
             <p className="text-primary-base/80 text-xs font-medium uppercase tracking-widest">LearnWeb LMS</p>
           </div>
         </div>

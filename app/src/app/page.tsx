@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 /**
- * Home Page - Quizizz Clone
+ * Home Page - BrainBlitz
  *
  * Sleek SaaS-style landing page with Join Quiz and Login as Teacher options
  */
@@ -23,7 +23,7 @@ export default function HomePage() {
             <div className="size-10 bg-primary-base rounded-lg flex items-center justify-center shadow-lg shadow-primary-base/20">
               <span className="material-symbols-outlined text-white text-xl">rocket_launch</span>
             </div>
-            <span className="text-xl font-bold text-white">Quizizz Clone</span>
+            <span className="text-xl font-bold text-white">BrainBlitz</span>
           </div>
           <div className="flex items-center gap-4">
             <Link
@@ -88,7 +88,7 @@ export default function HomePage() {
 
             {/* Register Link */}
             <div className="pt-4">
-              <p className="text-neutral-500 mb-2">New to Quizizz Clone?</p>
+              <p className="text-neutral-500 mb-2">New to BrainBlitz?</p>
               <Link
                 href="/register"
                 className="text-primary-base hover:text-primary-hover font-semibold underline underline-offset-4 decoration-2"
@@ -220,7 +220,7 @@ export default function HomePage() {
               <div className="size-8 bg-primary-base rounded-lg flex items-center justify-center">
                 <span className="material-symbols-outlined text-white text-sm">rocket_launch</span>
               </div>
-              <span className="text-sm font-medium text-neutral-400">Quizizz Clone</span>
+              <span className="text-sm font-medium text-neutral-400">BrainBlitz</span>
             </div>
             <p className="text-sm text-neutral-500">
               © 2026 LearnWeb LMS Ecosystem. Built with Next.js 16 & React 19.

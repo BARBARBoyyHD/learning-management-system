@@ -17,11 +17,11 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 
 <!-- OPENSPEC:END -->
 
-# Quizizz Clone (Lite Version) - Project Guide
+# BrainBlitz - Project Guide
 
 ## Project Overview
 
-**Quizizz Clone (Lite Version)** is a Learning Management System (LMS) focused on interactive quizzes. Built with Next.js 15, it enables teachers to create courses and assessments while students can join as guests without registration.
+**BrainBlitz** is a Learning Management System (LMS) focused on interactive quizzes. Built with Next.js 15, it enables teachers to create courses and assessments while students can join as guests without registration.
 
 ### Quick Links
 
@@ -75,7 +75,7 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                      QUIZIZZ CLONE ARCHITECTURE                              │
+│                      BRAINBLITZ ARCHITECTURE                              │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                               │
 │  PRESENTATION LAYER                                                           │
@@ -239,7 +239,7 @@ All features follow this pattern:
 ## Project Structure
 
 ```
-quizizz-clone/
+brainblitz/
 ├── docs/                       # Project documentation
 │   └── project/
 │       ├── 01-bussiness-requirement.md
@@ -1077,4 +1077,4 @@ npm run db:generate
 ---
 
 *Last updated: 28 February 2026*
-*Quizizz Clone (Lite Version) - LearnWeb LMS Project*
+*BrainBlitz - LearnWeb LMS Project*

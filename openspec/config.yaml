@@ -4,7 +4,7 @@ schema: spec-driven
 # This is shown to AI when creating artifacts.
 # Add your tech stack, conventions, style guides, domain knowledge, etc.
 context: |
-  ## Project: Quizizz Clone (Lite Version) - LearnWeb LMS
+  ## Project: BrainBlitz - LearnWeb LMS
 
   ### Tech Stack (Latest Versions - 2026)
   - **Framework:** Next.js 16 (App Router) with Server Components default, Turbopack
