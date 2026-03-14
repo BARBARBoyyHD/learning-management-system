@@ -12,7 +12,6 @@ import { NextRequest } from 'next/server'
 import { subscriptionService } from '@/services/subscription.service'
 
 const MAYAR_API_KEY = process.env.MAYAR_API_KEY
-const MAYAR_WEBHOOK_SECRET = process.env.MAYAR_WEBHOOK_SECRET
 const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 // Use sandbox for development, production for production

@@ -16,8 +16,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { SubscriptionTier, SubscriptionStatus } from '@prisma/client'
 
-const MAYAR_WEBHOOK_SECRET = process.env.MAYAR_WEBHOOK_SECRET
-
 /**
  * POST /api/v1/subscription/webhook
  *
@@ -78,7 +76,7 @@ export async function POST(request: NextRequest) {
 /**
  * Handle successful payment event
  */
-async function handlePaymentSuccess(userId: string, payload: any) {
+async function handlePaymentSuccess(userId: string, _payload: any) {
   // Calculate subscription end date (1 month from now for monthly subscription)
   const subscriptionEndsAt = new Date()
   subscriptionEndsAt.setMonth(subscriptionEndsAt.getMonth() + 1)
