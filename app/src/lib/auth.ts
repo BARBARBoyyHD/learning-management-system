@@ -67,15 +67,21 @@ export interface OptionalAuthResult {
  */
 export async function requireAuth(_request: NextRequest): Promise<AuthResult> {
   const supabase = await createClient()
-  const { data: { session } } = await supabase.auth.getSession()
+  
+  // Use getUser() instead of getSession() for security
+  // getUser() validates the session by contacting Supabase Auth server
+  const { data: { user }, error } = await supabase.auth.getUser()
 
-  if (!session) {
+  if (error || !user) {
     throw unauthorizedResponse('Authentication required. Please log in.')
   }
 
+  // Get session for completeness (user is already validated)
+  const { data: { session } } = await supabase.auth.getSession()
+
   return {
-    session,
-    user: session.user,
+    session: session!,
+    user,
     isAuthenticated: true,
   }
 }
@@ -106,12 +112,24 @@ export async function getOptionalAuth(
   _request: NextRequest
 ): Promise<OptionalAuthResult> {
   const supabase = await createClient()
+  
+  // Use getUser() for secure authentication check
+  const { data: { user }, error } = await supabase.auth.getUser()
+
+  if (error || !user) {
+    return {
+      session: null,
+      user: null,
+      isAuthenticated: false,
+    }
+  }
+
   const { data: { session } } = await supabase.auth.getSession()
 
   return {
     session,
-    user: session?.user ?? null,
-    isAuthenticated: !!session,
+    user,
+    isAuthenticated: true,
   }
 }
 
@@ -139,8 +157,8 @@ export async function requireUser(request: NextRequest): Promise<User> {
  */
 export async function isAuthenticated(_request: NextRequest): Promise<boolean> {
   const supabase = await createClient()
-  const { data: { session } } = await supabase.auth.getSession()
-  return !!session
+  const { error } = await supabase.auth.getUser()
+  return !error
 }
 
 /**

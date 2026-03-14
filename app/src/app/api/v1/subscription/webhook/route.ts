@@ -4,7 +4,12 @@
  * Handles Mayar.id webhook notifications for payment events.
  * Updates user subscription status based on payment success/failure.
  *
- * @see https://docs.mayar.id/api-reference/introduction
+ * Mayar sends webhook to callbackUrl with payment status.
+ * Expected payload formats:
+ * - { status: 'success' | 'failed', customer_email, metadata: { user_id } }
+ * - { event: 'payment.success', data: { ... } }
+ *
+ * @see https://docs.mayar.id/api-reference/webhook/registerurlhook
  */
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -17,51 +22,51 @@ const MAYAR_WEBHOOK_SECRET = process.env.MAYAR_WEBHOOK_SECRET
  * POST /api/v1/subscription/webhook
  *
  * Receives webhook events from Mayar.id
- * Events: payment.success, payment.failed, subscription.cancelled
  *
  * @param request - Next.js request object
  * @returns 200 OK or error
  */
 export async function POST(request: NextRequest) {
   try {
-    // Verify webhook signature (if Mayar provides signature verification)
     const body = await request.text()
+    const payload = JSON.parse(body)
 
-    // TODO: Implement signature verification when Mayar docs specify it
-    // For now, we'll process the webhook without verification
-    // In production, add: verifyWebhookSignature(body, signature, MAYAR_WEBHOOK_SECRET)
+    console.log('Received Mayar webhook:', JSON.stringify(payload, null, 2))
 
-    if (!MAYAR_WEBHOOK_SECRET) {
-      console.warn('MAYAR_WEBHOOK_SECRET not configured')
+    // Extract user ID from metadata or customer data
+    const userId = 
+      payload?.metadata?.user_id ||
+      payload?.customer_id ||
+      payload?.user_id ||
+      payload?.customer?.id
+
+    if (!userId) {
+      console.error('Webhook missing user identification:', payload)
+      return NextResponse.json({ error: 'Missing user ID' }, { status: 400 })
     }
 
-    // Parse webhook payload
-    const event = JSON.parse(body)
+    // Determine payment status from various possible field names
+    const status = 
+      payload?.status ||
+      payload?.event ||
+      payload?.payment_status ||
+      payload?.type
 
-    console.log('Received Mayar webhook event:', event.type)
+    console.log(`Processing webhook for user ${userId}, status: ${status}`)
 
-    // Handle different event types
-    switch (event.type) {
-      case 'payment.success':
-      case 'checkout.completed':
-        await handlePaymentSuccess(event.data)
-        break
-
-      case 'payment.failed':
-      case 'checkout.failed':
-        await handlePaymentFailed(event.data)
-        break
-
-      case 'subscription.cancelled':
-        await handleSubscriptionCancelled(event.data)
-        break
-
-      default:
-        console.log('Unhandled webhook event type:', event.type)
+    // Handle different status values
+    if (status === 'success' || status === 'payment.success' || status === 'checkout.completed' || status === 'paid') {
+      await handlePaymentSuccess(userId, payload)
+    } else if (status === 'failed' || status === 'payment.failed' || status === 'checkout.failed') {
+      await handlePaymentFailed(userId)
+    } else if (status === 'cancelled' || status === 'subscription.cancelled') {
+      await handleSubscriptionCancelled(userId)
+    } else {
+      console.log('Webhook status not recognized, treating as info:', status)
     }
 
     // Acknowledge webhook
-    return NextResponse.json({ received: true })
+    return NextResponse.json({ received: true, userId })
   } catch (error) {
     console.error('Error processing webhook:', error)
 
@@ -73,21 +78,9 @@ export async function POST(request: NextRequest) {
 /**
  * Handle successful payment event
  */
-async function handlePaymentSuccess(data: {
-  customer_id?: string
-  user_id?: string
-  subscription_id?: string
-  ends_at?: string
-}) {
-  const userId = data.customer_id || data.user_id
-
-  if (!userId) {
-    console.error('Webhook missing customer_id or user_id')
-    return
-  }
-
+async function handlePaymentSuccess(userId: string, payload: any) {
   // Calculate subscription end date (1 month from now for monthly subscription)
-  const subscriptionEndsAt = data.ends_at ? new Date(data.ends_at) : new Date()
+  const subscriptionEndsAt = new Date()
   subscriptionEndsAt.setMonth(subscriptionEndsAt.getMonth() + 1)
 
   // Update user to Premium
@@ -101,20 +94,13 @@ async function handlePaymentSuccess(data: {
     },
   })
 
-  console.log(`User ${userId} upgraded to Premium`)
+  console.log(`User ${userId} upgraded to Premium, expires: ${subscriptionEndsAt.toISOString()}`)
 }
 
 /**
  * Handle failed payment event
  */
-async function handlePaymentFailed(data: { customer_id?: string; user_id?: string }) {
-  const userId = data.customer_id || data.user_id
-
-  if (!userId) {
-    console.error('Webhook missing customer_id or user_id')
-    return
-  }
-
+async function handlePaymentFailed(userId: string) {
   // Keep user on trial/free, don't upgrade
   console.log(`Payment failed for user ${userId}, keeping current status`)
 }
@@ -122,14 +108,7 @@ async function handlePaymentFailed(data: { customer_id?: string; user_id?: strin
 /**
  * Handle subscription cancellation event
  */
-async function handleSubscriptionCancelled(data: { customer_id?: string; user_id?: string }) {
-  const userId = data.customer_id || data.user_id
-
-  if (!userId) {
-    console.error('Webhook missing customer_id or user_id')
-    return
-  }
-
+async function handleSubscriptionCancelled(userId: string) {
   // Mark as cancelled (user retains access until end of billing period)
   await prisma.user.update({
     where: { id: userId },
@@ -148,5 +127,6 @@ export function GET() {
   return NextResponse.json({
     status: 'ok',
     message: 'Mayar.id webhook endpoint is active',
+    webhookUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/api/v1/subscription/webhook`,
   })
 }

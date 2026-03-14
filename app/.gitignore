@@ -30,9 +30,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
-# .env is committed for development
-# .env.*.local and .env.local are ignored for sensitive data
+# env files (contains sensitive credentials)
+.env
 .env.local
 .env.*.local
 .env.production
@@ -40,4 +39,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-.env

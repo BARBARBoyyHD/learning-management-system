@@ -12,8 +12,16 @@ import { NextRequest } from 'next/server'
 import { subscriptionService } from '@/services/subscription.service'
 
 const MAYAR_API_KEY = process.env.MAYAR_API_KEY
-const MAYAR_PRODUCT_ID = process.env.MAYAR_PRODUCT_ID
+const MAYAR_WEBHOOK_SECRET = process.env.MAYAR_WEBHOOK_SECRET
 const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+
+// Use sandbox for development, production for production
+const MAYAR_BASE_URL = process.env.NODE_ENV === 'production'
+  ? 'https://api.mayar.id/hl/v1'
+  : 'https://api.mayar.club/hl/v1'
+
+// Premium subscription price in IDR (Rp 49,000)
+const PREMIUM_PRICE = 49000
 
 /**
  * POST /api/v1/subscription/upgrade
@@ -29,6 +37,8 @@ export async function POST(request: NextRequest) {
     // Require authentication
     const auth = await requireAuth(request)
     const userId = auth.user.id
+    const userEmail = auth.user.email || ''
+    const userName = userEmail.split('@')[0]
 
     // Check if user already has premium
     const hasPremium = await subscriptionService.hasPremiumAccess(userId)
@@ -37,50 +47,90 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate Mayar configuration
-    if (!MAYAR_API_KEY || !MAYAR_PRODUCT_ID) {
+    if (!MAYAR_API_KEY) {
       console.error('Mayar.id credentials not configured')
-      return errorResponse('Payment gateway not configured. Please add Mayar.id credentials to .env.local', 500)
+      console.error('MAYAR_API_KEY set:', !!MAYAR_API_KEY)
+      return errorResponse('Payment gateway not configured. Please add Mayar.id credentials to .env', 500)
     }
 
-    // Create checkout session with Mayar.id
-    const checkoutData = {
-      product_id: MAYAR_PRODUCT_ID,
-      customer: {
-        id: userId,
-        email: auth.user.email || '',
-        name: (auth.user.email || '').split('@')[0], // Use email prefix as name
-      },
+    // Set invoice expiration to 24 hours from now
+    const expiresAt = new Date()
+    expiresAt.setHours(expiresAt.getHours() + 24)
+
+    // Create invoice with Mayar.id using direct invoice creation
+    // https://docs.mayar.id/api-reference/reqpayment/create
+    const invoiceData = {
+      name: userName,
+      email: userEmail,
+      amount: PREMIUM_PRICE,
+      mobile: '081234567890', // Default phone, user can update later
+      redirectUrl: `${NEXT_PUBLIC_SITE_URL}/pricing?status=success`,
+      description: 'Quizizz Clone Premium Subscription - Monthly',
+      expiredAt: expiresAt.toISOString(),
       metadata: {
         user_id: userId,
         subscription_tier: 'PREMIUM',
+        action: 'subscription_upgrade',
       },
-      success_url: `${NEXT_PUBLIC_SITE_URL}/pricing?status=success`,
-      cancel_url: `${NEXT_PUBLIC_SITE_URL}/pricing?status=cancelled`,
-      webhook_url: `${NEXT_PUBLIC_SITE_URL}/api/v1/subscription/webhook`,
+      callbackUrl: `${NEXT_PUBLIC_SITE_URL}/api/v1/subscription/webhook`,
     }
 
-    // Call Mayar.id API to create checkout session
-    const mayarResponse = await fetch('https://api.mayar.id/v1/checkout', {
+    console.log('Creating Mayar.id invoice:', {
+      customer_email: userEmail,
+      amount: PREMIUM_PRICE,
+      environment: process.env.NODE_ENV,
+      base_url: MAYAR_BASE_URL,
+    })
+
+    // Call Mayar.id API to create invoice
+    // Endpoint: POST /invoice/create
+    const mayarResponse = await fetch(`${MAYAR_BASE_URL}/invoice/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${MAYAR_API_KEY}`,
+        'Authorization': `Bearer ${MAYAR_API_KEY}`,
+        'Accept': 'application/json',
       },
-      body: JSON.stringify(checkoutData),
+      body: JSON.stringify(invoiceData),
     })
 
+    const responseText = await mayarResponse.text()
+    console.log('Mayar.id response status:', mayarResponse.status)
+    console.log('Mayar.id response body:', responseText)
+
     if (!mayarResponse.ok) {
-      const errorData = await mayarResponse.json().catch(() => ({}))
-      console.error('Mayar.id API error:', errorData)
-      return errorResponse('Failed to create checkout session', 502)
+      let errorData = {}
+      try {
+        errorData = JSON.parse(responseText)
+      } catch {
+        // Response is not JSON
+      }
+      
+      console.error('Mayar.id API error:', {
+        status: mayarResponse.status,
+        statusText: mayarResponse.statusText,
+        error: errorData,
+      })
+      
+      return errorResponse(
+        `Failed to create checkout session: ${mayarResponse.status} ${mayarResponse.statusText}`,
+        502
+      )
     }
 
-    const checkoutSession = await mayarResponse.json()
+    let checkoutSession
+    try {
+      checkoutSession = JSON.parse(responseText)
+    } catch (parseError) {
+      console.error('Failed to parse Mayar.id response:', parseError)
+      return errorResponse('Invalid response from payment gateway', 502)
+    }
 
     // Return checkout URL
+    // Mayar returns: { id, invoiceUrl, ... }
     return successResponse({
-      checkoutUrl: checkoutSession.checkout_url,
-      sessionId: checkoutSession.id,
+      checkoutUrl: checkoutSession.invoiceUrl || checkoutSession.checkout_url || checkoutSession.url,
+      sessionId: checkoutSession.id || checkoutSession.invoice_id,
     })
   } catch (error) {
     console.error('Error creating subscription checkout:', error)
