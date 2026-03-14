@@ -30,7 +30,7 @@ export async function createServerClient() {
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error(
       'Missing Supabase environment variables. ' +
-      'Ensure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set in .env.local'
+      'Ensure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set in .env'
     )
   }
 

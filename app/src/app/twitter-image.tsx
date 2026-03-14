@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 // Image metadata
-export const alt = "Quizizz Clone - Interactive Learning Platform";
+export const alt = "BrainBlitz - Interactive Learning Platform";
 export const size = {
   width: 1200,
   height: 600,
@@ -117,7 +117,7 @@ export default function Image() {
                 textAlign: "center",
               }}
             >
-              Quizizz Clone
+              BrainBlitz
             </h1>
             <p
               style={{

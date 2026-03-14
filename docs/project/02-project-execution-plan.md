@@ -1,5 +1,5 @@
 # PROJECT EXECUTION PLAN
-## Quizizz Clone (Lite Version)
+## BrainBlitz
 ### LearnWeb LMS Project
 
 ---
@@ -49,7 +49,7 @@
 
 | Attribute | Value |
 |-----------|-------|
-| Project Name | Quizizz Clone (Lite Version) |
+| Project Name | BrainBlitz |
 | Project Code | QCL-2026-001 |
 | Start Date | Maret 2026 (M1) |
 | End Date | Agustus 2026 (M6) |
@@ -96,7 +96,7 @@
 
 ### 2.1 Project Description
 
-Quizizz Clone (Lite Version) adalah proyek pengembangan aplikasi berbasis web untuk kuis interaktif yang mendukung berbagai jenis soal (Multiple Choice, Essay, Fill in the Blank, Match, dan Reorder) dalam sistem Course yang terstruktur. Aplikasi ini dirancang untuk memfasilitasi guru (Teacher) dalam membuat dan mengelola assessment, sementara siswa dapat bergabung sebagai guest user hanya dengan access code dan nama tanpa registrasi formal.
+BrainBlitz adalah proyek pengembangan aplikasi berbasis web untuk kuis interaktif yang mendukung berbagai jenis soal (Multiple Choice, Essay, Fill in the Blank, Match, dan Reorder) dalam sistem Course yang terstruktur. Aplikasi ini dirancang untuk memfasilitasi guru (Teacher) dalam membuat dan mengelola assessment, sementara siswa dapat bergabung sebagai guest user hanya dengan access code dan nama tanpa registrasi formal.
 
 Proyek ini akan dieksekusi menggunakan metodologi Agile Scrum dengan adaptasi hybrid, menggabungkan iterative development untuk fitur dengan dokumentasi comprehensive untuk requirement tracking. Development akan dibagi dalam 12 sprint (2 minggu per sprint) dengan fokus bertahap: foundation & design (Sprint 0-3), core development (Sprint 4-9), testing & stabilization (Sprint 10-11), dan deployment (Sprint 12).
 
@@ -269,7 +269,7 @@ Referensi BRD Section 6: Functional Requirements
 ### 5.1 WBS Hierarchy
 
 ```
-1. Quizizz Clone (Lite Version)
+1. BrainBlitz
 ├── 1.1 Phase 0: Setup & Discovery (M1 W1-W2)
 │   ├── 1.1.1 Project Kickoff
 │   ├── 1.1.2 Team Onboarding
@@ -973,6 +973,6 @@ Critical Path Duration: 48 weeks (~11 bulan dengan buffer)
 
 ---
 
-*Dokumen ini adalah bagian dari Project Documentation Quizizz Clone (Lite Version)*  
+*Dokumen ini adalah bagian dari Project Documentation BrainBlitz*  
 *Lokasi: `/docs/project/02-project-execution-plan.md`*  
 *LearnWeb LMS Project © 2026*

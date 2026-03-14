@@ -1,8 +1,27 @@
-# Quizizz Clone (Lite Version) - Project Guide
+<!-- OPENSPEC:START -->
+# OpenSpec Instructions
+
+These instructions are for AI assistants working in this project.
+
+Always open `@/openspec/AGENTS.md` when the request:
+- Mentions planning or proposals (words like proposal, spec, change, plan)
+- Introduces new capabilities, breaking changes, architecture shifts, or big performance/security work
+- Sounds ambiguous and you need the authoritative spec before coding
+
+Use `@/openspec/AGENTS.md` to learn:
+- How to create and apply change proposals
+- Spec format and conventions
+- Project structure and guidelines
+
+Keep this managed block so 'openspec update' can refresh the instructions.
+
+<!-- OPENSPEC:END -->
+
+# BrainBlitz - Project Guide
 
 ## Project Overview
 
-**Quizizz Clone (Lite Version)** is a Learning Management System (LMS) focused on interactive quizzes. Built with Next.js 15, it enables teachers to create courses and assessments while students can join as guests without registration.
+**BrainBlitz** is a Learning Management System (LMS) focused on interactive quizzes. Built with Next.js 15, it enables teachers to create courses and assessments while students can join as guests without registration.
 
 ### Quick Links
 
@@ -56,7 +75,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                      QUIZIZZ CLONE ARCHITECTURE                              │
+│                      BRAINBLITZ ARCHITECTURE                              │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                               │
 │  PRESENTATION LAYER                                                           │
@@ -220,7 +239,7 @@ All features follow this pattern:
 ## Project Structure
 
 ```
-quizizz-clone/
+brainblitz/
 ├── docs/                       # Project documentation
 │   └── project/
 │       ├── 01-bussiness-requirement.md
@@ -1058,4 +1077,4 @@ npm run db:generate
 ---
 
 *Last updated: 28 February 2026*
-*Quizizz Clone (Lite Version) - LearnWeb LMS Project*
+*BrainBlitz - LearnWeb LMS Project*

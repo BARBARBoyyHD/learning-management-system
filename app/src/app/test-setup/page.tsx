@@ -39,7 +39,7 @@ async function runTests(): Promise<TestResult[]> {
         name: 'Environment Variables',
         status: 'fail',
         message: 'Missing DATABASE_URL',
-        details: 'DATABASE_URL not set in .env.local',
+        details: 'DATABASE_URL not set in .env',
       })
     } else {
       results.push({
@@ -326,7 +326,7 @@ export default async function SetupTestPage() {
             
             <div className="space-y-3 text-text-secondary">
               <p>
-                <strong className="text-text-primary">1. Check your .env.local file:</strong>
+                <strong className="text-text-primary">1. Check your .env file:</strong>
                 <br />
                 Make sure you've updated the placeholder values with real Supabase credentials
               </p>
@@ -364,7 +364,7 @@ export default async function SetupTestPage() {
 
         {/* Footer */}
         <div className="mt-12 text-center text-sm text-text-tertiary">
-          <p>Quizizz Clone - Setup Test Page</p>
+          <p>BrainBlitz - Setup Test Page</p>
           <p className="mt-1">Built with Next.js 16, Prisma 6, and Supabase</p>
         </div>
       </div>

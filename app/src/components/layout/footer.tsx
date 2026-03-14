@@ -16,7 +16,7 @@ export function Footer() {
               <div className="size-8 bg-primary-base rounded-lg flex items-center justify-center">
                 <span className="material-symbols-outlined text-white text-xl">rocket_launch</span>
               </div>
-              <span className="font-bold text-text-primary">Quizizz Clone</span>
+              <span className="font-bold text-text-primary">BrainBlitz</span>
             </div>
             <p className="text-sm text-text-tertiary">
               Interactive quiz platform for engaging learning assessments.
@@ -87,7 +87,7 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-border-primary text-center text-sm text-text-tertiary">
-          <p>© 2026 LearnWeb LMS Ecosystem. Quizizz Clone (Lite Version)</p>
+          <p>© 2026 LearnWeb LMS Ecosystem. BrainBlitz (Lite Version)</p>
         </div>
       </div>
     </footer>

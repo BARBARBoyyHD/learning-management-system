@@ -1,5 +1,5 @@
 # COLOR GUIDELINE
-## LearnWeb LMS - Quizizz Clone
+## LearnWeb LMS - BrainBlitz
 
 ---
 

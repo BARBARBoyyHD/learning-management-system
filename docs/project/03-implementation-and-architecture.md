@@ -1,5 +1,5 @@
 # IMPLEMENTATION & TECHNICAL ARCHITECTURE
-## Quizizz Clone (Lite Version)
+## BrainBlitz
 ### LearnWeb LMS Project
 
 ---
@@ -50,7 +50,7 @@
 
 ### 1.1 Document Purpose
 
-This Implementation & Technical Architecture (ITA) document defines the technical architecture, technology stack, and development standards for the Quizizz Clone (Lite Version) project. This document serves as the primary guide for the development team in building a system that is scalable, secure, maintainable, and DRY (Don't Repeat Yourself).
+This Implementation & Technical Architecture (ITA) document defines the technical architecture, technology stack, and development standards for the BrainBlitz project. This document serves as the primary guide for the development team in building a system that is scalable, secure, maintainable, and DRY (Don't Repeat Yourself).
 
 ### 1.2 Architecture Principles
 
@@ -100,7 +100,7 @@ This Implementation & Technical Architecture (ITA) document defines the technica
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                      QUIZIZZ CLONE ARCHITECTURE                              │
+│                      BRAINBLITZ ARCHITECTURE                              │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                               │
 │  ┌─────────────────────────────────────────────────────────────────────┐    │
@@ -371,7 +371,7 @@ This Implementation & Technical Architecture (ITA) document defines the technica
 ### 4.4 Project Structure
 
 ```
-quizizz-clone/
+brainblitz/
 ├── .github/                    # GitHub Actions workflows
 │   └── workflows/
 │       ├── ci.yml
@@ -518,12 +518,12 @@ quizizz-clone/
 # .env.example
 
 # Application
-NEXT_PUBLIC_APP_NAME="Quizizz Clone"
+NEXT_PUBLIC_APP_NAME="BrainBlitz"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 NODE_ENV=development
 
 # Database (Prisma)
-DATABASE_URL="postgresql://postgres:[password]@localhost:5432/quizizz_clone"
+DATABASE_URL="postgresql://postgres:[password]@localhost:5432/brainblitz"
 
 # Auth
 JWT_SECRET="your-jwt-secret-key"
@@ -1557,8 +1557,8 @@ jobs:
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/your-org/quizizz-clone.git
-cd quizizz-clone
+git clone https://github.com/your-org/brainblitz.git
+cd brainblitz
 
 # 2. Install dependencies
 npm install
@@ -1598,6 +1598,6 @@ npm run dev
 
 ---
 
-*This document is part of the Quizizz Clone (Lite Version) Project Documentation*
+*This document is part of the BrainBlitz Project Documentation*
 *Location: `/docs/project/03-implementation-and-architecture.md`*
 *LearnWeb LMS Project © 2026*

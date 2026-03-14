@@ -66,16 +66,22 @@ export interface OptionalAuthResult {
  * ```
  */
 export async function requireAuth(_request: NextRequest): Promise<AuthResult> {
-  const supabase = await createServerClient()
-  const { data: { session } } = await supabase.auth.getSession()
+  const supabase = await createClient()
+  
+  // Use getUser() instead of getSession() for security
+  // getUser() validates the session by contacting Supabase Auth server
+  const { data: { user }, error } = await supabase.auth.getUser()
 
-  if (!session) {
+  if (error || !user) {
     throw unauthorizedResponse('Authentication required. Please log in.')
   }
 
+  // Get session for completeness (user is already validated)
+  const { data: { session } } = await supabase.auth.getSession()
+
   return {
-    session,
-    user: session.user,
+    session: session!,
+    user,
     isAuthenticated: true,
   }
 }
@@ -105,13 +111,25 @@ export async function requireAuth(_request: NextRequest): Promise<AuthResult> {
 export async function getOptionalAuth(
   _request: NextRequest
 ): Promise<OptionalAuthResult> {
-  const supabase = await createServerClient()
+  const supabase = await createClient()
+  
+  // Use getUser() for secure authentication check
+  const { data: { user }, error } = await supabase.auth.getUser()
+
+  if (error || !user) {
+    return {
+      session: null,
+      user: null,
+      isAuthenticated: false,
+    }
+  }
+
   const { data: { session } } = await supabase.auth.getSession()
 
   return {
     session,
-    user: session?.user ?? null,
-    isAuthenticated: !!session,
+    user,
+    isAuthenticated: true,
   }
 }
 
@@ -138,9 +156,9 @@ export async function requireUser(request: NextRequest): Promise<User> {
  * @returns true if authenticated, false otherwise
  */
 export async function isAuthenticated(_request: NextRequest): Promise<boolean> {
-  const supabase = await createServerClient()
-  const { data: { session } } = await supabase.auth.getSession()
-  return !!session
+  const supabase = await createClient()
+  const { error } = await supabase.auth.getUser()
+  return !error
 }
 
 /**

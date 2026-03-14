@@ -4,9 +4,9 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
 /**
- * Lexend Font - Primary typography for Quizizz Clone
+ * Lexend Font - Primary typography for BrainBlitz
  * Weights: 300-700 as per Color Guideline
- * 
+ *
  * @see https://fonts.google.com/specimen/Lexend
  */
 const lexend = Lexend({
@@ -17,13 +17,13 @@ const lexend = Lexend({
 });
 
 export const metadata: Metadata = {
-  // Base URL
-  metadataBase: new URL("https://quizizz.learnweb.local"),
-  
+  // Base URL - Uses Vercel deployment URL in production, localhost in development
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+
   // Basic Metadata
   title: {
-    default: "Quizizz Clone - Interactive Learning Platform | LearnWeb LMS",
-    template: "%s | Quizizz Clone",
+    default: "BrainBlitz - Interactive Learning Platform | LearnWeb LMS",
+    template: "%s | BrainBlitz",
   },
   description: "Create engaging quizzes, track student progress, and deliver real-time assessments. Free interactive learning platform for teachers with auto-grading, 5 question types, and instant analytics.",
   
@@ -57,16 +57,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://quizizz.learnweb.local",
-    siteName: "Quizizz Clone",
-    title: "Quizizz Clone - Make Learning Fun & Engaging",
+    url: "https://brainblitz.learnweb.local",
+    siteName: "BrainBlitz",
+    title: "BrainBlitz - Make Learning Fun & Engaging",
     description: "Create engaging quizzes, track student progress, and deliver real-time assessments. Free interactive learning platform for teachers with auto-grading and instant analytics.",
   },
-  
+
   // Twitter Card
   twitter: {
     card: "summary_large_image",
-    title: "Quizizz Clone - Make Learning Fun & Engaging",
+    title: "BrainBlitz - Make Learning Fun & Engaging",
     description: "Create engaging quizzes, track student progress, and deliver real-time assessments. Free interactive learning platform for teachers.",
     creator: "@learnweb_lms",
   },
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
   // Additional Metadata
   category: "Education",
   alternates: {
-    canonical: "https://quizizz.learnweb.local",
+    canonical: "https://brainblitz.learnweb.local",
   },
   
   // Verification (add your actual verification codes in production)

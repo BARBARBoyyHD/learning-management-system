@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { Quiz } from '@/types/quiz'
 import { QuizMetadataUpdateInput, accessCodeInputSchema } from '@/lib/validators/quiz'
+import { subscriptionService } from '@/services/subscription.service'
 
 /**
  * Quiz Service
@@ -237,6 +238,49 @@ export const quizService = {
     await prisma.quiz.delete({
       where: { id },
     })
+  },
+
+  /**
+   * Create a new quiz with subscription limit check
+   */
+  async createQuiz(
+    teacherId: string,
+    title: string,
+    description?: string | null,
+    timeLimit?: number | null,
+    isPublic: boolean = true,
+  ) {
+    // Enforce subscription limits before creating
+    await subscriptionService.enforceQuizLimit(teacherId, teacherId)
+
+    const quiz = await prisma.quiz.create({
+      data: {
+        teacherId,
+        title,
+        description,
+        timeLimit,
+        isPublic,
+        accessCode: isPublic ? null : generateAccessCode(),
+      },
+      include: {
+        _count: {
+          select: { questions: true },
+        },
+      },
+    })
+
+    return {
+      id: quiz.id,
+      teacherId: quiz.teacherId,
+      title: quiz.title,
+      description: quiz.description,
+      timeLimit: quiz.timeLimit,
+      questionCount: quiz._count.questions,
+      accessCode: quiz.accessCode,
+      isPublic: quiz.isPublic,
+      createdAt: quiz.createdAt.toISOString(),
+      updatedAt: quiz.updatedAt.toISOString(),
+    }
   },
 }
 

@@ -81,7 +81,7 @@
 
 - [x] 10.1 Navigate to Supabase Dashboard → Authentication → Email Templates
 - [x] 10.2 Select "Email Confirmation" template
-- [x] 10.3 Customize subject line: "Verify your email for Quizizz Clone"
+- [x] 10.3 Customize subject line: "Verify your email for BrainBlitz"
 - [x] 10.4 Add app logo and branding colors
 - [x] 10.5 Include verification link (Supabase handles this automatically)
 - [x] 10.6 Add expiry warning (24 hours default)

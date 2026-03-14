@@ -4,7 +4,7 @@
  * Protected endpoint that returns the authenticated user's information.
  * Demonstrates API route protection using requireAuth.
  *
- * @see https://quizizz-clone-lite.vercel.app/docs/api#user
+ * @see https://brainblitz.learnweb.local/docs/api#user
  */
 
 import { requireAuth, successResponse, unauthorizedResponse } from '@/lib/auth'

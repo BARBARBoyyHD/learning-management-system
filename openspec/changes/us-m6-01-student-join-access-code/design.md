@@ -107,7 +107,7 @@ src/lib/validators/
 ```
 ┌─────────────────────────────────────────────────────┐
 │                                                      │
-│           [Quizizz Clone Logo]                       │
+│           [BrainBlitz Logo]                       │
 │                                                      │
 │        ╔═══════════════════════════════╗            │
 │        ║     Enter Game Code           ║            │

@@ -18,7 +18,7 @@ async function testPrisma() {
     
     // Check if DATABASE_URL is set
     if (!process.env.DATABASE_URL) {
-      throw new Error('❌ DATABASE_URL is not set in .env.local')
+      throw new Error('❌ DATABASE_URL is not set in .env')
     }
     console.log('✅ DATABASE_URL is configured')
     
@@ -53,7 +53,7 @@ function testSupabase() {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   
   if (!supabaseUrl) {
-    console.error('❌ NEXT_PUBLIC_SUPABASE_URL is not set in .env.local')
+    console.error('❌ NEXT_PUBLIC_SUPABASE_URL is not set in .env')
     return false
   }
   console.log('✅ NEXT_PUBLIC_SUPABASE_URL is configured')
@@ -81,7 +81,7 @@ function testSupabase() {
   console.log('\n📝 To complete Supabase setup:')
   console.log('   1. Create project at https://supabase.com')
   console.log('   2. Go to Settings > API')
-  console.log('   3. Copy URL and anon key to .env.local')
+  console.log('   3. Copy URL and anon key to .env')
   console.log('   4. Enable Email authentication in Authentication > Providers')
   
   return true

@@ -1,6 +1,6 @@
 ## Context
 
-This design document defines the implementation approach for setting up the Next.js 16 application infrastructure for the Quizizz Clone (Lite Version) project. The project currently has comprehensive documentation (BRD, ITA, ERD, Color Guideline) but no working codebase. This setup establishes the foundation for all future development.
+This design document defines the implementation approach for setting up the Next.js 16 application infrastructure for the BrainBlitz project. The project currently has comprehensive documentation (BRD, ITA, ERD, Color Guideline) but no working codebase. This setup establishes the foundation for all future development.
 
 **Current State:**
 - Empty project directory with only documentation (`/docs/project/`) and OpenSpec configuration

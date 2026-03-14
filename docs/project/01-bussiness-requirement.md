@@ -1,5 +1,5 @@
 # BUSINESS REQUIREMENTS DOCUMENT
-## Quizizz Clone (Lite Version)
+## BrainBlitz
 ### LearnWeb LMS Project
 
 ---
@@ -53,11 +53,11 @@ In the modern education ecosystem, the need for interactive and easily accessibl
 
 Current conditions show that many existing quiz platforms require all users (including students) to complete full registration before participating. This creates friction in the learning process, especially for spontaneous quiz sessions or short-duration quizzes. Additionally, question type flexibility is often limited, preventing teachers from varying their assessments optimally.
 
-Quizizz Clone (Lite Version) emerges as a solution bridging these needs by adopting a hybrid approach: Teachers as registered users with full authority, and Students as guest users who can join with just an access code and name.
+BrainBlitz emerges as a solution bridging these needs by adopting a hybrid approach: Teachers as registered users with full authority, and Students as guest users who can join with just an access code and name.
 
 ### 1.2 Proposed Solution
 
-Quizizz Clone (Lite Version) is a web-based application for interactive quizzes supporting multiple question types (Multiple Choice, Essay, Fill in the Blank, Match, and Reorder) within a structured Course system. The application allows Teachers to create and manage Courses and Assessments flexibly, while Students can join as guests by simply entering an access code and name without formal registration.
+BrainBlitz is a web-based application for interactive quizzes supporting multiple question types (Multiple Choice, Essay, Fill in the Blank, Match, and Reorder) within a structured Course system. The application allows Teachers to create and manage Courses and Assessments flexibly, while Students can join as guests by simply entering an access code and name without formal registration.
 
 The system uses a scalable database architecture with UUIDs as primary keys and JSON-based configurations to support adding new question types without database schema changes.
 
@@ -83,7 +83,7 @@ The system uses a scalable database architecture with UUIDs as primary keys and 
 
 ### 2.1 Strategic Alignment
 
-This project supports LearnWeb LMS's digitalization strategy by providing a modern, easy-to-use, and scalable assessment tool. Quizizz Clone becomes a key component in the LMS ecosystem, enabling direct interaction between teachers and students in the context of formative assessment.
+This project supports LearnWeb LMS's digitalization strategy by providing a modern, easy-to-use, and scalable assessment tool. BrainBlitz becomes a key component in the LMS ecosystem, enabling direct interaction between teachers and students in the context of formative assessment.
 
 ### 2.2 Business Objectives (SMART)
 
@@ -209,7 +209,7 @@ Total teacher effort: 4-6 HOURS per quiz
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │                   ┌─────────────────────────┐               │
-│                   │   QUIZIZZ CLONE (LITE)  │               │
+│                   │   BRAINBLITZ (LITE)  │               │
 │                   │      (New System)       │               │
 │                   └───────────┬─────────────┘               │
 │                               │                              │
@@ -245,7 +245,7 @@ Total teacher effort: 4-6 HOURS per quiz
 ### 5.2 Future Process Flow
 
 ```
-NEW PROCESS (With Quizizz Clone):
+NEW PROCESS (With BrainBlitz):
 
 1. Teacher logs in and creates course (5 minutes)
 2. Teacher creates assessment with questions (10-20 minutes)
@@ -743,7 +743,7 @@ Total teacher effort: 15-25 MINUTES per quiz (improvement: 85-90%)
 
 ### 12.1 Technology Stack Overview
 
-This section defines the complete technology stack for the Quizizz Clone (Lite Version) as specified in the Implementation & Technical Architecture (ITA) document.
+This section defines the complete technology stack for the BrainBlitz as specified in the Implementation & Technical Architecture (ITA) document.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -942,6 +942,6 @@ See Section 2 for detailed user personas and journey maps.
 
 ---
 
-*This document is part of the Quizizz Clone (Lite Version) Project Documentation*
+*This document is part of the BrainBlitz Project Documentation*
 *Location: `/docs/project/01-bussiness-requirement.md`*
 *LearnWeb LMS Project © 2026*

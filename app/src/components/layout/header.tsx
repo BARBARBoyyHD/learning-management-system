@@ -17,7 +17,7 @@ export function Header() {
             <span className="material-symbols-outlined text-white text-2xl">rocket_launch</span>
           </div>
           <div>
-            <h2 className="text-text-primary text-lg font-bold leading-tight">Quizizz Clone</h2>
+            <h2 className="text-text-primary text-lg font-bold leading-tight">BrainBlitz</h2>
             <p className="text-primary-base text-xs font-medium uppercase tracking-widest">LearnWeb LMS</p>
           </div>
         </Link>

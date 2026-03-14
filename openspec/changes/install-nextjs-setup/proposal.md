@@ -1,6 +1,6 @@
 ## Why
 
-This change establishes the foundational Next.js 16 application structure required to begin development of the Quizizz Clone (Lite Version). Currently, the project has comprehensive documentation (BRD, ITA, ERD) but no working codebase. This setup creates the development environment, installs all dependencies, and establishes the project structure as defined in the Implementation & Technical Architecture (ITA) document, enabling the team to start building features immediately.
+This change establishes the foundational Next.js 16 application structure required to begin development of the BrainBlitz. Currently, the project has comprehensive documentation (BRD, ITA, ERD) but no working codebase. This setup creates the development environment, installs all dependencies, and establishes the project structure as defined in the Implementation & Technical Architecture (ITA) document, enabling the team to start building features immediately.
 
 ## What Changes
 

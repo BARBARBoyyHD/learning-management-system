@@ -13,7 +13,7 @@ import { JoinForm } from '@/components/guest/join-form'
  * Metadata for SEO
  */
 export const metadata = {
-  title: 'Join Quiz - Quizizz Clone',
+  title: 'Join Quiz - BrainBlitz',
   description: 'Enter the access code to join a quiz',
 }
 

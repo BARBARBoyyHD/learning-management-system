@@ -2,7 +2,7 @@
  * Seed Script: Create Test Teacher Account
  *
  * Creates a test teacher with known credentials.
- * Run with: npx dotenv-cli -e .env.local -- npx tsx prisma/seed-teacher.ts
+ * Run with: npx dotenv-cli -e .env -- npx tsx prisma/seed-teacher.ts
  */
 
 import { PrismaClient } from '@prisma/client'
