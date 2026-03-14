@@ -7,7 +7,7 @@
 
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 import { assessmentCreateSchema } from '@/lib/validators/assessment'
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
@@ -102,7 +102,7 @@ export async function createAssessment(
     }
 
     // Get authenticated user
-    const supabase = await createClient()
+    const supabase = await createServerClient()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
 
     // 9.3 Add authentication check (requireAuth)

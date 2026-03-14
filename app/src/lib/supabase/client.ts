@@ -8,9 +8,9 @@
  * ```typescript
  * // In a Client Component
  * 'use client'
- * import { createClient } from '@/lib/supabase/client'
+ * import { createBrowserClient } from '@/lib/supabase/client'
  *
- * const supabase = createClient()
+ * const supabase = createBrowserClient()
  * const { data, error } = await supabase.auth.signUp({ email, password })
  * ```
  */
@@ -22,7 +22,7 @@ import { createBrowserClient as createSupabaseBrowserClient } from '@supabase/ss
  *
  * @returns Supabase client instance
  */
-export function createClient() {
+export function createBrowserClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 

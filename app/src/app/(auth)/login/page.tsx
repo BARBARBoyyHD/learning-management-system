@@ -12,11 +12,11 @@
 
 import { LoginForm } from '@/components/auth/login-form'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 
 export default async function LoginPage() {
   // Check if user is already logged in
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const { data: { session } } = await supabase.auth.getSession()
 
   // Redirect to dashboard if already authenticated

@@ -5,7 +5,7 @@
  * Access at: http://localhost:3000/test-setup
  */
 
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 import { PrismaClient } from '@prisma/client'
 
 // Prisma Client singleton for this page
@@ -126,7 +126,7 @@ async function runTests(): Promise<TestResult[]> {
 
   // Test 4: Supabase Auth Connection
   try {
-    const supabase = await createClient()
+    const supabase = await createServerClient()
 
     // Try to get session (will be null if not logged in, which is fine)
     const { data: { session }, error } = await supabase.auth.getSession()

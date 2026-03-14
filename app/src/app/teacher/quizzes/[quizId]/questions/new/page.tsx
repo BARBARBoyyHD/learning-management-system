@@ -5,7 +5,7 @@
  * Supports Multiple Choice and other question types.
  */
 
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 import { prisma } from '@/lib/prisma'
 import { redirect, notFound } from 'next/navigation'
 import { QuestionEditor } from '@/components/questions/multiple-choice-editor'
@@ -17,7 +17,7 @@ export default async function CreateQuestionPage(props: {
   const quizId = params.quizId
 
   // Check authentication
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {

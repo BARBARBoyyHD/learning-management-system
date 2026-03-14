@@ -6,7 +6,7 @@
 
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
@@ -28,7 +28,7 @@ export type DeleteQuestionResult =
 export async function deleteQuestion(formData: FormData): Promise<DeleteQuestionResult> {
   try {
     // Get authenticated user
-    const supabase = await createClient()
+    const supabase = await createServerClient()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
 
     if (authError || !user) {
